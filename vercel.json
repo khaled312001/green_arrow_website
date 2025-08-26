@@ -10,7 +10,10 @@
     },
     {
       "src": "public/index.php",
-      "use": "@vercel/php"
+      "use": "@vercel/php",
+      "config": {
+        "runtime": "vercel-php@0.6.0"
+      }
     }
   ],
   "routes": [
@@ -23,11 +26,6 @@
       "dest": "/public/index.php"
     }
   ],
-  "functions": {
-    "public/index.php": {
-      "runtime": "vercel-php@0.6.0"
-    }
-  },
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false"

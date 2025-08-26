@@ -123,6 +123,31 @@ class User extends Authenticatable
     }
 
     /**
+     * الرسائل المرسلة
+     */
+    public function sentMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    /**
+     * الرسائل المستلمة
+     */
+    public function receivedMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    /**
+     * جميع الرسائل (مرسلة ومستلمة)
+     */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id')
+                    ->orWhere('receiver_id', $this->id);
+    }
+
+    /**
      * التحقق من كون المستخدم مدرس
      */
     public function isInstructor(): bool
