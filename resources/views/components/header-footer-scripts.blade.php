@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
 
 
-
+  
     // Mobile menu toggle function
     function toggleMobileMenu() {
         const navMenu = document.getElementById('navMenu');
