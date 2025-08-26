@@ -669,7 +669,7 @@
                         <i class="bi bi-person"></i>
                         الملف الشخصي
                     </a>
-                    <a href="{{ route('teacher.settings') }}" class="nav-item {{ request()->routeIs('teacher.settings.*') ? 'active' : '' }}">
+                    <a href="{{ route('teacher.settings.index') }}" class="nav-item {{ request()->routeIs('teacher.settings.*') ? 'active' : '' }}">
                         <i class="bi bi-gear"></i>
                         الإعدادات
                     </a>

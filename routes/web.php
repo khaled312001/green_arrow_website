@@ -168,7 +168,7 @@ Route::middleware('auth')->group(function () {
         // الملف الشخصي والإعدادات
         Route::get('/profile', [TeacherController::class, 'profile'])->name('profile');
         Route::put('/profile', [TeacherController::class, 'updateProfile'])->name('profile.update');
-        Route::get('/settings', [TeacherController::class, 'settings'])->name('settings');
+        Route::get('/settings', [TeacherController::class, 'settings'])->name('settings.index');
         Route::put('/settings', [TeacherController::class, 'updateSettings'])->name('settings.update');
         });
     });

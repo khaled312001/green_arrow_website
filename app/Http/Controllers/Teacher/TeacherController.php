@@ -30,27 +30,31 @@ class TeacherController extends Controller
                         ->with(['category', 'enrollments'])
                         ->latest()
                         ->take(6)
-                        ->get();
+                        ->get()
+                        ->map(function($course) {
+                            $course->average_rating = round($course->rating ?? 0, 1);
+                            return $course;
+                        });
 
         // Calculate statistics
         $totalCourses = Course::where('instructor_id', $teacher->id)->count();
         $totalStudents = Enrollment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
-        })->distinct('student_id')->count();
+        })->distinct('user_id')->count();
         
         $totalRevenue = Payment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
         })->sum('amount');
 
         // Calculate average rating
-        $averageRating = Course::where('instructor_id', $teacher->id)
-                              ->avg('rating') ?? 0;
+        $averageRating = round(Course::where('instructor_id', $teacher->id)
+                              ->avg('rating') ?? 0, 1);
 
         // Get recent students
         $recentStudents = Enrollment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
         })
-        ->with(['student', 'course'])
+        ->with(['user', 'course'])
         ->latest()
         ->take(10)
         ->get();
@@ -442,7 +446,7 @@ class TeacherController extends Controller
         $enrollments = Enrollment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
         })
-        ->with(['student', 'course'])
+        ->with(['user', 'course'])
         ->latest()
         ->paginate(20);
 
@@ -526,14 +530,14 @@ class TeacherController extends Controller
         $totalCourses = Course::where('instructor_id', $teacher->id)->count();
         $totalStudents = Enrollment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
-        })->distinct('student_id')->count();
+        })->distinct('user_id')->count();
         
         $totalRevenue = Payment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
         })->sum('amount');
 
-        $averageRating = Course::where('instructor_id', $teacher->id)
-                              ->avg('rating') ?? 0;
+        $averageRating = round(Course::where('instructor_id', $teacher->id)
+                              ->avg('rating') ?? 0, 1);
 
         // Get monthly revenue data
         $monthlyRevenue = Payment::whereHas('course', function($query) use ($teacher) {
@@ -555,7 +559,7 @@ class TeacherController extends Controller
         $recentActivity = Enrollment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
         })
-        ->with(['student', 'course'])
+        ->with(['user', 'course'])
         ->latest()
         ->take(10)
         ->get();
@@ -715,6 +719,7 @@ class TeacherController extends Controller
         $this->authorize('view', $course);
         
         $course->load(['category', 'lessons', 'enrollments.user']);
+        $course->average_rating = round($course->rating ?? 0, 1);
         return view('teacher.courses.show', compact('course'));
     }
 

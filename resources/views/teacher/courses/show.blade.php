@@ -135,10 +135,10 @@
                     @foreach($course->enrollments->take(10) as $enrollment)
                     <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9fafb; border-radius: 8px;">
                         <div style="width: 40px; height: 40px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">
-                            {{ substr($enrollment->student->name, 0, 1) }}
+                            {{ substr($enrollment->user->name, 0, 1) }}
                         </div>
                         <div style="flex: 1;">
-                            <div style="font-weight: 500; color: #1f2937;">{{ $enrollment->student->name }}</div>
+                            <div style="font-weight: 500; color: #1f2937;">{{ $enrollment->user->name }}</div>
                             <div style="font-size: 0.9rem; color: #6b7280;">{{ $enrollment->enrolled_at->format('Y/m/d') }}</div>
                         </div>
                         <div>

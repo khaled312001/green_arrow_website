@@ -87,7 +87,7 @@
                     <div class="d-flex">
                         <div class="flex-grow-1">
                             <p class="text-muted fw-medium">متوسط التقييم</p>
-                            <h4 class="mb-0">{{ number_format($courses->avg('rating_avg'), 1) }}/5</h4>
+                            <h4 class="mb-0">{{ number_format(round($courses->avg('rating_avg'), 1), 1) }}/5</h4>
                         </div>
                         <div class="flex-shrink-0 align-self-center">
                             <div class="mini-stat-icon avatar-sm rounded-circle bg-info align-self-center">
@@ -159,7 +159,7 @@
                                                         <i class="bx bx-star{{ $i <= ($course->rating_avg ?? 0) ? '' : '-o' }} text-warning"></i>
                                                     @endfor
                                                 </div>
-                                                <span class="text-muted">({{ number_format($course->rating_avg ?? 0, 1) }})</span>
+                                                <span class="text-muted">({{ number_format(round($course->rating_avg ?? 0, 1), 1) }})</span>
                                             </div>
                                         </td>
                                         <td>

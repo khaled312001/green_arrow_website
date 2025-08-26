@@ -138,37 +138,37 @@
                 
                 <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
                     <div style="width: 60px; height: 60px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.5rem;">
-                        {{ substr($enrollment->student->name, 0, 1) }}
+                        {{ substr($enrollment->user->name, 0, 1) }}
                     </div>
                     <div>
-                        <div style="font-weight: 600; color: #1f2937; font-size: 1.1rem;">{{ $enrollment->student->name }}</div>
-                        <div style="color: #6b7280;">{{ $enrollment->student->email }}</div>
+                        <div style="font-weight: 600; color: #1f2937; font-size: 1.1rem;">{{ $enrollment->user->name }}</div>
+                        <div style="color: #6b7280;">{{ $enrollment->user->email }}</div>
                     </div>
                 </div>
                 
                 <div style="display: flex; flex-direction: column; gap: 15px;">
-                    @if($enrollment->student->phone)
+                    @if($enrollment->user->phone)
                     <div>
                         <span style="color: #6b7280; font-size: 0.9rem;">الهاتف:</span>
-                        <div style="color: #1f2937;">{{ $enrollment->student->phone }}</div>
+                        <div style="color: #1f2937;">{{ $enrollment->user->phone }}</div>
                     </div>
                     @endif
                     
-                    @if($enrollment->student->city)
+                    @if($enrollment->user->city)
                     <div>
                         <span style="color: #6b7280; font-size: 0.9rem;">المدينة:</span>
-                        <div style="color: #1f2937;">{{ $enrollment->student->city }}</div>
+                        <div style="color: #1f2937;">{{ $enrollment->user->city }}</div>
                     </div>
                     @endif
                     
                     <div>
                         <span style="color: #6b7280; font-size: 0.9rem;">تاريخ الانضمام:</span>
-                        <div style="color: #1f2937;">{{ $enrollment->student->created_at->format('Y/m/d') }}</div>
+                        <div style="color: #1f2937;">{{ $enrollment->user->created_at->format('Y/m/d') }}</div>
                     </div>
                 </div>
                 
                 <div style="margin-top: 20px;">
-                    <a href="{{ route('teacher.students.show', $enrollment->student) }}" class="btn btn-primary" style="width: 100%;">
+                    <a href="{{ route('teacher.students.show', $enrollment->user) }}" class="btn btn-primary" style="width: 100%;">
                         <i class="bi bi-eye"></i>
                         عرض ملف الطالب
                     </a>

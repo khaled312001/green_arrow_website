@@ -184,12 +184,12 @@
                         <tr style="border-bottom: 1px solid #f3f4f6;">
                             <td style="padding: 15px;">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <img src="{{ $enrollment->student->avatar_url }}" 
-                                         alt="{{ $enrollment->student->name }}"
+                                    <img src="{{ $enrollment->user->avatar_url }}" 
+                                         alt="{{ $enrollment->user->name }}"
                                          style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                                     <div>
-                                        <div style="font-weight: 500; color: #1f2937;">{{ $enrollment->student->name }}</div>
-                                        <div style="font-size: 0.8rem; color: #6b7280;">{{ $enrollment->student->email }}</div>
+                                        <div style="font-weight: 500; color: #1f2937;">{{ $enrollment->user->name }}</div>
+                                        <div style="font-size: 0.8rem; color: #6b7280;">{{ $enrollment->user->email }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -204,7 +204,7 @@
                                 </div>
                             </td>
                             <td style="padding: 15px;">
-                                <a href="{{ route('teacher.students.show', $enrollment->student) }}" class="btn btn-sm btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                                <a href="{{ route('teacher.students.show', $enrollment->user) }}" class="btn btn-sm btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
                                     <i class="bi bi-eye"></i>
                                     عرض
                                 </a>

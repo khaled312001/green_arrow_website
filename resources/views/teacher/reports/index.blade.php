@@ -409,11 +409,11 @@
                                         <div class="course-title">{{ $course->title_ar }}</div>
                                         <div class="course-stats">
                                             {{ $course->enrollments_count }} طالب • 
-                                            {{ number_format($course->rating ?? 0, 1) }}/5 تقييم
+                                            {{ number_format(round($course->rating ?? 0, 1), 1) }}/5 تقييم
                                         </div>
                                     </div>
                                     <div class="course-rating">
-                                        {{ number_format($course->rating ?? 0, 1) }}/5
+                                        {{ number_format(round($course->rating ?? 0, 1), 1) }}/5
                                     </div>
                                 </div>
                             @endforeach

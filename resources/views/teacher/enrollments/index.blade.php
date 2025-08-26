@@ -74,11 +74,11 @@
                         <td style="padding: 15px;">
                             <div style="display: flex; align-items: center; gap: 12px;">
                                 <div style="width: 40px; height: 40px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">
-                                    {{ substr($enrollment->student->name, 0, 1) }}
-                                </div>
-                                <div>
-                                    <div style="font-weight: 500; color: #1f2937;">{{ $enrollment->student->name }}</div>
-                                    <div style="font-size: 0.9rem; color: #6b7280;">{{ $enrollment->student->email }}</div>
+                                                            {{ substr($enrollment->user->name, 0, 1) }}
+                    </div>
+                    <div>
+                        <div style="font-weight: 500; color: #1f2937;">{{ $enrollment->user->name }}</div>
+                        <div style="font-size: 0.9rem; color: #6b7280;">{{ $enrollment->user->email }}</div>
                                 </div>
                             </div>
                         </td>
@@ -108,7 +108,7 @@
                         </td>
                         <td style="padding: 15px;">
                             <div style="display: flex; gap: 8px;">
-                                <a href="{{ route('teacher.students.show', $enrollment->student) }}" class="btn btn-sm btn-outline">
+                                <a href="{{ route('teacher.students.show', $enrollment->user) }}" class="btn btn-sm btn-outline">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 <a href="{{ route('teacher.enrollments.show', $enrollment) }}" class="btn btn-sm btn-primary">
