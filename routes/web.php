@@ -325,7 +325,7 @@ Route::post('/certificates/verify', [CertificateController::class, 'verifyPost']
 Route::get('/certificates/verify/{number}', [CertificateController::class, 'verifyNumber'])->name('certificates.verify.number');
 
 // Course Resources routes
-Route::get('/course-resources/{resource}/download', [CourseResourceController::class, 'download'])->name('course-resources.download');
+Route::get('/course-resources/{id}/download', [CourseResourceController::class, 'download'])->name('course-resources.download');
 
 // Messages routes
 Route::middleware(['auth'])->group(function () {

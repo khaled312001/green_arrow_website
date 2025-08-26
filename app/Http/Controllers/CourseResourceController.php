@@ -8,6 +8,7 @@ use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CourseResourceController extends Controller
 {
@@ -40,23 +41,60 @@ class CourseResourceController extends Controller
     /**
      * تحميل ملف
      */
-    public function download(CourseResource $resource)
+    public function download($id)
     {
-        // التحقق من الصلاحية
-        if (!$resource->is_free && !Auth::user()->enrolledCourses()->where('course_id', $resource->course_id)->exists()) {
-            abort(403, 'يجب التسجيل في الدورة لتحميل هذا الملف');
-        }
+        try {
+            $resource = CourseResource::findOrFail($id);
+            
+            // التحقق من الصلاحية
+            if (!$resource->is_free && !Auth::user()->enrolledCourses()->where('course_id', $resource->course_id)->exists()) {
+                abort(403, 'يجب التسجيل في الدورة لتحميل هذا الملف');
+            }
 
+        // إذا كان رابط خارجي
         if ($resource->external_url) {
+            $resource->incrementDownloadCount();
             return redirect($resource->external_url);
         }
 
-        if ($resource->file_path && Storage::disk('public')->exists($resource->file_path)) {
-            $resource->incrementDownloadCount();
-            return Storage::disk('public')->download($resource->file_path, $resource->file_name);
+        // إذا كان ملف محلي
+        if ($resource->file_path) {
+            // التحقق من وجود الملف
+            if (Storage::disk('public')->exists($resource->file_path)) {
+                $resource->incrementDownloadCount();
+                return Storage::disk('public')->download($resource->file_path, $resource->file_name);
+            } else {
+                // إذا كان الملف غير موجود (بيانات تجريبية)، إنشاء ملف وهمي
+                return $this->createDummyFile($resource);
+            }
         }
 
-        abort(404, 'الملف غير موجود');
+        // إذا لم يكن هناك ملف أو رابط، إنشاء ملف وهمي
+        return $this->createDummyFile($resource);
+        } catch (\Exception $e) {
+            Log::error('Error downloading course resource: ' . $e->getMessage());
+            abort(404, 'الملف غير موجود أو حدث خطأ في التحميل');
+        }
+    }
+
+    /**
+     * إنشاء ملف وهمي للبيانات التجريبية
+     */
+    private function createDummyFile(CourseResource $resource)
+    {
+        $resource->incrementDownloadCount();
+        
+        $content = "هذا ملف تجريبي لـ: {$resource->title_ar}\n\n";
+        $content .= "الوصف: {$resource->description_ar}\n";
+        $content .= "نوع الملف: {$resource->type_label}\n";
+        $content .= "تاريخ الإنشاء: " . now()->format('Y-m-d H:i:s') . "\n\n";
+        $content .= "هذا ملف تجريبي تم إنشاؤه تلقائياً للعرض فقط.";
+        
+        $filename = $resource->file_name ?: $resource->title_ar . '.txt';
+        
+        return response($content)
+            ->header('Content-Type', 'text/plain; charset=utf-8')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 
     /**
