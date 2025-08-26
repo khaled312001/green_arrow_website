@@ -55,6 +55,17 @@
                 <small class="text-success">+{{ $enrollmentGrowth }}% هذا الشهر</small>
             </div>
         </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-chat-dots"></i>
+            </div>
+            <div class="stat-content">
+                <h3>{{ \App\Models\Message::unread()->count() }}</h3>
+                <p>الرسائل الجديدة</p>
+                <small class="text-warning">تحتاج للرد</small>
+            </div>
+        </div>
     </div>
 
     <!-- Charts Row -->
