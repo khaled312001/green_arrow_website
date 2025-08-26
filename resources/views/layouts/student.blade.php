@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'لوحة الطالب') - أكاديمية السهم الأخضر</title>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f8fafc;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        .student-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #1f2937;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .sidebar-logo i {
+            color: #10b981;
+            font-size: 1.5rem;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 10px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-right: 3px solid transparent;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: #374151;
+            color: white;
+            border-right-color: #10b981;
+            transform: translateX(-5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            color: white;
+            border-right-color: #10b981;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+        
+        .nav-item.active::before {
+            display: none;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-right: 280px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            background: white;
+            padding: 15px 30px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+            cursor: pointer;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* Visit Website Button */
+        .visit-website-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            border: none;
+        }
+        
+        .visit-website-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .visit-website-btn i {
+            font-size: 1rem;
+        }
+        
+        .visit-website-btn span {
+            display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+            .visit-website-btn span {
+                display: none;
+            }
+            
+            .visit-website-btn {
+                padding: 10px;
+                border-radius: 50%;
+            }
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: left;
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 30px;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-right: 4px solid;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #a7f3d0;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #fecaca;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde68a;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #bfdbfe;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                width: 100%;
+                max-width: 320px;
+                box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .sidebar-header {
+                padding: 20px;
+                position: relative;
+            }
+            
+            .sidebar-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 20px;
+                right: 20px;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, #374151, transparent);
+            }
+            
+            .sidebar-nav {
+                padding: 15px 0;
+            }
+            
+            .nav-section {
+                margin-bottom: 20px;
+            }
+            
+            .nav-section-title {
+                padding: 0 20px 8px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: #6b7280;
+            }
+            
+            .nav-item {
+                padding: 16px 20px;
+                margin: 0 10px;
+                border-radius: 12px;
+                border-right: none;
+                font-size: 1rem;
+                font-weight: 600;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .nav-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s ease;
+            }
+            
+            .nav-item:hover::before {
+                left: 100%;
+            }
+            
+            .nav-item:hover {
+                background: #374151;
+                transform: translateX(-8px) scale(1.02);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-item.active {
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                border-right: none;
+                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+                transform: translateX(-5px);
+            }
+            
+            .nav-item.active::before {
+                display: none;
+            }
+            
+            .nav-item i {
+                width: 24px;
+                font-size: 1.1rem;
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                border: none;
+                padding: 12px;
+                border-radius: 10px;
+                font-size: 1.3rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .mobile-menu-toggle::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s ease;
+            }
+            
+            .mobile-menu-toggle:hover::before {
+                left: 100%;
+            }
+            
+            .mobile-menu-toggle:hover {
+                background: linear-gradient(135deg, #059669, #047857);
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+            
+            /* Overlay for mobile sidebar */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                backdrop-filter: blur(2px);
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+            
+            /* Close button for mobile sidebar */
+            .sidebar-close {
+                display: none;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255,255,255,0.1);
+                border: 1px solid rgba(255,255,255,0.2);
+                color: white;
+                padding: 8px;
+                border-radius: 50%;
+                font-size: 1.2rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(5px);
+            }
+            
+            .sidebar-close:hover {
+                background: rgba(255,255,255,0.2);
+                transform: scale(1.1);
+            }
+            
+            .sidebar.active .sidebar-close {
+                display: block;
+            }
+        }
+        
+        /* Enhanced mobile styles for smaller screens */
+        @media (max-width: 480px) {
+            .sidebar {
+                max-width: 280px;
+            }
+            
+            .nav-item {
+                padding: 12px 15px;
+                margin: 0 8px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-item i {
+                width: 20px;
+                font-size: 1rem;
+            }
+            
+            .sidebar-header {
+                padding: 15px;
+            }
+            
+            .sidebar-logo {
+                font-size: 1.1rem;
+            }
+            
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .page-title {
+                font-size: 1.2rem;
+            }
+            
+            .user-menu {
+                gap: 10px;
+            }
+            
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logout-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .sidebar-close {
+                top: 15px;
+                right: 15px;
+                padding: 6px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .sidebar {
+                max-width: 300px;
+            }
+            
+            .nav-item {
+                padding: 10px 15px;
+            }
+            
+            .sidebar-nav {
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="student-container">
+        <!-- Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <button class="sidebar-close" onclick="toggleSidebar()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="sidebar-header">
+                <a href="{{ route('student.dashboard') }}" class="sidebar-logo">
+                    <i class="bi bi-mortarboard"></i>
+                    لوحة الطالب
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">الرئيسية</div>
+                    <a href="{{ route('student.dashboard') }}" class="nav-item {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
+                        <i class="bi bi-speedometer2"></i>
+                        لوحة التحكم
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">التعلم</div>
+                    <a href="{{ route('student.courses') }}" class="nav-item {{ request()->routeIs('student.courses.*') ? 'active' : '' }}">
+                        <i class="bi bi-book"></i>
+                        دوراتي
+                    </a>
+                    <a href="{{ route('student.lessons') }}" class="nav-item {{ request()->routeIs('student.lessons.*') ? 'active' : '' }}">
+                        <i class="bi bi-play-circle"></i>
+                        الدروس
+                    </a>
+                    <a href="{{ route('student.progress') }}" class="nav-item {{ request()->routeIs('student.progress.*') ? 'active' : '' }}">
+                        <i class="bi bi-graph-up"></i>
+                        تقدمي
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">الشهادات</div>
+                    <a href="{{ route('student.certificates') }}" class="nav-item {{ request()->routeIs('student.certificates.*') ? 'active' : '' }}">
+                        <i class="bi bi-award"></i>
+                        شهاداتي
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">الملف الشخصي</div>
+                    <a href="{{ route('student.profile') }}" class="nav-item {{ request()->routeIs('student.profile.*') ? 'active' : '' }}">
+                        <i class="bi bi-person"></i>
+                        الملف الشخصي
+                    </a>
+                    <a href="{{ route('student.settings') }}" class="nav-item {{ request()->routeIs('student.settings.*') ? 'active' : '' }}">
+                        <i class="bi bi-gear"></i>
+                        الإعدادات
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <h1 class="page-title">@yield('title', 'لوحة الطالب')</h1>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- Visit Website Button -->
+                    <a href="{{ route('home') }}" target="_blank" class="visit-website-btn">
+                        <i class="bi bi-globe"></i>
+                        <span>زيارة الموقع</span>
+                    </a>
+                    
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <div class="user-name">{{ auth()->user()->name }}</div>
+                            <div class="user-role">طالب</div>
+                        </div>
+                        <img src="{{ auth()->user()->avatar_url }}" 
+                             alt="{{ auth()->user()->name }}" 
+                             class="user-avatar">
+                        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="logout-btn">
+                                <i class="bi bi-box-arrow-right"></i>
+                                تسجيل الخروج
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Flash Messages -->
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle"></i>
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-error">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if(session('warning'))
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-circle"></i>
+                        {{ session('warning') }}
+                    </div>
+                @endif
+
+                @if(session('info'))
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        {{ session('info') }}
+                    </div>
+                @endif
+
+                @yield('content')
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scroll when sidebar is open
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.querySelector('.mobile-menu-toggle');
+            const closeButton = document.querySelector('.sidebar-close');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target) && !closeButton.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+        
+        // Close sidebar on window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close sidebar when clicking on navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-item');
+            navLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        const sidebar = document.getElementById('sidebar');
+                        const overlay = document.getElementById('sidebarOverlay');
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+        });
+
+        // Auto-hide alerts after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.style.opacity = '0';
+                    setTimeout(function() {
+                        alert.remove();
+                    }, 300);
+                }, 5000);
+            });
+        });
+    </script>
+    @include('components.header-footer-styles')
+    @include('components.header-footer-scripts')
+</body>
+</html> 

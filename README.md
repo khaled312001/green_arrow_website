@@ -1,61 +1,149 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# تحديثات روابط التواصل الاجتماعي - أكاديمية السهم الأخضر للتدريب
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## ملخص التحديثات
 
-## About Laravel
+تم إضافة مجموعة شاملة من روابط التواصل الاجتماعي ومعلومات الاتصال لأكاديمية السهم الأخضر للتدريب في النظام.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## الروابط المضافة
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### وسائل التواصل الاجتماعي
+- **فيسبوك**: https://www.facebook.com/people/أكاديمية-السهم-الأخضر-للتدريب/61571521234103/
+- **تويتر (X)**: https://x.com/greenarrowac
+- **انستغرام**: https://www.instagram.com/greenarrowacademy/
+- **يوتيوب**: https://www.youtube.com/@أكاديميةالسهمالأخضر
+- **لينكد إن**: https://www.linkedin.com/company/شركة-أكاديمية-السهم-الأخضر-للتد/
+- **تيك توك**: https://www.tiktok.com/@green.arrow645
+- **تليجرام**: https://t.me/greenarrowac
+- **سناب شات**: https://www.snapchat.com/@elsahmacademic
+- **خرائط جوجل**: https://maps.app.goo.gl/CXC1FCGzbcHgN1oN6
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### معلومات التواصل
+- **البريد الإلكتروني**: greenarrowacademic@gmail.com
+- **الهاتف**: +966 50 826 0274
+- **الواتساب**: +966 50 826 0274
+- **العنوان**: الشارع العام، الخضراء، مكة المكرمة - حي الشرائع، مكة 24267
+- **ساعات العمل**: الأحد - الخميس: 8:00 ص - 6:00 م
 
-## Learning Laravel
+## الميزات الجديدة
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. نظام إعدادات محسن
+- جميع الروابط مخزنة في قاعدة البيانات
+- إمكانية التعديل من لوحة الإدارة
+- تحديث فوري للعرض في الموقع
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 2. Helper Functions
+- `setting($key, $default = null)`: استرجاع قيمة إعداد
+- `get_social_links()`: الحصول على جميع روابط التواصل الاجتماعي
+- `get_active_social_links()`: الحصول على الروابط النشطة فقط
+- `render_social_icons()`: عرض أيقونات التواصل الاجتماعي
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. Blade Component للأيقونات
+- مكون قابل لإعادة الاستخدام
+- دعم للألوان والأحجام المختلفة
+- إمكانية إظهار/إخفاء النصوص
 
-## Laravel Sponsors
+### 4. صفحة تواصل محسنة
+- عرض جميع معلومات الاتصال
+- روابط مباشرة للخرائط والواتساب
+- عرض جميع روابط التواصل الاجتماعي النشطة
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 5. لوحة إدارة متكاملة
+- صفحة خاصة لإدارة الروابط
+- إحصائيات الروابط النشطة
+- روابط سريعة للتعديل
 
-### Premium Partners
+## التحديثات التقنية
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### الملفات المحدثة/المضافة
 
-## Contributing
+#### 1. قاعدة البيانات
+- **Migration**: `2025_08_24_123811_create_settings_table.php`
+- **Model**: `app/Models/Setting.php`
+- **Seeder**: `database/seeders/UpdateSocialMediaSettingsSeeder.php`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### 2. Helper Functions
+- **File**: `app/helpers.php` (جديد)
 
-## Code of Conduct
+#### 3. Controllers
+- **AdminController**: إضافة method `socialLinks()`
+- **ContactController**: إضافة method `index()`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### 4. Views
+- **Admin Settings**: `resources/views/admin/settings/partials/social.blade.php`
+- **Admin Settings**: `resources/views/admin/settings/partials/general.blade.php`
+- **Contact Page**: `resources/views/contact.blade.php` (محدث بالكامل)
+- **Layout**: `resources/views/layouts/app.blade.php` (تحديث Footer)
+- **Admin Layout**: `resources/views/layouts/admin.blade.php` (إضافة رابط جديد)
+- **Social Links Admin**: `resources/views/admin/social-links.blade.php` (جديد)
 
-## Security Vulnerabilities
+#### 5. Blade Components
+- **Component Class**: `app/View/Components/SocialIcons.php`
+- **Component View**: `resources/views/components/social-icons.blade.php`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### 6. Routes
+- **web.php**: إضافة route جديد `/admin/social-links`
 
-## License
+## كيفية الاستخدام
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### في الموقع
+```php
+<x-social-icons />
+```
+
+### في الكود
+```php
+$activeLinks = get_active_social_links();
+```
+
+### في لوحة الإدارة
+- انتقل إلى "الإعدادات" > "روابط التواصل الاجتماعي"
+- أو "روابط التواصل الاجتماعي" مباشرة
+
+## الأيقونات والألوان المستخدمة
+
+### الأيقونات (Bootstrap Icons)
+- فيسبوك: `bi-facebook`
+- تويتر: `bi-twitter-x`
+- انستغرام: `bi-instagram`
+- يوتيوب: `bi-youtube`
+- لينكد إن: `bi-linkedin`
+- تيك توك: `bi-tiktok`
+- تليجرام: `bi-telegram`
+- سناب شات: `bi-snapchat`
+- خرائط جوجل: `bi-geo-alt`
+- واتساب: `bi-whatsapp`
+- هاتف: `bi-telephone`
+- بريد إلكتروني: `bi-envelope`
+
+### الألوان
+- فيسبوك: `text-primary`
+- تويتر: `text-dark`
+- انستغرام: `text-danger`
+- يوتيوب: `text-danger`
+- لينكد إن: `text-primary`
+- تيك توك: `text-dark`
+- تليجرام: `text-primary`
+- سناب شات: `text-warning`
+- خرائط جوجل: `text-success`
+- واتساب: `text-success`
+
+## التحديثات الأخيرة
+
+### تحديث العنوان (2024)
+- **العنوان الجديد**: الشارع العام، الخضراء، مكة المكرمة - حي الشرائع، مكة 24267
+- **رابط خرائط جوجل الجديد**: https://maps.app.goo.gl/CXC1FCGzbcHgN1oN6
+
+## ملاحظات مهمة
+
+1. جميع الروابط يتم تحديثها تلقائياً في جميع صفحات الموقع
+2. يمكن تعديل أي رابط من لوحة الإدارة
+3. الأيقونات تظهر فقط للروابط النشطة (غير فارغة)
+4. تم إضافة زر واتساب عائم في الصفحة الرئيسية
+5. جميع الروابط تدعم فتحها في نافذة جديدة
+
+## الدعم
+
+لأي استفسارات أو مشاكل، يمكن التواصل عبر:
+- البريد الإلكتروني: greenarrowacademic@gmail.com
+- الواتساب: +966 50 826 0274
+- الهاتف: +966 50 826 0274

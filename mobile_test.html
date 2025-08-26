@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Sidebar Test - أكاديمية السهم الأخضر</title>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f8fafc;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        .test-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #1f2937;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #374151;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .sidebar-logo i {
+            color: #10b981;
+            font-size: 1.5rem;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 20px 10px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-right: 3px solid transparent;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover {
+            background: #374151;
+            color: white;
+            border-right-color: #10b981;
+            transform: translateX(-5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            color: white;
+            border-right-color: #10b981;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+        
+        .nav-item.active::before {
+            display: none;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-right: 280px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            background: white;
+            padding: 15px 30px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .mobile-menu-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .mobile-menu-toggle:hover::before {
+            left: 100%;
+        }
+        
+        .mobile-menu-toggle:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .test-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .test-card h3 {
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .test-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                width: 100%;
+                max-width: 320px;
+                box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .sidebar-header {
+                padding: 20px;
+                position: relative;
+            }
+            
+            .sidebar-header::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 20px;
+                right: 20px;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, #374151, transparent);
+            }
+            
+            .sidebar-nav {
+                padding: 15px 0;
+            }
+            
+            .nav-section {
+                margin-bottom: 20px;
+            }
+            
+            .nav-section-title {
+                padding: 0 20px 8px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: #6b7280;
+            }
+            
+            .nav-item {
+                padding: 16px 20px;
+                margin: 0 10px;
+                border-radius: 12px;
+                border-right: none;
+                font-size: 1rem;
+                font-weight: 600;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .nav-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s ease;
+            }
+            
+            .nav-item:hover::before {
+                left: 100%;
+            }
+            
+            .nav-item:hover {
+                background: #374151;
+                transform: translateX(-8px) scale(1.02);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-item.active {
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                border-right: none;
+                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+                transform: translateX(-5px);
+            }
+            
+            .nav-item.active::before {
+                display: none;
+            }
+            
+            .nav-item i {
+                width: 24px;
+                font-size: 1.1rem;
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+            
+            /* Overlay for mobile sidebar */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                backdrop-filter: blur(2px);
+            }
+            
+            .sidebar-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+            
+            /* Close button for mobile sidebar */
+            .sidebar-close {
+                display: none;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255,255,255,0.1);
+                border: 1px solid rgba(255,255,255,0.2);
+                color: white;
+                padding: 8px;
+                border-radius: 50%;
+                font-size: 1.2rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(5px);
+            }
+            
+            .sidebar-close:hover {
+                background: rgba(255,255,255,0.2);
+                transform: scale(1.1);
+            }
+            
+            .sidebar.active .sidebar-close {
+                display: block;
+            }
+        }
+        
+        /* Enhanced mobile styles for smaller screens */
+        @media (max-width: 480px) {
+            .sidebar {
+                max-width: 280px;
+            }
+            
+            .nav-item {
+                padding: 12px 15px;
+                margin: 0 8px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-item i {
+                width: 20px;
+                font-size: 1rem;
+            }
+            
+            .sidebar-header {
+                padding: 15px;
+            }
+            
+            .sidebar-logo {
+                font-size: 1.1rem;
+            }
+            
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .page-title {
+                font-size: 1.2rem;
+            }
+            
+            .sidebar-close {
+                top: 15px;
+                right: 15px;
+                padding: 6px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <!-- Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <button class="sidebar-close" onclick="toggleSidebar()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="sidebar-header">
+                <a href="#" class="sidebar-logo">
+                    <i class="bi bi-arrow-up-circle"></i>
+                    لوحة التحكم
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">الرئيسية</div>
+                    <a href="#" class="nav-item active">
+                        <i class="bi bi-speedometer2"></i>
+                        لوحة التحكم
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">إدارة المحتوى</div>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-book"></i>
+                        الدورات
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-people"></i>
+                        المستخدمين
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-folder"></i>
+                        الأقسام
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">التقارير</div>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-graph-up"></i>
+                        التقارير
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-credit-card"></i>
+                        المدفوعات
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">الإعدادات</div>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-gear"></i>
+                        الإعدادات
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-person"></i>
+                        الملف الشخصي
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <h1 class="page-title">اختبار الشريط الجانبي</h1>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <div class="test-card">
+                    <h3>اختبار الشريط الجانبي المحسن</h3>
+                    <p>تم تحسين الشريط الجانبي للعمل بشكل مثالي على الأجهزة المحمولة مع تصميم جميل ووظائف محسنة.</p>
+                </div>
+                
+                <div class="test-card">
+                    <h3>الميزات المحسنة</h3>
+                    <ul style="color: #6b7280; line-height: 1.8; padding-right: 20px;">
+                        <li>تصميم متجاوب للهواتف والأجهزة اللوحية</li>
+                        <li>أزرار محسنة مع تأثيرات بصرية جميلة</li>
+                        <li>قائمة منسدلة سلسة مع تأثيرات انتقالية</li>
+                        <li>زر إغلاق واضح للقائمة</li>
+                        <li>تأثيرات hover محسنة</li>
+                        <li>دعم للشاشات الصغيرة جداً</li>
+                    </ul>
+                </div>
+                
+                <div class="test-card">
+                    <h3>تعليمات الاختبار</h3>
+                    <p>لتجربة الشريط الجانبي المحسن:</p>
+                    <ol style="color: #6b7280; line-height: 1.8; padding-right: 20px;">
+                        <li>قم بتصغير النافذة إلى حجم الهاتف المحمول</li>
+                        <li>اضغط على زر القائمة في الأعلى</li>
+                        <li>جرب التنقل بين العناصر المختلفة</li>
+                        <li>اضغط على زر الإغلاق أو خارج القائمة لإغلاقها</li>
+                        <li>لاحظ التأثيرات البصرية الجميلة</li>
+                    </ol>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scroll when sidebar is open
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.querySelector('.mobile-menu-toggle');
+            const closeButton = document.querySelector('.sidebar-close');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target) && !closeButton.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+        
+        // Close sidebar on window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close sidebar when clicking on navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-item');
+            navLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        const sidebar = document.getElementById('sidebar');
+                        const overlay = document.getElementById('sidebarOverlay');
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
