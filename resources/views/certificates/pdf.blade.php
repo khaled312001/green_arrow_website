@@ -21,6 +21,9 @@
             unicode-bidi: embed;
             font-size: 14px;
             line-height: 1.6;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
         }
         
         /* إضافة دعم للخطوط العربية */
@@ -32,19 +35,21 @@
         
         @page {
             size: A4 landscape;
-            margin: 10mm;
+            margin: 8mm;
         }
         
         .certificate-container {
             width: 100%;
-            height: 100%;
+            height: 100vh;
+            max-height: 100%;
             background: white;
             border: 6px solid #10b981;
             border-radius: 15px;
             position: relative;
             overflow: hidden;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
+            page-break-inside: avoid;
         }
         
         .certificate-border {
@@ -71,102 +76,103 @@
         .certificate-content {
             position: relative;
             z-index: 3;
-            padding: 30px;
+            padding: 20px;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            page-break-inside: avoid;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: #10b981;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .academy-name {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #6b7280;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
         }
         
         .academy-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #9ca3af;
             font-style: italic;
         }
         
         .certificate-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #1f2937;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-align: center;
         }
         
         .certificate-subtitle {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #6b7280;
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 600;
         }
         
         .student-info {
             text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 12px;
             background: #f0fdf4;
             border-radius: 12px;
             border: 2px solid #dcfce7;
         }
         
         .student-name {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #10b981;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .course-info {
             text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 12px;
             background: #f8fafc;
             border-radius: 10px;
             border-left: 4px solid #10b981;
         }
         
         .course-name {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #1f2937;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .course-details {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #6b7280;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         
         .course-details div {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         
         .completion-date {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #6b7280;
             text-align: center;
-            margin-bottom: 15px;
-            padding: 10px;
+            margin-bottom: 12px;
+            padding: 8px;
             background: #f0fdf4;
             border-radius: 8px;
             font-weight: 600;
@@ -174,22 +180,22 @@
         
         .certificate-number {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .number-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #6b7280;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             font-weight: 600;
         }
         
         .number-value {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
             color: white;
             background: #10b981;
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 8px;
             display: inline-block;
         }
@@ -199,62 +205,62 @@
             justify-content: space-between;
             align-items: flex-end;
             margin-top: auto;
-            padding: 15px 0;
+            padding: 12px 0;
         }
         
         .signature-box {
             text-align: center;
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             background: white;
             border-radius: 8px;
-            margin: 0 8px;
+            margin: 0 6px;
             border: 1px solid #e5e7eb;
         }
         
         .signature-line {
-            width: 150px;
+            width: 120px;
             height: 2px;
             background: #10b981;
-            margin: 0 auto 10px;
+            margin: 0 auto 8px;
             border-radius: 1px;
         }
         
         .signature-name {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
             color: #1f2937;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         
         .signature-title {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #6b7280;
             font-weight: 500;
         }
         
         .verification-info {
             text-align: center;
-            margin-top: 15px;
-            padding: 12px;
+            margin-top: 12px;
+            padding: 10px;
             background: #f8fafc;
             border-radius: 8px;
             border: 2px solid #e2e8f0;
         }
         
         .verification-text {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #6b7280;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 500;
         }
         
         .verification-code {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: bold;
             color: #10b981;
             background: #f0fdf4;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 6px;
             display: inline-block;
             font-family: 'Courier New', monospace;
@@ -306,19 +312,43 @@
                 background: white;
                 padding: 0;
                 margin: 0;
+                width: 100%;
+                height: 100%;
             }
             
             .certificate-container {
                 box-shadow: none;
                 border: none;
                 width: 100%;
-                height: 100%;
+                height: 100vh;
+                max-height: 100%;
                 border-radius: 0;
-                padding: 15px;
+                padding: 10px;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+                page-break-before: avoid;
             }
             
             .certificate-content {
-                padding: 20px;
+                padding: 15px;
+                height: 100%;
+                page-break-inside: avoid;
+            }
+            
+            .header,
+            .student-info,
+            .course-info,
+            .completion-date,
+            .certificate-number,
+            .verification-info,
+            .signatures {
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+            
+            /* منع تقسيم العناصر */
+            * {
+                page-break-inside: avoid;
             }
         }
     </style>
