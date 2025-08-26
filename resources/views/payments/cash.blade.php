@@ -26,11 +26,11 @@
                         <div style="display: grid; gap: 15px;">
                             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
                                 <span style="color: #6b7280;">رقم الفاتورة:</span>
-                                <span style="color: #1f2937; font-weight: 600;">{{ $payment->invoice_number }}</span>
+                                <span style="color: #1f2937; font-weight: 600;">{{ $payment->id }}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
                                 <span style="color: #6b7280;">المبلغ المطلوب:</span>
-                                <span style="color: #f59e0b; font-weight: 600; font-size: 1.1rem;">{{ number_format($payment->total_amount, 2) }} ريال</span>
+                                <span style="color: #f59e0b; font-weight: 600; font-size: 1.1rem;">{{ number_format($payment->amount, 2) }} ريال</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 10px 0;">
                                 <span style="color: #6b7280;">تاريخ انتهاء الصلاحية:</span>

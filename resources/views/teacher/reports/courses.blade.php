@@ -129,7 +129,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0">
-                                                    <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.jpg') }}" 
+                                                    <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.svg') }}" 
                                                          alt="{{ $course->title_ar }}" class="rounded avatar-sm">
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">

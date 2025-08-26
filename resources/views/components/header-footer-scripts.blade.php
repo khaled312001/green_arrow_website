@@ -7,32 +7,57 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuClose = document.querySelector('.mobile-menu-close');
     const body = document.body;
 
-    // Function to open mobile menu
-    function openMobileMenu() {
-        if (mobileMenu) {
-            mobileMenu.classList.add('active');
-            body.style.overflow = 'hidden';
-            // Prevent body scroll on mobile
-            body.style.position = 'fixed';
-            body.style.width = '100%';
-        }
-    }
 
-    // Function to close mobile menu
+
+    // Mobile menu toggle function
+    function toggleMobileMenu() {
+        const navMenu = document.getElementById('navMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const toggleButton = document.querySelector('.mobile-menu-toggle');
+        
+        // Add loading animation
+        if (navMenu) navMenu.classList.add('loading');
+        if (mobileMenu) mobileMenu.classList.add('loading');
+        
+        setTimeout(() => {
+            if (navMenu) {
+                navMenu.classList.remove('loading');
+                navMenu.classList.toggle('active');
+            }
+            if (mobileMenu) {
+                mobileMenu.classList.remove('loading');
+                mobileMenu.classList.toggle('active');
+            }
+            
+            // Prevent body scroll when menu is open
+            const isActive = (navMenu && navMenu.classList.contains('active')) || 
+                           (mobileMenu && mobileMenu.classList.contains('active'));
+            document.body.style.overflow = isActive ? 'hidden' : '';
+            
+            // Add haptic feedback for mobile devices
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+        }, 300);
+    }
+    
+    // Close mobile menu function
     function closeMobileMenu() {
-        if (mobileMenu) {
-            mobileMenu.classList.remove('active');
-            body.style.overflow = '';
-            body.style.position = '';
-            body.style.width = '';
-        }
+        const navMenu = document.getElementById('navMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (navMenu) navMenu.classList.remove('active');
+        if (mobileMenu) mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
     }
 
     if (mobileMenuToggle && mobileMenu) {
         mobileMenuToggle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            openMobileMenu();
+            toggleMobileMenu();
         });
 
         if (mobileMenuClose) {
@@ -108,8 +133,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth Scrolling for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href === '#') {
+                e.preventDefault();
+                return;
+            }
+            
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(href);
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
@@ -353,6 +384,68 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    // Close mobile menu when clicking on a link
+    const navLinks = document.querySelectorAll('.nav-menu a, .mobile-nav-menu a');
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (navMenu) navMenu.classList.remove('active');
+            if (mobileMenu) mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            
+            // Add haptic feedback
+            if ('vibrate' in navigator) {
+                navigator.vibrate(30);
+            }
+        });
+    });
+
+    // Add touch gesture support for mobile menu
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    document.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const navMenu = document.getElementById('navMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const swipeThreshold = 50;
+        
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe left - close menu
+            if (navMenu && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            if (mobileMenu && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe right - open menu (only if we're on mobile)
+            if (window.innerWidth <= 768) {
+                if (navMenu && !navMenu.classList.contains('active')) {
+                    navMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+                if (mobileMenu && !mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        }
+    }
 
     console.log('Enhanced header and footer scripts loaded successfully!');
 });

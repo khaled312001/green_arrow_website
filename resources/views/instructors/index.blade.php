@@ -41,15 +41,15 @@
             <!-- Stats -->
             <div class="hero-stats">
                 <div class="stat-item">
-                    <div class="stat-number" data-target="{{ $instructors->total() }}">0</div>
+                    <div class="stat-number" data-target="{{ $instructors->count() }}">0</div>
                     <div class="stat-label">مدرب محترف</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-number" data-target="15">0</div>
                     <div class="stat-label">دورة تدريبية</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" data-target="10000">0</div>
+                    <div class="stat-number" data-target="2500">0</div>
                     <div class="stat-label">طالب</div>
                 </div>
             </div>
@@ -60,22 +60,13 @@
 <!-- Instructors Section -->
 <section class="instructors-section">
     <div class="container">
-        @if($instructors->count() > 0)
         <!-- Filters and Results Info -->
         <div class="results-header">
             <div class="results-info">
-                <h2>نتائج البحث</h2>
-                <p>تم العثور على {{ $instructors->total() }} مدرب</p>
+                <h2>المدرب المتميز</h2>
+                <p>خبير في مجال الحاسب الآلي والبرمجة</p>
             </div>
-            @if(request('search'))
-            <div class="search-tag">
-                <span>{{ request('search') }}</span>
-                <a href="{{ route('instructors') }}" class="clear-search">
-                    <i class="bi bi-x"></i>
-                </a>
-            </div>
-            @endif
-    </div>
+        </div>
 
     <!-- Instructors Grid -->
         <div class="instructors-grid">
@@ -90,26 +81,24 @@
                     </div>
                     <div class="instructor-info">
                         <h3 class="instructor-name">{{ $instructor->name }}</h3>
-                        <p class="instructor-speciality">{{ $instructor->speciality ?? 'مدرب محترف' }}</p>
+                        <p class="instructor-speciality">{{ $instructor->speciality }}</p>
                     
                     <!-- Rating -->
                         <div class="rating-container">
                             <div class="stars">
                         @for($i = 1; $i <= 5; $i++)
-                                <i class="bi bi-star{{ $i <= ($instructor->average_rating ?? 4) ? '-fill' : '' }}"></i>
+                                <i class="bi bi-star{{ $i <= $instructor->average_rating ? '-fill' : '' }}"></i>
                         @endfor
                             </div>
-                            <span class="rating-text">({{ $instructor->reviews_count ?? 0 }} تقييم)</span>
+                            <span class="rating-text">({{ $instructor->reviews_count }} تقييم)</span>
                     </div>
                 </div>
             </div>
 
             <!-- Bio -->
-            @if($instructor->bio)
-                <div class="instructor-bio">
-                    <p>{{ Str::limit($instructor->bio, 120) }}</p>
-                </div>
-            @endif
+            <div class="instructor-bio">
+                <p>{{ $instructor->bio }}</p>
+            </div>
 
             <!-- Stats -->
                 <div class="instructor-stats">
@@ -118,7 +107,7 @@
                             <i class="bi bi-play-circle"></i>
                         </div>
                         <div class="stat-content">
-                            <div class="stat-number">{{ $instructor->teachingCourses()->published()->count() }}</div>
+                            <div class="stat-number" data-target="{{ $instructor->courses_count }}">{{ $instructor->courses_count }}</div>
                             <div class="stat-label">دورة</div>
                         </div>
                     </div>
@@ -127,7 +116,7 @@
                             <i class="bi bi-people"></i>
                         </div>
                         <div class="stat-content">
-                            <div class="stat-number">{{ $instructor->total_students ?? 0 }}</div>
+                            <div class="stat-number" data-target="{{ $instructor->total_students }}">{{ $instructor->total_students }}</div>
                             <div class="stat-label">طالب</div>
                         </div>
                     </div>
@@ -136,35 +125,29 @@
                             <i class="bi bi-star"></i>
                 </div>
                         <div class="stat-content">
-                            <div class="stat-number">{{ number_format($instructor->average_rating ?? 4, 1) }}</div>
+                            <div class="stat-number" data-target="{{ $instructor->average_rating }}">{{ $instructor->average_rating }}</div>
                             <div class="stat-label">تقييم</div>
                 </div>
                 </div>
             </div>
 
             <!-- Recent Courses -->
-            @php
-                $recentCourses = $instructor->teachingCourses()->published()->latest()->limit(3)->get();
-            @endphp
-            @if($recentCourses->count() > 0)
-                <div class="recent-courses">
-                    <h4>أحدث الدورات:</h4>
-                    <div class="courses-list">
-                    @foreach($recentCourses as $course)
-                        <div class="course-item">
-                            <div class="course-image">
-                        <img src="{{ $course->featured_image ? asset('storage/' . $course->featured_image) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
-                                     alt="{{ $course->title_ar }}">
-                            </div>
-                            <div class="course-details">
-                                <div class="course-title">{{ $course->title_ar }}</div>
-                                <div class="course-category">{{ $course->category->name_ar ?? 'غير محدد' }}</div>
-                            </div>
+            <div class="recent-courses">
+                <h4>أحدث الدورات:</h4>
+                <div class="courses-list">
+                    @foreach($instructor->teachingCourses->where('status', 'published')->take(3) as $course)
+                    <div class="course-item">
+                        <div class="course-image">
+                            <img src="{{ $course->thumbnail ? asset('storage/' . $course->thumbnail) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" alt="{{ $course->title_ar }}">
+                        </div>
+                        <div class="course-details">
+                            <div class="course-title">{{ $course->title_ar }}</div>
+                            <div class="course-category">{{ $course->category->name_ar }}</div>
+                        </div>
                     </div>
                     @endforeach
                 </div>
             </div>
-            @endif
 
             <!-- View Profile Button -->
                 <a href="{{ route('instructors.show', $instructor->id) }}" class="view-profile-btn">
@@ -174,37 +157,27 @@
         </div>
         @endforeach
     </div>
-
-        <!-- Enhanced Pagination -->
-        <div class="pagination-container">
-        {{ $instructors->appends(request()->query())->links() }}
-    </div>
-    @else
-        <!-- No Results -->
-        <div class="no-results">
-            <div class="no-results-icon">
-            <i class="bi bi-person-x"></i>
-            </div>
-            <h3>لا يوجد مدربون</h3>
-            <p>لم يتم العثور على مدربين يطابقون معايير البحث</p>
-            <a href="{{ route('instructors') }}" class="btn btn-primary">
-                <i class="bi bi-arrow-right"></i>
-                عرض جميع المدربين
-            </a>
-        </div>
-        @endif
     </div>
 </section>
 
 <style>
+/* Prevent horizontal scroll */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
 /* Hero Section */
 .hero-section {
     position: relative;
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
     padding: 120px 0 80px;
-    margin: -40px -20px 80px -20px;
+    margin: -40px 0 80px 0;
     overflow: hidden;
+    width: 100%;
+    max-width: 100%;
 }
 
 .hero-background {
@@ -783,6 +756,27 @@
     }
 }
 
+/* Additional overflow prevention */
+.container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.instructors-section {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.instructors-grid {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.instructor-card {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 @media (max-width: 480px) {
     .hero-section {
         padding: 80px 0 60px;
@@ -817,7 +811,7 @@ function animateStats() {
     const stats = document.querySelectorAll('.stat-number');
     
     stats.forEach(stat => {
-        const target = parseInt(stat.getAttribute('data-target'));
+        const target = parseFloat(stat.getAttribute('data-target'));
         const duration = 2000; // 2 seconds
         const increment = target / (duration / 16); // 60fps
         let current = 0;
@@ -828,7 +822,13 @@ function animateStats() {
                 current = target;
                 clearInterval(timer);
             }
-            stat.textContent = Math.floor(current).toLocaleString();
+            
+            // Format number based on whether it's decimal or integer
+            if (Number.isInteger(target)) {
+                stat.textContent = Math.floor(current).toLocaleString();
+            } else {
+                stat.textContent = current.toFixed(1);
+            }
         }, 16);
     });
 }
@@ -867,6 +867,52 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroStats) {
         observer.observe(heroStats);
     }
+    
+    // Animate instructor card stats when they come into view
+    const instructorStats = document.querySelectorAll('.instructor-card .stat-number');
+    instructorStats.forEach(stat => {
+        observer.observe(stat);
+    });
+    
+    // Trigger animation for instructor stats
+    const instructorObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const stat = entry.target;
+                const target = parseFloat(stat.getAttribute('data-target'));
+                if (target && !stat.classList.contains('animated')) {
+                    stat.classList.add('animated');
+                    animateSingleStat(stat, target);
+                }
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    instructorStats.forEach(stat => {
+        instructorObserver.observe(stat);
+    });
 });
+
+// Animate single stat
+function animateSingleStat(stat, target) {
+    const duration = 1500; // 1.5 seconds
+    const increment = target / (duration / 16); // 60fps
+    let current = 0;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        
+        // Format number based on whether it's decimal or integer
+        if (Number.isInteger(target)) {
+            stat.textContent = Math.floor(current).toLocaleString();
+        } else {
+            stat.textContent = current.toFixed(1);
+        }
+    }, 16);
+}
 </script>
 @endsection 

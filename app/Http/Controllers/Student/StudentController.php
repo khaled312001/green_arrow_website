@@ -10,6 +10,8 @@ use App\Models\Enrollment;
 use App\Models\Lesson;
 use App\Models\Certificate;
 use App\Models\Payment;
+use App\Models\Quiz;
+use App\Models\QuizAttempt;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LessonCompletion;
 
@@ -32,13 +34,12 @@ class StudentController extends Controller
             'enrolled_courses' => $user->enrollments()->count(),
             'active_courses' => $user->enrollments()->where('status', 'active')->count(),
             'completed_courses' => $user->enrollments()->where('status', 'completed')->count(),
-            'completed_lessons' => $user->enrollments()->sum('lessons_completed'),
+            'completed_lessons' => LessonCompletion::where('user_id', $user->id)->count(),
             'certificates' => $user->certificates()->count(),
             'total_hours' => $user->enrollments()->sum('total_hours_watched') ?? 0,
             'total_progress' => $user->enrollments()->avg('progress_percentage') ?? 0,
             'total_quizzes_taken' => \App\Models\QuizAttempt::where('user_id', $user->id)->count(),
-            'average_quiz_score' => \App\Models\QuizAttempt::where('user_id', $user->id)
-                ->where('status', 'completed')->avg('score') ?? 0,
+            'average_quiz_score' => \App\Models\QuizAttempt::where('user_id', $user->id)->avg('percentage') ?? 0,
         ];
         
         // إحصائيات النشاط اليومي
@@ -55,17 +56,39 @@ class StudentController extends Controller
             ->limit(6)
             ->get();
         
-        // آخر النشاطات - محاولات الاختبارات فقط
-        $recentActivity = \App\Models\QuizAttempt::where('user_id', $user->id)
+        // آخر النشاطات - محاولات الاختبارات وإكمال الدروس
+        $recentActivity = collect();
+        
+        // إضافة محاولات الاختبارات
+        $quizAttempts = \App\Models\QuizAttempt::where('user_id', $user->id)
             ->with(['quiz.course'])
             ->latest('created_at')
-            ->limit(10)
+            ->limit(5)
             ->get()
             ->map(function($attempt) {
                 $attempt->activity_type = 'quiz_attempted';
                 $attempt->activity_date = $attempt->created_at;
                 return $attempt;
             });
+        
+        $recentActivity = $recentActivity->merge($quizAttempts);
+        
+        // إضافة إكمال الدروس
+        $lessonCompletions = LessonCompletion::where('user_id', $user->id)
+            ->with(['lesson.course'])
+            ->latest('created_at')
+            ->limit(5)
+            ->get()
+            ->map(function($completion) {
+                $completion->activity_type = 'lesson_completed';
+                $completion->activity_date = $completion->created_at;
+                return $completion;
+            });
+        
+        $recentActivity = $recentActivity->merge($lessonCompletions);
+        
+        // ترتيب النشاطات حسب التاريخ
+        $recentActivity = $recentActivity->sortByDesc('activity_date')->take(10);
         
         // الدورات المقترحة (نفس الفئة)
         $enrolled_categories = $user->enrollments()
@@ -74,39 +97,58 @@ class StudentController extends Controller
             ->pluck('course.category.id')
             ->unique();
             
-        $recommendedCourses = Course::published()
-            ->whereIn('category_id', $enrolled_categories)
-            ->whereDoesntHave('enrollments', function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->limit(6)
-            ->get();
+        $recommendedCourses = collect();
+        
+        if ($enrolled_categories->count() > 0) {
+            $recommendedCourses = Course::published()
+                ->whereIn('category_id', $enrolled_categories)
+                ->whereDoesntHave('enrollments', function($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->limit(6)
+                ->get();
+        } else {
+            // إذا لم يكن الطالب مسجل في أي دورة، اعرض دورات عشوائية
+            $recommendedCourses = Course::published()
+                ->with('instructor')
+                ->limit(6)
+                ->get();
+        }
 
         // الدروس المقررة اليوم (المحاضرات المباشرة)
-        $today_live_lessons = Lesson::whereIn('course_id', $user->enrollments()->pluck('course_id'))
-            ->where('type', 'live_session')
-            ->whereDate('live_session_date', today())
-            ->with(['course', 'course.instructor'])
-            ->orderBy('live_session_date')
-            ->get();
+        $today_live_lessons = collect();
+        if ($user->enrollments()->count() > 0) {
+            $today_live_lessons = Lesson::whereIn('course_id', $user->enrollments()->pluck('course_id'))
+                ->where('type', 'live_session')
+                ->whereDate('live_session_date', today())
+                ->with(['course', 'course.instructor'])
+                ->orderBy('live_session_date')
+                ->get();
+        }
 
         // الدروس المقررة هذا الأسبوع
-        $week_live_lessons = Lesson::whereIn('course_id', $user->enrollments()->pluck('course_id'))
-            ->where('type', 'live_session')
-            ->whereBetween('live_session_date', [now()->startOfWeek(), now()->endOfWeek()])
-            ->with(['course', 'course.instructor'])
-            ->orderBy('live_session_date')
-            ->get();
+        $week_live_lessons = collect();
+        if ($user->enrollments()->count() > 0) {
+            $week_live_lessons = Lesson::whereIn('course_id', $user->enrollments()->pluck('course_id'))
+                ->where('type', 'live_session')
+                ->whereBetween('live_session_date', [now()->startOfWeek(), now()->endOfWeek()])
+                ->with(['course', 'course.instructor'])
+                ->orderBy('live_session_date')
+                ->get();
+        }
 
         // الاختبارات المطلوبة
-        $pending_quizzes = \App\Models\Quiz::whereIn('course_id', $user->enrollments()->pluck('course_id'))
-            ->where('is_active', true)
-            ->whereDoesntHave('attempts', function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->with(['course', 'course.instructor'])
-            ->limit(5)
-            ->get();
+        $pending_quizzes = collect();
+        if ($user->enrollments()->count() > 0) {
+            $pending_quizzes = \App\Models\Quiz::whereIn('course_id', $user->enrollments()->pluck('course_id'))
+                ->where('is_active', true)
+                ->whereDoesntHave('attempts', function($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->with(['course', 'course.instructor'])
+                ->limit(5)
+                ->get();
+        }
 
         // إحصائيات الأداء الشهرية
         $monthly_stats = [
@@ -156,8 +198,6 @@ class StudentController extends Controller
                 ];
             })
         );
-        
-
         
         // إضافة مواعيد الاختبارات
         $learning_calendar = $learning_calendar->merge(
@@ -480,6 +520,63 @@ class StudentController extends Controller
     }
 
     /**
+     * عرض صفحة متابعة الدورة الاحترافية
+     */
+    public function coursePlayer(Course $course, Lesson $lesson = null)
+    {
+        $user = Auth::user();
+        
+        // التحقق من تسجيل الطالب في الدورة
+        $enrollment = $user->enrollments()
+            ->where('course_id', $course->id)
+            ->first();
+            
+        if (!$enrollment) {
+            return redirect()->route('courses.show', $course->slug)
+                ->with('error', 'يجب التسجيل في الدورة أولاً');
+        }
+        
+        // التحقق من حالة التسجيل
+        if ($enrollment->status === 'pending') {
+            return redirect()->route('courses.show', $course->slug)
+                ->with('warning', 'تسجيلك في الدورة قيد الانتظار حتى تأكيد الإدارة. سيتم إعلامك عند التأكيد.');
+        }
+        
+        if (!in_array($enrollment->status, ['active', 'completed'])) {
+            return redirect()->route('courses.show', $course->slug)
+                ->with('error', 'لا يمكن الوصول للدورة في الوقت الحالي. يرجى التواصل مع الإدارة.');
+        }
+        
+        // جميع الدروس في الدورة
+        $lessons = $course->lessons()
+            ->published()
+            ->ordered()
+            ->get();
+        
+        // تحديد الدرس الحالي
+        $current_lesson = $lesson ?: $lessons->first();
+        
+        // تحديث آخر درس تم الوصول إليه
+        if ($current_lesson) {
+            $enrollment->update([
+                'last_lesson_id' => $current_lesson->id,
+                'last_accessed_at' => now()
+            ]);
+        }
+        
+        // الدرس التالي
+        $next_lesson = $lessons->where('sort_order', '>', $current_lesson->sort_order)->first();
+
+        return view('student.courses.player', compact(
+            'course',
+            'enrollment',
+            'lessons',
+            'current_lesson',
+            'next_lesson'
+        ));
+    }
+
+    /**
      * عرض درس محدد
      */
     public function lesson(Course $course, Lesson $lesson)
@@ -494,6 +591,17 @@ class StudentController extends Controller
         if (!$enrollment) {
             return redirect()->route('courses.show', $course->slug)
                 ->with('error', 'يجب التسجيل في الدورة أولاً');
+        }
+        
+        // التحقق من حالة التسجيل
+        if ($enrollment->status === 'pending') {
+            return redirect()->route('courses.show', $course->slug)
+                ->with('warning', 'تسجيلك في الدورة قيد الانتظار حتى تأكيد الإدارة. سيتم إعلامك عند التأكيد.');
+        }
+        
+        if (!in_array($enrollment->status, ['active', 'completed'])) {
+            return redirect()->route('courses.show', $course->slug)
+                ->with('error', 'لا يمكن الوصول للدورة في الوقت الحالي. يرجى التواصل مع الإدارة.');
         }
         
         // تحديث آخر درس تم الوصول إليه
@@ -616,13 +724,21 @@ class StudentController extends Controller
             $this->generateCertificate($enrollment);
         }
 
-        return response()->json([
+        $response = [
             'success' => true,
             'message' => 'تم إكمال الدرس بنجاح',
             'progress' => $progressPercentage,
             'completed_lessons' => $completedCount,
             'total_lessons' => $totalLessons
-        ]);
+        ];
+
+        // إذا تم إكمال الدورة، أضف رابط التهنئة
+        if ($progressPercentage >= 100) {
+            $response['course_completed'] = true;
+            $response['celebration_url'] = route('student.courses.completion-celebration', $lesson->course);
+        }
+
+        return response()->json($response);
     }
 
     /**
@@ -631,7 +747,7 @@ class StudentController extends Controller
     public function certificates()
     {
         $user = Auth::user();
-        $certificates = $user->certificates()->with('course')->latest()->get();
+        $certificates = $user->certificates()->with('course')->latest()->paginate(10);
         
         return view('student.certificates.index', compact('certificates'));
     }
@@ -646,8 +762,17 @@ class StudentController extends Controller
             abort(403);
         }
         
-        // هنا يمكن إضافة منطق إنشاء وتحميل ملف PDF للشهادة
-        return response()->json(['message' => 'سيتم إضافة ميزة تحميل الشهادات قريباً']);
+        // إنشاء PDF للشهادة
+        $pdf = \PDF::loadView('certificates.pdf', [
+            'certificate' => $certificate,
+            'user' => $certificate->user,
+            'course' => $certificate->course,
+            'enrollment' => $certificate->enrollment,
+        ]);
+        
+        $filename = "شهادة_{$certificate->course->title_ar}_{$certificate->user->name}.pdf";
+        
+        return $pdf->download($filename);
     }
 
     /**
@@ -738,5 +863,182 @@ class StudentController extends Controller
             'certificate_issued_at' => now(),
             'certificate_number' => $certificate_number,
         ]);
+    }
+
+    /**
+     * عرض صفحة الاختبار
+     */
+    public function takeQuiz(Quiz $quiz)
+    {
+        $user = Auth::user();
+        
+        // التحقق من تسجيل الطالب في الدورة
+        $enrollment = $user->enrollments()
+            ->where('course_id', $quiz->course_id)
+            ->whereIn('status', ['active', 'completed'])
+            ->first();
+            
+        if (!$enrollment) {
+            return redirect()->route('courses.show', $quiz->course->slug)
+                ->with('error', 'يجب التسجيل في الدورة أولاً');
+        }
+        
+        // التحقق من عدم وجود محاولة سابقة
+        $existingAttempt = QuizAttempt::where('user_id', $user->id)
+            ->where('quiz_id', $quiz->id)
+            ->first();
+            
+        if ($existingAttempt) {
+            return redirect()->route('student.quizzes.results', $quiz)
+                ->with('info', 'لقد أخذت هذا الاختبار مسبقاً');
+        }
+        
+        $questions = $quiz->questions()->ordered()->get();
+        
+        return view('student.quizzes.take', compact('quiz', 'questions', 'enrollment'));
+    }
+
+    /**
+     * إرسال إجابات الاختبار
+     */
+    public function submitQuiz(Request $request, Quiz $quiz)
+    {
+        $user = Auth::user();
+        
+        // التحقق من تسجيل الطالب في الدورة
+        $enrollment = $user->enrollments()
+            ->where('course_id', $quiz->course_id)
+            ->whereIn('status', ['active', 'completed'])
+            ->first();
+            
+        if (!$enrollment) {
+            return response()->json(['error' => 'غير مصرح لك بأخذ هذا الاختبار'], 403);
+        }
+        
+        // التحقق من عدم وجود محاولة سابقة
+        $existingAttempt = QuizAttempt::where('user_id', $user->id)
+            ->where('quiz_id', $quiz->id)
+            ->first();
+            
+        if ($existingAttempt) {
+            return response()->json(['error' => 'لقد أخذت هذا الاختبار مسبقاً'], 400);
+        }
+        
+        $request->validate([
+            'answers' => 'required|array',
+            'answers.*' => 'required|string',
+        ]);
+        
+        // حساب النتيجة
+        $score = 0;
+        $totalQuestions = $quiz->questions()->count();
+        
+        foreach ($request->answers as $questionId => $answer) {
+            $question = $quiz->questions()->find($questionId);
+            if ($question && $question->correct_answer === $answer) {
+                $score++;
+            }
+        }
+        
+        $percentage = ($score / $totalQuestions) * 100;
+        $isPassed = $percentage >= $quiz->passing_score;
+        
+        // حفظ المحاولة
+        QuizAttempt::create([
+            'user_id' => $user->id,
+            'quiz_id' => $quiz->id,
+            'score' => $score,
+            'total_points' => $totalQuestions,
+            'percentage' => $percentage,
+            'is_passed' => $isPassed,
+            'started_at' => now(),
+            'completed_at' => now(),
+        ]);
+        
+        return response()->json([
+            'success' => true,
+            'score' => $score,
+            'total' => $totalQuestions,
+            'percentage' => $percentage,
+            'is_passed' => $isPassed,
+            'redirect_url' => route('student.quizzes.results', $quiz)
+        ]);
+    }
+
+    /**
+     * عرض نتائج الاختبار
+     */
+    public function quizResults(Quiz $quiz)
+    {
+        $user = Auth::user();
+        
+        // التحقق من تسجيل الطالب في الدورة
+        $enrollment = $user->enrollments()
+            ->where('course_id', $quiz->course_id)
+            ->whereIn('status', ['active', 'completed'])
+            ->first();
+            
+        if (!$enrollment) {
+            return redirect()->route('courses.show', $quiz->course->slug)
+                ->with('error', 'يجب التسجيل في الدورة أولاً');
+        }
+        
+        $attempt = QuizAttempt::where('user_id', $user->id)
+            ->where('quiz_id', $quiz->id)
+            ->first();
+            
+        if (!$attempt) {
+            return redirect()->route('student.quizzes.take', $quiz)
+                ->with('error', 'لم تأخذ هذا الاختبار بعد');
+        }
+        
+        return view('student.quizzes.results', compact('quiz', 'attempt', 'enrollment'));
+    }
+
+    /**
+     * عرض صفحة التهنئة عند إكمال الدورة
+     */
+    public function courseCompletionCelebration(Course $course)
+    {
+        $user = Auth::user();
+        
+        // التحقق من تسجيل الطالب في الدورة
+        $enrollment = $user->enrollments()
+            ->where('course_id', $course->id)
+            ->where('status', 'completed')
+            ->first();
+            
+        if (!$enrollment) {
+            return redirect()->route('courses.show', $course->slug)
+                ->with('error', 'يجب إكمال الدورة أولاً');
+        }
+        
+        // التحقق من أن الدورة مكتملة بنسبة 100%
+        if ($enrollment->progress_percentage < 100) {
+            return redirect()->route('student.courses.player', ['course' => $course->id])
+                ->with('warning', 'يجب إكمال جميع الدروس أولاً');
+        }
+        
+        // الحصول على الشهادة إن وجدت
+        $certificate = $user->certificates()
+            ->where('course_id', $course->id)
+            ->first();
+        
+        // إحصائيات الدورة
+        $courseStats = [
+            'total_lessons' => $enrollment->total_lessons,
+            'completed_lessons' => $enrollment->lessons_completed,
+            'total_hours' => $enrollment->total_hours_watched ?? 0,
+            'completion_date' => $enrollment->completed_at,
+            'certificate_issued' => $enrollment->certificate_issued,
+            'certificate_number' => $enrollment->certificate_number,
+        ];
+        
+        return view('student.courses.completion-celebration', compact(
+            'course', 
+            'enrollment', 
+            'certificate', 
+            'courseStats'
+        ));
     }
 }

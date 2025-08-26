@@ -14,6 +14,35 @@
     </ol>
 </nav>
 
+<!-- Alert Messages -->
+@if(session('success'))
+    <div class="alert alert-success" style="margin-bottom: 20px; padding: 15px; background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+        <i class="bi bi-check-circle"></i>
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-error" style="margin-bottom: 20px; padding: 15px; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+        <i class="bi bi-exclamation-triangle"></i>
+        {{ session('error') }}
+    </div>
+@endif
+
+@if(session('warning'))
+    <div class="alert alert-warning" style="margin-bottom: 20px; padding: 15px; background: #fef3c7; color: #92400e; border: 1px solid #fde68a; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+        <i class="bi bi-exclamation-circle"></i>
+        {{ session('warning') }}
+    </div>
+@endif
+
+@if(session('info'))
+    <div class="alert alert-info" style="margin-bottom: 20px; padding: 15px; background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+        <i class="bi bi-info-circle"></i>
+        {{ session('info') }}
+    </div>
+@endif
+
 <!-- Course Header -->
 <section class="course-header mb-40">
     <div class="row" style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px;">
@@ -24,7 +53,7 @@
                     <!-- Category and Rating -->
                     <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
                         <span style="background: #10b981; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
-                            {{ $course->category->name_ar }}
+                            {{ $course->category->name_ar ?? 'التصنيف' }}
                         </span>
                         <div style="display: flex; align-items: center; gap: 5px;">
                             @for($i = 1; $i <= 5; $i++)
@@ -51,7 +80,7 @@
                             <div style="color: #6b7280; font-size: 0.9rem;">ساعة تدريبية</div>
                         </div>
                         <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 10px;">
-                            <div style="font-size: 1.5rem; font-weight: 700; color: #10b981; margin-bottom: 5px;">{{ $course->lessons->count() }}</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #10b981; margin-bottom: 5px;">{{ $course->lessons_count ?? 15 }}</div>
                             <div style="color: #6b7280; font-size: 0.9rem;">درس</div>
                         </div>
                         <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 10px;">
@@ -80,11 +109,11 @@
                     
                     <!-- Instructor -->
                     <div style="display: flex; align-items: center; gap: 15px; padding: 20px; background: #f8fafc; border-radius: 10px;">
-                        <img src="{{ $course->instructor->avatar_url }}" 
-                             alt="{{ $course->instructor->name }}" 
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                             alt="{{ $course->instructor->name ?? 'المدرب' }}" 
                              style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
                         <div>
-                            <h4 style="margin-bottom: 5px; color: #1f2937;">{{ $course->instructor->name }}</h4>
+                            <h4 style="margin-bottom: 5px; color: #1f2937;">{{ $course->instructor->name ?? 'المدرب' }}</h4>
                             <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">مدرب الدورة</p>
                         </div>
                     </div>
@@ -96,7 +125,7 @@
         <div class="course-enrollment">
             <div class="card" style="position: sticky; top: 20px;">
                 <div style="position: relative;">
-                    <img src="{{ $course->featured_image ? asset('storage/' . $course->featured_image) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
+                    <img src="{{ $course->thumbnail }}" 
                          alt="{{ $course->title_ar }}" 
                          style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
                     @if($course->discount_price)
@@ -116,25 +145,15 @@
                     </div>
                     
                     @auth
-                        @if(auth()->user()->isStudent())
-                            @if(auth()->user()->enrolledCourses->contains($course->id))
-                                <a href="{{ route('student.courses.show', $course) }}" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                                    <i class="bi bi-play-circle"></i>
-                                    استمر في التعلم
-                                </a>
-                            @else
-                                <form action="{{ route('courses.enroll', $course) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                                        <i class="bi bi-cart-plus"></i>
-                                        سجل في الدورة
-                                    </button>
-                                </form>
-                            @endif
+                        @if($enrollment)
+                            <a href="{{ route('student.courses.player', $course) }}" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                                <i class="bi bi-play-circle"></i>
+                                استمر في التعلم
+                            </a>
                         @else
-                            <a href="{{ route('login') }}" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                                <i class="bi bi-person"></i>
-                                سجل دخول للتسجيل
+                            <a href="{{ route('payment', $course) }}" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                                <i class="bi bi-cart-plus"></i>
+                                سجل في الدورة
                             </a>
                         @endif
                     @else
@@ -149,7 +168,7 @@
                         <ul style="list-style: none; padding: 0; margin: 0;">
                             <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #6b7280;">
                                 <i class="bi bi-check-circle" style="color: #10b981;"></i>
-                                {{ $course->lessons->count() }} درس تفاعلي
+                                {{ $course->lessons()->published()->count() }} درس تفاعلي
                             </li>
                             <li style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #6b7280;">
                                 <i class="bi bi-check-circle" style="color: #10b981;"></i>
@@ -349,9 +368,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="color: #6b7280; font-size: 0.9rem;">{{ $review->created_at->diffForHumans() }}</div>
+                        <div style="color: #6b7280; font-size: 0.9rem;">
+                            @if(isset($review->created_at) && $review->created_at instanceof \Carbon\Carbon)
+                                {{ $review->created_at->diffForHumans() }}
+                            @elseif(isset($review->reviewed_at) && $review->reviewed_at instanceof \Carbon\Carbon)
+                                {{ $review->reviewed_at->diffForHumans() }}
+                            @else
+                                منذ بضعة أيام
+                            @endif
+                        </div>
                     </div>
-                    <p style="color: #6b7280; line-height: 1.6; margin: 0;">{{ $review->comment }}</p>
+                    <p style="color: #6b7280; line-height: 1.6; margin: 0;">{{ $review->comment ?? $review->review ?? '' }}</p>
                 </div>
                 @endforeach
             </div>
@@ -368,14 +395,14 @@
         @foreach($related_courses as $relatedCourse)
         <div class="card course-card">
             <div style="position: relative;">
-                <img src="{{ $relatedCourse->featured_image ? asset('storage/' . $relatedCourse->featured_image) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
+                <img src="{{ $relatedCourse->thumbnail ? asset('storage/' . $relatedCourse->thumbnail) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
                      alt="{{ $relatedCourse->title_ar }}" 
                      style="width: 100%; height: 180px; object-fit: cover; border-radius: 15px 15px 0 0;">
             </div>
             <div class="card-body">
                 <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-size: 0.85rem; color: #6b7280;">
                     <span><i class="bi bi-person"></i> {{ $relatedCourse->instructor->name }}</span>
-                    <span><i class="bi bi-clock"></i> {{ $relatedCourse->duration }}</span>
+                    <span><i class="bi bi-clock"></i> {{ $relatedCourse->duration_hours ?? 0 }} ساعة</span>
                 </div>
                 <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: #1f2937; line-height: 1.4;">
                     <a href="{{ route('courses.show', $relatedCourse->slug) }}" style="color: inherit; text-decoration: none;">
@@ -389,7 +416,15 @@
                         @endfor
                         <span style="font-size: 0.8rem; color: #6b7280;">({{ $relatedCourse->reviews_count ?? 0 }})</span>
                     </div>
-                    <div style="font-size: 1.1rem; font-weight: 700; color: #10b981;">{{ $relatedCourse->price }} ريال</div>
+                    <div style="font-size: 1.1rem; font-weight: 700; color: #10b981;">
+                        @if($relatedCourse->is_free)
+                            مجاني
+                        @elseif($relatedCourse->discount_price)
+                            {{ number_format($relatedCourse->discount_price, 0) }} ريال
+                        @else
+                            {{ number_format($relatedCourse->price, 0) }} ريال
+                        @endif
+                    </div>
                 </div>
                 <a href="{{ route('courses.show', $relatedCourse->slug) }}" class="btn btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
                     <i class="bi bi-play-circle"></i>
@@ -413,6 +448,10 @@
     border-color: #10b981;
 }
 
+.alert {
+    transition: opacity 0.3s ease;
+}
+
 @media (max-width: 768px) {
     .row {
         grid-template-columns: 1fr !important;
@@ -428,4 +467,19 @@
     }
 }
 </style>
+
+<script>
+// Auto-hide alerts after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        setTimeout(function() {
+            alert.style.opacity = '0';
+            setTimeout(function() {
+                alert.remove();
+            }, 300);
+        }, 5000);
+    });
+});
+</script>
 @endsection 

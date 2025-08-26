@@ -57,11 +57,19 @@
             box-sizing: border-box;
         }
         
+        html {
+            overflow-x: hidden;
+            width: 100%;
+        }
+        
         body {
             font-family: 'Tajawal', sans-serif;
             line-height: 1.6;
             color: #333;
             background: #f8fafc;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
         
         .container {
@@ -1960,38 +1968,6 @@
     @include('components.footer')
     
     <script>
-        function toggleMobileMenu() {
-            const navMenu = document.getElementById('navMenu');
-            const toggleButton = document.querySelector('.mobile-menu-toggle');
-            
-            // Add loading animation
-            navMenu.classList.add('loading');
-            
-            setTimeout(() => {
-                navMenu.classList.remove('loading');
-                navMenu.classList.toggle('active');
-                
-                // Prevent body scroll when menu is open
-                document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-                
-                // Add haptic feedback for mobile devices
-                if ('vibrate' in navigator) {
-                    navigator.vibrate(50);
-                }
-            }, 300);
-        }
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const navMenu = document.getElementById('navMenu');
-            const toggleButton = document.querySelector('.mobile-menu-toggle');
-            const closeButton = document.querySelector('.mobile-menu-close');
-            
-            if (!navMenu.contains(event.target) && !toggleButton.contains(event.target) && !closeButton.contains(event.target)) {
-                navMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
         
         // Newsletter Form Functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -2145,44 +2121,7 @@
             });
         });
         
-        // Mobile menu toggle function
-        function toggleMobileMenu() {
-            const navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
-            
-            // Prevent body scroll when menu is open
-            if (navMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        }
-        
-        // Close mobile menu on window resize
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                const navMenu = document.getElementById('navMenu');
-                navMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-menu a');
-            navLinks.forEach(function(link) {
-                link.addEventListener('click', function() {
-                    const navMenu = document.getElementById('navMenu');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                    
-                    // Add haptic feedback
-                    if ('vibrate' in navigator) {
-                        navigator.vibrate(30);
-                    }
-                });
-            });
-        });
+
         
         // Auto-hide alerts after 5 seconds
         document.addEventListener('DOMContentLoaded', function() {
@@ -2203,8 +2142,13 @@
             const anchorLinks = document.querySelectorAll('a[href^="#"]');
             anchorLinks.forEach(function(link) {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
                     const targetId = this.getAttribute('href');
+                    if (targetId === '#') {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    e.preventDefault();
                     const targetElement = document.querySelector(targetId);
                     
                     if (targetElement) {
@@ -2217,37 +2161,7 @@
             });
         });
         
-        // Add touch gesture support for mobile menu
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        document.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        document.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        
-        function handleSwipe() {
-            const navMenu = document.getElementById('navMenu');
-            const swipeThreshold = 50;
-            
-            if (touchEndX < touchStartX - swipeThreshold) {
-                // Swipe left - close menu
-                if (navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                // Swipe right - open menu (only if we're on mobile)
-                if (window.innerWidth <= 768 && !navMenu.classList.contains('active')) {
-                    navMenu.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-        }
+
     </script>
     
     @include('components.header-footer-scripts')

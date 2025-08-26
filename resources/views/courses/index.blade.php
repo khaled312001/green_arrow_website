@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero-section" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 100px 0; text-align: center; margin: -40px -20px 60px -20px; position: relative; overflow: hidden;">
+<section class="hero-section" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 100px 0; text-align: center; margin: -40px 0 60px 0; position: relative; overflow: hidden; width: 100%; max-width: 100%;">
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"25\" cy=\"25\" r=\"1\" fill=\"white\" opacity=\"0.1\"/><circle cx=\"75\" cy=\"75\" r=\"1\" fill=\"white\" opacity=\"0.1\"/><circle cx=\"50\" cy=\"10\" r=\"0.5\" fill=\"white\" opacity=\"0.1\"/><circle cx=\"10\" cy=\"60\" r=\"0.5\" fill=\"white\" opacity=\"0.1\"/><circle cx=\"90\" cy=\"40\" r=\"0.5\" fill=\"white\" opacity=\"0.1\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>'); opacity: 0.3;"></div>
     <div class="container" style="position: relative; z-index: 2;">
         <h1 style="font-size: 3.5rem; margin-bottom: 20px; font-weight: 800; text-shadow: 0 4px 8px rgba(0,0,0,0.3);">الدورات التدريبية</h1>
@@ -106,83 +106,6 @@
     </div>
 </section>
 
-<!-- Featured Courses -->
-@if($featuredCourses->count() > 0)
-<section class="featured-courses mb-60">
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 15px; color: #1f2937; font-weight: 700;">الدورات المميزة</h2>
-        <p style="color: #6b7280; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">أفضل الدورات المختارة بعناية لتحقيق أقصى استفادة</p>
-    </div>
-    
-    <div class="featured-courses-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 30px;">
-        @foreach($featuredCourses as $course)
-        <div class="course-card featured" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: all 0.3s ease; border: 2px solid transparent;">
-            <div style="position: relative;">
-                <img src="{{ $course->thumbnail ? asset('storage/' . $course->thumbnail) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
-                     alt="{{ $course->title_ar }}" 
-                     style="width: 100%; height: 220px; object-fit: cover;">
-                <div style="position: absolute; top: 15px; right: 15px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1f2937; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);">
-                    <i class="bi bi-star-fill" style="margin-left: 5px;"></i>
-                    مميز
-                </div>
-                @if($course->discount_price)
-                <div style="position: absolute; top: 15px; left: 15px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
-                    -{{ round((($course->price - $course->discount_price) / $course->price) * 100) }}%
-                </div>
-                @endif
-            </div>
-            <div style="padding: 25px;">
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
-                        <i class="bi bi-{{ $course->category->icon ?: 'book' }}"></i>
-                    </div>
-                    <div>
-                        <div style="color: #10b981; font-size: 0.8rem; font-weight: 600;">{{ $course->category->name_ar }}</div>
-                        <div style="color: #6b7280; font-size: 0.8rem;">{{ $course->instructor->name }}</div>
-                    </div>
-                </div>
-                
-                <h3 style="font-size: 1.3rem; margin-bottom: 10px; color: #1f2937; line-height: 1.4; font-weight: 600;">{{ $course->title_ar }}</h3>
-                <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5;">{{ Str::limit($course->description_ar, 100) }}</p>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.85rem; color: #6b7280;">
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <i class="bi bi-clock"></i>
-                        <span>{{ $course->duration_hours }} ساعة</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <i class="bi bi-people"></i>
-                        <span>{{ $course->enrolled_count }} طالب</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <i class="bi bi-star-fill" style="color: #fbbf24;"></i>
-                        <span>{{ $course->rating }}</span>
-                    </div>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        @if($course->is_free)
-                            <span style="color: #10b981; font-weight: 600; font-size: 1.1rem;">مجاني</span>
-                        @else
-                            @if($course->discount_price)
-                                <span style="color: #6b7280; text-decoration: line-through; font-size: 0.9rem;">{{ $course->price }} ريال</span>
-                                <span style="color: #10b981; font-weight: 600; font-size: 1.1rem;">{{ $course->discount_price }} ريال</span>
-                            @else
-                                <span style="color: #10b981; font-weight: 600; font-size: 1.1rem;">{{ $course->price }} ريال</span>
-                            @endif
-                        @endif
-                    </div>
-                    <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary" style="padding: 10px 20px; border-radius: 10px; font-weight: 600; background: linear-gradient(135deg, #10b981, #059669); border: none; color: white; text-decoration: none; transition: all 0.3s ease;">
-                        عرض التفاصيل
-                    </a>
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
-</section>
-@endif
 
 <!-- All Courses -->
 <section class="all-courses mb-60">
@@ -295,6 +218,18 @@
 </section>
 
 <style>
+/* Prevent horizontal scroll */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+.container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 /* Enhanced Hover Effects */
 .category-card:hover {
     transform: translateY(-8px);

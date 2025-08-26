@@ -1460,6 +1460,20 @@
                     </div>
                 @endif
                 
+                @if(session('warning'))
+                    <div class="alert alert-warning" style="background: #fef3c7; color: #92400e; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; border-right: 4px solid #f59e0b;">
+                        <i class="bi bi-exclamation-circle"></i>
+                        {{ session('warning') }}
+                    </div>
+                @endif
+                
+                @if(session('info'))
+                    <div class="alert alert-info" style="background: #dbeafe; color: #1e40af; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; border-right: 4px solid #3b82f6;">
+                        <i class="bi bi-info-circle"></i>
+                        {{ session('info') }}
+                    </div>
+                @endif
+                
                 @yield('content')
             </div>
         </main>

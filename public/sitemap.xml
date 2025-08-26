@@ -1,98 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://127.0.0.1:8000</loc>
-    <lastmod>2025-08-24T15:08:12.570525Z</lastmod>
+    <loc>http://localhost</loc>
+    <lastmod>2025-08-26T16:27:08.811026Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/courses/ttoyr-almoakaa-bastkhdam-laravel</loc>
-    <lastmod>2025-08-24T13:47:28.000000Z</lastmod>
+    <loc>http://localhost/courses/ttoyr-almoakaa-bastkhdam-laravel</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/courses/adar-alfrk-oalkyad-alfaaal</loc>
-    <lastmod>2025-08-24T14:32:25.000000Z</lastmod>
+    <loc>http://localhost/courses/team-management-leadership</loc>
+    <lastmod>2025-08-26T16:26:35.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/courses/allgh-alanglyzy-llmbtdyyn</loc>
-    <lastmod>2025-08-24T13:47:28.000000Z</lastmod>
+    <loc>http://localhost/courses/allgh-alanglyzy-llmbtdyyn</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/courses/mkdm-fy-althkaaa-alastnaaay</loc>
-    <lastmod>2025-08-24T13:47:28.000000Z</lastmod>
+    <loc>http://localhost/courses/mkdm-fy-althkaaa-alastnaaay</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/courses/albrmg-llatfal-maa-scratch</loc>
-    <lastmod>2025-08-24T13:47:28.000000Z</lastmod>
+    <loc>http://localhost/courses/albrmg-llatfal-maa-scratch</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/courses/altsoyk-aabr-osayl-altoasl-alagtmaaay</loc>
-    <lastmod>2025-08-24T13:47:28.000000Z</lastmod>
+    <loc>http://localhost/courses/altsoyk-aabr-osayl-altoasl-alagtmaaay</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/instructors/5</loc>
-    <lastmod>2025-08-24T13:47:20.000000Z</lastmod>
+    <loc>http://localhost/courses/tsmym-alshaaarat-oalhoy-albsry</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost/courses/anshaaa-almsharyaa-alryady</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost/courses/intro-programming</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost/courses/web-design</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost/courses/digital-marketing</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost/instructors/5</loc>
+    <lastmod>2025-08-24T15:21:16.000000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/instructors/6</loc>
-    <lastmod>2025-08-24T13:47:21.000000Z</lastmod>
+    <loc>http://localhost/instructors/6</loc>
+    <lastmod>2025-08-24T15:21:16.000000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/instructors/7</loc>
-    <lastmod>2025-08-24T13:47:21.000000Z</lastmod>
+    <loc>http://localhost/instructors/7</loc>
+    <lastmod>2025-08-24T15:21:16.000000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/instructors/8</loc>
-    <lastmod>2025-08-24T13:47:21.000000Z</lastmod>
+    <loc>http://localhost/instructors/8</loc>
+    <lastmod>2025-08-24T15:21:16.000000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/instructors/9</loc>
-    <lastmod>2025-08-24T13:47:22.000000Z</lastmod>
+    <loc>http://localhost/instructors/9</loc>
+    <lastmod>2025-08-24T15:21:17.000000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/instructors/10</loc>
-    <lastmod>2025-08-24T13:47:22.000000Z</lastmod>
+    <loc>http://localhost/instructors/10</loc>
+    <lastmod>2025-08-24T15:21:17.000000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/blog/mstkbl-althkaaa-alastnaaay-fy-altaalym</loc>
-    <lastmod>2025-08-24T13:47:28.000000Z</lastmod>
+    <loc>http://localhost/instructors/31</loc>
+    <lastmod>2025-08-26T16:05:39.000000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/instructors/32</loc>
+    <lastmod>2025-08-26T16:05:39.000000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/instructors/34</loc>
+    <lastmod>2025-08-26T16:24:33.000000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost/blog/adar-almsharyaa-alhdyth-mnhgyat-oadoat-faaal</loc>
+    <lastmod>2025-08-25T12:25:02.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/blog/kyfy-akhtyar-aldor-altdryby-almnasb</loc>
-    <lastmod>2025-08-24T13:47:28.000000Z</lastmod>
+    <loc>http://localhost/blog/kyf-tkhtar-aldor-altdryby-almnasb-lmstkblk-almhny</loc>
+    <lastmod>2025-08-25T12:25:02.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>http://127.0.0.1:8000/blog/ahmy-altaalm-almstmr-fy-alaasr-alrkmy</loc>
-    <lastmod>2025-08-24T14:06:51.000000Z</lastmod>
+    <loc>http://localhost/blog/kyf-tbny-msyr-mhny-nagh-fy-mgal-albrmg</loc>
+    <lastmod>2025-08-25T12:25:02.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost/blog/ahmy-algod-fy-altaalym-roy-akadymy-alshm-alakhdr</loc>
+    <lastmod>2025-08-25T12:32:05.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost/blog/ahdth-altknyat-fy-altaalym-alalktrony-roy-mstkbly</loc>
+    <lastmod>2025-08-25T12:25:02.000000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost/blog/ttoyr-aladaaa-almhny-astratygyat-aamly-llngah</loc>
+    <lastmod>2025-08-25T12:25:02.000000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

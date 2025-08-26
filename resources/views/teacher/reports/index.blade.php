@@ -403,7 +403,7 @@
                         @if(isset($coursePerformance) && $coursePerformance->count() > 0)
                             @foreach($coursePerformance->take(5) as $course)
                                 <div class="course-item">
-                                    <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.jpg') }}" 
+                                    <img src="{{ $course->image ? asset('storage/' . $course->image) : asset('images/default-course.svg') }}" 
                                          alt="{{ $course->title_ar }}" class="course-image">
                                     <div class="course-info">
                                         <div class="course-title">{{ $course->title_ar }}</div>

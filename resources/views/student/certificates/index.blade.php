@@ -174,7 +174,7 @@
         <!-- Pagination -->
         @if($certificates->hasPages())
             <div style="margin-top: 40px; display: flex; justify-content: center;">
-                {{ $certificates->appends(request()->query())->links() }}
+                {{ $certificates->links() }}
             </div>
         @endif
     @else

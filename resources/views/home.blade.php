@@ -23,118 +23,169 @@
         --border-radius: 15px;
     }
 
-    /* Horizontal Slider Styles */
-    .categories-slider-container,
-    .courses-slider-container {
-        position: relative;
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
+    /* Academy Departments Grid Styles - Static Display */
+    .academy-departments-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
         margin: 30px 0;
     }
 
-    .categories-slider,
-    .courses-slider {
-        width: 100%;
-        overflow: hidden;
+    /* Academy Department Card Styles */
+    .academy-department-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        border: 2px solid transparent;
         position: relative;
+        overflow: hidden;
+        text-align: center;
     }
 
-    .categories-track,
-    .courses-track {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        gap: 20px;
-        padding: 10px 0;
-    }
-
-    .category-item,
-    .course-card {
-        flex: 0 0 auto;
-        min-width: 320px;
-        max-width: 320px;
-        margin: 0;
-    }
-
-    .slider-nav-btn {
+    .academy-department-card::before {
+        content: '';
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+    }
+
+    .academy-department-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .academy-department-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: var(--primary-color);
+    }
+
+    .academy-department-icon {
+        width: 80px;
+        height: 80px;
         background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        color: white;
-        border: none;
-        width: 50px;
-        height: 50px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        z-index: 10;
+        margin: 0 auto 20px;
+        color: white;
+        font-size: 2rem;
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    }
+
+    .academy-department-card:hover .academy-department-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+    }
+
+    .academy-department-card h3 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        line-height: 1.4;
+    }
+
+    .academy-department-card p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+    }
+
+    .academy-department-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .academy-tag {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .academy-department-card:hover .academy-tag {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .academy-department-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        font-size: 1.2rem;
     }
 
-    .slider-nav-btn:hover {
+    .academy-department-link:hover {
         background: linear-gradient(135deg, var(--primary-dark), #047857);
-        transform: translateY(-50%) scale(1.1);
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        color: white;
     }
 
-    .slider-nav-btn.prev-btn {
-        left: -25px;
-    }
-
-    .slider-nav-btn.next-btn {
-        right: -25px;
-    }
-
-    .slider-nav-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: translateY(-50%) scale(1);
-    }
-
-    .slider-nav-btn:disabled:hover {
-        transform: translateY(-50%) scale(1);
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    }
-
-    /* Responsive adjustments */
+    /* Responsive adjustments for academy departments grid */
     @media (max-width: 768px) {
-        .category-item,
-        .course-card {
-            min-width: 280px;
-            max-width: 280px;
+        .academy-departments-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
-
-        .slider-nav-btn {
-            width: 45px;
-            height: 45px;
-            font-size: 1rem;
+        
+        .academy-department-card {
+            padding: 25px;
         }
-
-        .slider-nav-btn.prev-btn {
-            left: -20px;
+        
+        .academy-department-icon {
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
         }
-
-        .slider-nav-btn.next-btn {
-            right: -20px;
+        
+        .academy-department-card h3 {
+            font-size: 1.2rem;
         }
     }
 
     @media (max-width: 480px) {
-        .category-item,
-        .course-card {
-            min-width: 260px;
-            max-width: 260px;
+        .academy-departments-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
-
-        .slider-nav-btn {
-            width: 40px;
-            height: 40px;
-            font-size: 0.9rem;
+        
+        .academy-department-card {
+            padding: 20px;
+        }
+        
+        .academy-department-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+        
+        .academy-department-card h3 {
+            font-size: 1.1rem;
         }
     }
 
@@ -971,200 +1022,11 @@
         box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
     }
     
-    .categories-showcase {
-        position: relative;
-        z-index: 2;
-        padding: 0 20px;
-    }
-    
-    .categories-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-        gap: 30px;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-    
-    .category-item {
-        position: relative;
-        border-radius: 20px;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: translateY(0);
-        opacity: 0;
-        animation: fadeInUp 0.8s ease forwards;
-    }
-    
-    .category-item:nth-child(1) { animation-delay: 0.1s; }
-    .category-item:nth-child(2) { animation-delay: 0.2s; }
-    .category-item:nth-child(3) { animation-delay: 0.3s; }
-    .category-item:nth-child(4) { animation-delay: 0.4s; }
-    .category-item:nth-child(5) { animation-delay: 0.5s; }
-    .category-item:nth-child(6) { animation-delay: 0.6s; }
-    .category-item:nth-child(7) { animation-delay: 0.7s; }
-    .category-item:nth-child(8) { animation-delay: 0.8s; }
-    
-    .category-item:hover {
-        transform: translateY(-15px) scale(1.02);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        border-color: var(--primary-color);
-    }
-    
-    .category-content {
-        padding: 40px 30px;
-        position: relative;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .category-icon-wrapper {
-        position: relative;
-        width: 80px;
-        height: 80px;
-        margin-bottom: 25px;
-    }
-    
-    .category-icon {
-        width: 100%;
-        height: 100%;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        color: white;
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        position: relative;
-        z-index: 2;
-        transition: all 0.3s ease;
-    }
-    
-    .icon-glow {
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        border-radius: 25px;
-        opacity: 0.3;
-        z-index: 1;
-        transition: all 0.3s ease;
-        filter: blur(10px);
-    }
-    
-    .category-item:hover .icon-glow {
-        opacity: 0.6;
-        filter: blur(15px);
-    }
-    
-    .category-info {
-        flex: 1;
-    }
-    
-    .category-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 15px;
+    .academy-department-title {
         line-height: 1.3;
     }
     
-    .category-description {
-        color: var(--text-secondary);
-        line-height: 1.6;
-        margin-bottom: 20px;
-        font-size: 0.95rem;
-    }
-    
-    .category-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 20px;
-    }
-    
-    .tag {
-        background: rgba(16, 185, 129, 0.1);
-        color: var(--primary-color);
-        padding: 4px 12px;
-        border-radius: 15px;
-        font-size: 0.8rem;
-        font-weight: 500;
-        border: 1px solid rgba(16, 185, 129, 0.2);
-        transition: all 0.3s ease;
-    }
-    
-    .tag:hover {
-        background: var(--primary-color);
-        color: white;
-        transform: translateY(-2px);
-    }
-    
-    .category-stats {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-        font-size: 0.9rem;
-    }
-    
-    .courses-count {
-        color: var(--primary-color);
-        font-weight: 600;
-    }
-    
-    .students-count {
-        color: var(--text-secondary);
-        font-weight: 500;
-    }
-    
-    .category-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: all 0.4s ease;
-        border-radius: 20px;
-    }
-    
-    .category-item:hover .category-overlay {
-        opacity: 1;
-    }
-    
-    .explore-btn {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        padding: 15px 25px;
-        border: 2px solid white;
-        border-radius: 25px;
-        transition: all 0.3s ease;
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    
-    .category-item:hover .explore-btn {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    
-    .explore-btn:hover {
-        background: white;
+    .academy-department-link:hover {
         color: var(--primary-color);
         transform: translateY(-5px);
     }
@@ -1241,27 +1103,6 @@
         }
         50% {
             transform: scale(1.05);
-        }
-    }
-    
-    /* Continuous Loop Animation for Categories */
-    .categories-grid {
-        display: flex;
-        gap: 30px;
-        animation: continuousScroll 60s linear infinite;
-        width: max-content;
-    }
-    
-    .categories-grid:hover {
-        animation-play-state: paused;
-    }
-    
-    @keyframes continuousScroll {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-50%);
         }
     }
     
@@ -2075,14 +1916,13 @@
     .stats {
         background: var(--bg-primary);
         padding: clamp(60px, 10vw, 100px) 0;
-        margin-top: -80px;
         position: relative;
         z-index: 3;
         width: 100%;
         max-width: 100%;
-        margin-left: 0;
-        margin-right: 0;
+        margin: 0;
         overflow-x: hidden;
+        margin-top: -80px;
     }
     
     .stats .container {
@@ -5362,132 +5202,25 @@
         }
     }
     
-    /* Enhanced Categories Slider Styles */
-    .categories-slider-container {
-        position: relative;
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
-        margin: 30px 0;
-        padding: 0 60px; /* Space for navigation buttons */
+    /* Enhanced Academy Departments Section Styles - Static Display */
+    .academy-departments-section {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(59, 130, 246, 0.05));
+        border-radius: 20px;
+        padding: 40px 20px;
+        margin: 80px 0 30px 0; /* إضافة مساحة من أعلى */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
     
-    .categories-slider {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-    }
-    
-    .categories-track {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        gap: 20px;
-        padding: 10px 0;
-    }
-    
-    .category-item {
-        flex: 0 0 auto;
-        min-width: 320px;
-        max-width: 320px;
-        margin: 0;
-    }
-    
-    /* Navigation Buttons */
-    .slider-nav-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        color: white;
-        border: none;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        font-size: 1.2rem;
-    }
-    
-    .slider-nav-btn:hover {
-        background: linear-gradient(135deg, var(--primary-dark), #047857);
-        transform: translateY(-50%) scale(1.1);
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-    }
-    
-    .slider-nav-btn.prev-btn {
-        left: 0;
-    }
-    
-    .slider-nav-btn.next-btn {
-        right: 0;
-    }
-    
-    .slider-nav-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: translateY(-50%) scale(1);
-    }
-    
-    .slider-nav-btn:disabled:hover {
-        transform: translateY(-50%) scale(1);
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-    }
-    
-    /* Auto-scroll indicator */
-    .auto-scroll-indicator {
-        position: absolute;
-        bottom: -30px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 8px;
-        z-index: 5;
-    }
-    
-    .scroll-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: rgba(16, 185, 129, 0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .scroll-dot.active {
-        background: var(--primary-color);
-        transform: scale(1.2);
-    }
-    
-    /* Responsive adjustments */
+    /* Responsive adjustments for academy departments section */
     @media (max-width: 768px) {
-        .categories-slider-container {
-            padding: 0 50px;
-        }
-        
-        .category-item {
-            min-width: 280px;
-            max-width: 280px;
-        }
-        
-        .slider-nav-btn {
-            width: 45px;
-            height: 45px;
-            font-size: 1rem;
+        .academy-departments-section {
+            padding: 30px 15px;
         }
     }
     
     @media (max-width: 480px) {
-        .categories-slider-container {
-            padding: 0 40px;
-        }
-        
-        .category-item {
-            min-width: 260px;
-            max-width: 260px;
+        .academy-departments-section {
+            padding: 20px 10px;
         }
         
         .slider-nav-btn {
@@ -5697,182 +5430,182 @@
     </section>
 
 <!-- Stats Section -->
-<section class="stats">
+<section class="stats" style="padding: 30px 0;">
     <div class="container">
-        <div class="stats-grid">
-            <div class="stat-item fade-in">
-                <div class="stat-icon">
+        <div class="stats-grid" style="gap: 25px;">
+            <div class="stat-item fade-in" style="padding: 18px 0;">
+                <div class="stat-icon" style="font-size: 2rem;">
                     <i class="bi bi-book"></i>
                 </div>
-                <div class="stat-number">{{ $stats['total_courses'] }}+</div>
-                <div class="stat-label">دورة تدريبية</div>
+                <div class="stat-number" style="font-size: 1.5rem;">{{ $stats['total_courses'] }}+</div>
+                <div class="stat-label" style="font-size: 1rem;">دورة تدريبية</div>
             </div>
-            <div class="stat-item fade-in">
-                <div class="stat-icon">
+            <div class="stat-item fade-in" style="padding: 18px 0;">
+                <div class="stat-icon" style="font-size: 2rem;">
                     <i class="bi bi-people"></i>
                 </div>
-                <div class="stat-number">{{ $stats['total_students'] }}+</div>
-                <div class="stat-label">طالب مسجل</div>
+                <div class="stat-number" style="font-size: 1.5rem;">{{ $stats['total_students'] }}+</div>
+                <div class="stat-label" style="font-size: 1rem;">طالب مسجل</div>
             </div>
-            <div class="stat-item fade-in">
-                <div class="stat-icon">
+            <div class="stat-item fade-in" style="padding: 18px 0;">
+                <div class="stat-icon" style="font-size: 2rem;">
                     <i class="bi bi-person-workspace"></i>
                 </div>
-                <div class="stat-number">{{ $stats['total_instructors'] }}+</div>
-                <div class="stat-label">مدرب متخصص</div>
+                <div class="stat-number" style="font-size: 1.5rem;">{{ $stats['total_instructors'] }}+</div>
+                <div class="stat-label" style="font-size: 1rem;">مدرب متخصص</div>
             </div>
-            <div class="stat-item fade-in">
-                <div class="stat-icon">
+            <div class="stat-item fade-in" style="padding: 18px 0;">
+                <div class="stat-icon" style="font-size: 2rem;">
                     <i class="bi bi-award"></i>
                 </div>
-                <div class="stat-number">{{ $stats['total_graduates'] }}+</div>
-                <div class="stat-label">خريج متميز</div>
+                <div class="stat-number" style="font-size: 1.5rem;">{{ $stats['total_graduates'] }}+</div>
+                <div class="stat-label" style="font-size: 1rem;">خريج متميز</div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Categories Section -->
-<section class="categories-section">
+<section class="academy-departments-section">
     <div class="container">
         <div class="section-header text-center mb-5">
             <h2 class="section-title">أقسام الأكاديمية</h2>
             <p class="section-subtitle">اكتشف مجموعة متنوعة من الأقسام التخصصية المصممة لتطوير مهاراتك وتوسيع آفاقك المهنية</p>
         </div>
         
-        <div class="categories-grid">
+        <div class="academy-departments-grid">
             <!-- قسم البرمجة وتطوير المواقع -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-code-slash"></i>
                 </div>
                 <h3>البرمجة وتطوير المواقع</h3>
                 <p>تعلم أحدث تقنيات البرمجة وتطوير المواقع الإلكترونية والتطبيقات</p>
-                <div class="category-tags">
-                    <span class="tag">Laravel</span>
-                    <span class="tag">React</span>
-                    <span class="tag">Python</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">Laravel</span>
+                    <span class="academy-tag">React</span>
+                    <span class="academy-tag">Python</span>
                 </div>
-                <a href="{{ route('courses') }}?category=programming" class="category-link">
+                <a href="{{ route('courses') }}?category=programming" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
             <!-- قسم الإدارة والقيادة -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-people"></i>
                 </div>
                 <h3>الإدارة والقيادة</h3>
                 <p>طور مهاراتك القيادية والإدارية مع دورات متخصصة في إدارة المشاريع</p>
-                <div class="category-tags">
-                    <span class="tag">إدارة المشاريع</span>
-                    <span class="tag">القيادة الفعالة</span>
-                    <span class="tag">التخطيط الاستراتيجي</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">إدارة المشاريع</span>
+                    <span class="academy-tag">القيادة الفعالة</span>
+                    <span class="academy-tag">التخطيط الاستراتيجي</span>
                 </div>
-                <a href="{{ route('courses') }}?category=management" class="category-link">
+                <a href="{{ route('courses') }}?category=management" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
             <!-- قسم اللغات الأجنبية -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-translate"></i>
                 </div>
                 <h3>اللغات الأجنبية</h3>
                 <p>تعلم اللغات الأجنبية مع أفضل المدربين وأحدث الطرق التعليمية</p>
-                <div class="category-tags">
-                    <span class="tag">الإنجليزية</span>
-                    <span class="tag">الفرنسية</span>
-                    <span class="tag">الألمانية</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">الإنجليزية</span>
+                    <span class="academy-tag">الفرنسية</span>
+                    <span class="academy-tag">الألمانية</span>
                 </div>
-                <a href="{{ route('courses') }}?category=languages" class="category-link">
+                <a href="{{ route('courses') }}?category=languages" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
             <!-- قسم التقنية والذكاء الاصطناعي -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-cpu"></i>
                 </div>
                 <h3>التقنية والذكاء الاصطناعي</h3>
                 <p>اكتشف عالم الذكاء الاصطناعي والتعلم الآلي وعلوم البيانات</p>
-                <div class="category-tags">
-                    <span class="tag">Machine Learning</span>
-                    <span class="tag">Data Science</span>
-                    <span class="tag">Deep Learning</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">Machine Learning</span>
+                    <span class="academy-tag">Data Science</span>
+                    <span class="academy-tag">Deep Learning</span>
                 </div>
-                <a href="{{ route('courses') }}?category=ai-tech" class="category-link">
+                <a href="{{ route('courses') }}?category=ai-tech" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
             <!-- قسم دورات الأطفال -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-emoji-smile"></i>
                 </div>
                 <h3>دورات الأطفال</h3>
                 <p>برامج تعليمية مخصصة للأطفال تطور مهاراتهم الإبداعية والذهنية</p>
-                <div class="category-tags">
-                    <span class="tag">البرمجة للأطفال</span>
-                    <span class="tag">الرسم والفنون</span>
-                    <span class="tag">الرياضيات التفاعلية</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">البرمجة للأطفال</span>
+                    <span class="academy-tag">الرسم والفنون</span>
+                    <span class="academy-tag">الرياضيات التفاعلية</span>
                 </div>
-                <a href="{{ route('courses') }}?category=kids" class="category-link">
+                <a href="{{ route('courses') }}?category=kids" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
             <!-- قسم التسويق الرقمي -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-megaphone"></i>
                 </div>
                 <h3>التسويق الرقمي</h3>
                 <p>تعلم استراتيجيات التسويق الرقمي الحديثة وإدارة وسائل التواصل</p>
-                <div class="category-tags">
-                    <span class="tag">Social Media Marketing</span>
-                    <span class="tag">SEO & SEM</span>
-                    <span class="tag">Content Marketing</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">Social Media Marketing</span>
+                    <span class="academy-tag">SEO & SEM</span>
+                    <span class="academy-tag">Content Marketing</span>
                 </div>
-                <a href="{{ route('courses') }}?category=digital-marketing" class="category-link">
+                <a href="{{ route('courses') }}?category=digital-marketing" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
             <!-- قسم تصميم الجرافيك -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-palette"></i>
                 </div>
                 <h3>تصميم الجرافيك والوسائط</h3>
                 <p>طور مهاراتك في التصميم الجرافيكي والوسائط المتعددة</p>
-                <div class="category-tags">
-                    <span class="tag">Adobe Photoshop</span>
-                    <span class="tag">Adobe Illustrator</span>
-                    <span class="tag">UI/UX Design</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">Adobe Photoshop</span>
+                    <span class="academy-tag">Adobe Illustrator</span>
+                    <span class="academy-tag">UI/UX Design</span>
                 </div>
-                <a href="{{ route('courses') }}?category=graphic-design" class="category-link">
+                <a href="{{ route('courses') }}?category=graphic-design" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
 
             <!-- قسم الأعمال والريادة -->
-            <div class="category-card">
-                <div class="category-icon">
+            <div class="academy-department-card">
+                <div class="academy-department-icon">
                     <i class="bi bi-briefcase"></i>
                 </div>
                 <h3>الأعمال والريادة</h3>
                 <p>تعلم أساسيات إدارة الأعمال والريادة وبناء المشاريع الناجحة</p>
-                <div class="category-tags">
-                    <span class="tag">ريادة الأعمال</span>
-                    <span class="tag">إدارة الأعمال</span>
-                    <span class="tag">التخطيط المالي</span>
+                <div class="academy-department-tags">
+                    <span class="academy-tag">ريادة الأعمال</span>
+                    <span class="academy-tag">إدارة الأعمال</span>
+                    <span class="academy-tag">التخطيط المالي</span>
                 </div>
-                <a href="{{ route('courses') }}?category=business" class="category-link">
+                <a href="{{ route('courses') }}?category=business" class="academy-department-link">
                     استكشف القسم <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -5882,11 +5615,6 @@
             <a href="{{ route('courses') }}" class="btn btn-primary btn-lg">
                 عرض جميع الأقسام والدورات <i class="bi bi-arrow-right"></i>
             </a>
-        </div>
-    </div>
-</section>
-                        <div class="category-info">
-
         </div>
     </div>
 </section>
@@ -5963,21 +5691,6 @@
                         
                         <p class="course-description">{{ Str::limit($course->description, 100) }}</p>
                         
-                        <div class="course-stats">
-                            <div class="stat-item">
-                                <i class="bi bi-clock"></i>
-                                <span>{{ $course->duration ?? '8 ساعات' }}</span>
-                            </div>
-                            <div class="stat-item">
-                                <i class="bi bi-people"></i>
-                                <span>{{ $course->students_count ?? '150+' }} طالب</span>
-                            </div>
-                            <div class="stat-item">
-                                <i class="bi bi-collection-play"></i>
-                                <span>{{ $course->lessons_count ?? '12' }} درس</span>
-                            </div>
-                        </div>
-                        
                         <div class="course-footer">
                             <div class="course-instructor">
                                 <div class="instructor-avatar">
@@ -5998,7 +5711,7 @@
                                     <i class="bi bi-eye"></i>
                                     عرض الدورة
                                 </a>
-                                <button class="course-btn secondary" onclick="addToWishlist({{ $course->id }})">
+                                <button class="course-btn secondary" data-course-id="{{ $course->id }}">
                                     <i class="bi bi-heart"></i>
                                 </button>
                             </div>
@@ -6163,26 +5876,37 @@
 
 .courses-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
     margin-bottom: 60px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .course-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: relative;
     backdrop-filter: blur(10px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .course-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     border-color: #10b981;
+}
+
+.course-card:active {
+    transform: translateY(-4px) scale(1.01);
+    transition: transform 0.1s ease;
 }
 
 .course-image-wrapper {
@@ -6191,7 +5915,7 @@
 }
 
 .course-image {
-    height: 220px;
+    height: 180px;
     position: relative;
     overflow: hidden;
 }
@@ -6298,7 +6022,10 @@
 }
 
 .course-content {
-    padding: 30px;
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .course-header {
@@ -6309,12 +6036,13 @@
 }
 
 .course-title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #1f2937;
     line-height: 1.4;
     flex: 1;
     margin: 0;
+    margin-bottom: 15px;
 }
 
 .course-rating {
@@ -6344,32 +6072,11 @@
     color: #6b7280;
     line-height: 1.6;
     margin-bottom: 20px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    flex-grow: 1;
 }
 
-.course-stats {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 25px;
-    padding: 15px;
-    background: #f8fafc;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-}
 
-.stat-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8rem;
-    color: #6b7280;
-    font-weight: 500;
-}
-
-.stat-item i {
-    color: #10b981;
-    font-size: 0.9rem;
-}
 
 .course-footer {
     display: flex;
@@ -6386,8 +6093,8 @@
 }
 
 .instructor-avatar {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     overflow: hidden;
     background: linear-gradient(135deg, #10b981, #059669);
@@ -6396,7 +6103,7 @@
     justify-content: center;
     color: white;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.9rem;
     border: 2px solid #e2e8f0;
 }
 
@@ -6529,13 +6236,25 @@
 /* Responsive Design for Featured Courses */
 @media (max-width: 1200px) {
     .courses-grid {
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 25px;
     }
     
-    .course-stats {
-        flex-direction: column;
-        gap: 10px;
+
+}
+
+@media (max-width: 1024px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .course-image {
+        height: 160px;
+    }
+    
+    .course-content {
+        padding: 20px;
     }
 }
 
@@ -6558,14 +6277,10 @@
     }
     
     .course-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     
-    .course-stats {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
+
     
     .course-footer {
         flex-direction: column;
@@ -6591,37 +6306,65 @@
 }
 
 @media (max-width: 480px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
     .course-image {
-        height: 180px;
+        height: 150px;
     }
     
     .course-badges {
-        top: 10px;
-        left: 10px;
+        top: 8px;
+        left: 8px;
     }
     
     .course-category {
-        top: 10px;
-        right: 10px;
+        top: 8px;
+        right: 8px;
+    }
+    
+    .course-content {
+        padding: 15px;
+    }
+    
+    .course-title {
+        font-size: 0.95rem;
+    }
+    
+    .course-description {
+        font-size: 0.8rem;
     }
     
     .course-stats {
-        padding: 10px;
+        padding: 8px;
+        gap: 8px;
     }
     
     .stat-item {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
     }
     
     .instructor-avatar {
-        width: 35px;
-        height: 35px;
-        font-size: 0.8rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
     }
     
     .course-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+    
+    .badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+    }
+    
+    .course-category {
+        font-size: 0.7rem;
+        padding: 4px 8px;
     }
 }
 
@@ -6665,6 +6408,182 @@
         font-size: 1.1rem;
     }
 }
+
+/* Enhanced responsive design for very small screens */
+@media (max-width: 360px) {
+    .courses-grid {
+        gap: 12px;
+    }
+    
+    .course-image {
+        height: 130px;
+    }
+    
+    .course-content {
+        padding: 12px;
+    }
+    
+    .course-title {
+        font-size: 0.9rem;
+    }
+    
+    .course-description {
+        font-size: 0.75rem;
+    }
+    
+    .course-stats {
+        padding: 6px;
+        gap: 6px;
+    }
+    
+    .stat-item {
+        font-size: 0.6rem;
+    }
+    
+    .instructor-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+    
+    .course-btn {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+    }
+    
+    .badge {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+    }
+    
+    .course-category {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+    }
+}
+
+/* Landscape orientation for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .course-image {
+        height: 120px;
+    }
+    
+    .course-content {
+        padding: 15px;
+    }
+    
+    .course-title {
+        font-size: 0.9rem;
+    }
+    
+    .course-description {
+        font-size: 0.75rem;
+    }
+    
+    .course-stats {
+        padding: 8px;
+        gap: 8px;
+    }
+    
+    .stat-item {
+        font-size: 0.65rem;
+    }
+}
+
+/* Large desktop screens */
+@media (min-width: 1440px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        max-width: 1600px;
+    }
+    
+    .course-image {
+        height: 200px;
+    }
+    
+    .course-content {
+        padding: 30px;
+    }
+    
+    .course-title {
+        font-size: 1.2rem;
+    }
+    
+    .course-description {
+        font-size: 0.95rem;
+    }
+    
+    .course-stats {
+        padding: 15px;
+        gap: 20px;
+    }
+    
+    .stat-item {
+        font-size: 0.85rem;
+    }
+    
+    .instructor-avatar {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+    
+    .course-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1920px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 35px;
+        max-width: 1800px;
+    }
+    
+    .course-image {
+        height: 220px;
+    }
+    
+    .course-content {
+        padding: 35px;
+    }
+    
+    .course-title {
+        font-size: 1.3rem;
+    }
+    
+    .course-description {
+        font-size: 1rem;
+    }
+    
+    .course-stats {
+        padding: 18px;
+        gap: 25px;
+    }
+    
+    .stat-item {
+        font-size: 0.9rem;
+    }
+    
+    .instructor-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 1.1rem;
+    }
+    
+    .course-btn {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+    }
+}
 </style>
 
 <!-- Testimonials Section -->
@@ -6682,7 +6601,7 @@
                     "تجربة رائعة في أكاديمية السهم الأخضر! المدربين متخصصون والمحتوى ممتاز. استفدت كثيراً من دورة البرمجة"
                 </div>
                 <div class="testimonial-author">أحمد محمد</div>
-                <div class="testimonial-position">مطور ويب</div>
+                <div class="testimonial-position">طالب</div>
             </div>
             
             <div class="testimonial-card fade-in">
@@ -6691,7 +6610,7 @@
                     "أفضل أكاديمية تدريب في مكة! الدورات منظمة والمدربين خبراء في مجالاتهم"
                 </div>
                 <div class="testimonial-author">فاطمة علي</div>
-                <div class="testimonial-position">مديرة مشاريع</div>
+                <div class="testimonial-position">طالبة</div>
             </div>
             
             <div class="testimonial-card slide-in-right">
@@ -6700,7 +6619,7 @@
                     "شهادتي من الأكاديمية ساعدتني في الحصول على وظيفة ممتازة. شكراً لكم!"
                 </div>
                 <div class="testimonial-author">محمد عبدالله</div>
-                <div class="testimonial-position">محلل بيانات</div>
+                <div class="testimonial-position">طالب</div>
             </div>
         </div>
     </div>
@@ -6955,9 +6874,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            return;
+        }
+        
+        e.preventDefault();
+        const target = document.querySelector(href);
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
@@ -6973,7 +6898,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Enhanced animations for Saudi Arabian students
     const culturalElements = document.querySelectorAll('.stat-item, .category-card, .course-card');
     culturalElements.forEach((el, index) => {
-        el.style.animationDelay = `${index * 0.1}s`;
+                    el.style.animationDelay = (index * 0.1) + 's';
         el.classList.add('fade-in');
     });
     
@@ -7020,11 +6945,12 @@ window.addEventListener('scroll', function() {
     const parallax = document.querySelector('.hero-slider');
     if (parallax) {
         const speed = scrolled * 0.3;
-        parallax.style.transform = `translateY(${speed}px)`;
+        parallax.style.transform = 'translateY(' + speed + 'px)';
     }
 });
 
-
+// Additional interactive elements
+document.addEventListener('DOMContentLoaded', function() {
     const tags = document.querySelectorAll('.tag');
     tags.forEach(tag => {
         tag.addEventListener('mouseenter', function() {
@@ -7046,18 +6972,17 @@ window.addEventListener('scroll', function() {
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
             
-            ripple.style.cssText = `
-                position: absolute;
-                width: ${size}px;
-                height: ${size}px;
-                left: ${x}px;
-                top: ${y}px;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-            `;
+            // Set ripple styles individually to avoid CSS parsing issues
+            ripple.style.position = 'absolute';
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.borderRadius = '50%';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.pointerEvents = 'none';
             
             this.appendChild(ripple);
             
@@ -7067,236 +6992,20 @@ window.addEventListener('scroll', function() {
         });
     });
     
-    // Add ripple animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
+    // Add ripple animation - using CSS injection to avoid parsing issues
+    if (!document.querySelector('#ripple-animation')) {
+        const style = document.createElement('style');
+        style.id = 'ripple-animation';
+        style.innerHTML = '@keyframes ripple { to { transform: scale(4); opacity: 0; } }';
+        document.head.appendChild(style);
+    }
 });
 
-// Legacy Categories Carousel Functionality (for backward compatibility)
+// Academy Departments Grid Animation (Static Display - No Auto Movement)
 document.addEventListener('DOMContentLoaded', function() {
-    const carousel = document.getElementById('categoriesCarousel');
-    const prevBtn = document.getElementById('carouselPrev');
-    const nextBtn = document.getElementById('carouselNext');
-    const dotsContainer = document.getElementById('carouselDots');
-    
-    if (!carousel) return;
-    
-    const cards = carousel.querySelectorAll('.category-card');
-    
-    // Calculate cards per view based on screen size
-    function getCardsPerView() {
-        if (window.innerWidth <= 480) return 1;
-        if (window.innerWidth <= 1024) return 2;
-        return 3; // Desktop: 3 cards per view
-    }
-    
-    function calculateCarouselDimensions() {
-        cardsPerView = getCardsPerView();
-        const containerWidth = carousel.offsetWidth;
-        const gap = 30;
-        cardWidth = (containerWidth - (gap * (cardsPerView - 1))) / cardsPerView;
-        totalSlides = Math.ceil(cards.length / cardsPerView);
-        
-        // Update card widths
-        cards.forEach(card => {
-            card.style.width = `${cardWidth}px`;
-        });
-    }
-    
-    let cardsPerView = getCardsPerView();
-    let cardWidth = 0;
-    let totalSlides = 0;
-    
-    // Initialize dimensions
-    calculateCarouselDimensions();
-    
-    let currentSlide = 0;
-    let autoPlayInterval;
-    let isInfinite = true; // Enable infinite loop
-    
-    // Create dots
-    function createDots() {
-        dotsContainer.innerHTML = '';
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'carousel-dot';
-            dot.setAttribute('role', 'button');
-            dot.setAttribute('tabindex', '0');
-            dot.setAttribute('aria-label', `انتقل إلى القسم ${i + 1}`);
-            
-            if (i === 0) dot.classList.add('active');
-            
-            dot.addEventListener('click', () => {
-                goToSlide(i);
-                stopAutoPlay();
-                startAutoPlay();
-            });
-            
-            dot.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    goToSlide(i);
-                    stopAutoPlay();
-                    startAutoPlay();
-                }
-            });
-            
-            dotsContainer.appendChild(dot);
-        }
-    }
-    
-    // Update dots
-    function updateDots() {
-        const dots = dotsContainer.querySelectorAll('.carousel-dot');
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
-        });
-    }
-    
-    // Go to specific slide
-    function goToSlide(slideIndex) {
-        currentSlide = slideIndex;
-        const gap = 30;
-        const slideWidth = (cardWidth + gap) * cardsPerView;
-        const translateX = -currentSlide * slideWidth;
-        carousel.style.transform = `translateX(${translateX}px)`;
-        updateDots();
-        
-        // Add pulse animation to current card
-        const categoryCards = carousel.querySelectorAll('.category-card');
-        categoryCards.forEach((card, index) => {
-            card.style.transform = 'scale(1)';
-            card.style.boxShadow = 'var(--shadow-lg)';
-        });
-        
-        const currentCard = categoryCards[slideIndex];
-        if (currentCard) {
-            currentCard.style.transform = 'scale(1.02)';
-            currentCard.style.boxShadow = 'var(--shadow-2xl)';
-            currentCard.style.transition = 'all 0.3s ease';
-        }
-    }
-    
-    // Next slide with infinite loop
-    function nextSlide() {
-        if (isInfinite) {
-            currentSlide++;
-            if (currentSlide >= totalSlides) {
-                // Reset to beginning for infinite loop
-                currentSlide = 0;
-                carousel.style.transition = 'none';
-                carousel.style.transform = `translateX(0px)`;
-                setTimeout(() => {
-                    carousel.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                }, 10);
-            }
-        } else {
-            currentSlide = (currentSlide + 1) % totalSlides;
-        }
-        goToSlide(currentSlide);
-    }
-    
-    // Previous slide
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        goToSlide(currentSlide);
-    }
-    
-    // Auto play - continuous movement to the right
-    function startAutoPlay() {
-        autoPlayInterval = setInterval(() => {
-            nextSlide();
-        }, 5000); // Move every 5 seconds for better user experience and reading time
-    }
-    
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-    
-    // Event listeners
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            stopAutoPlay();
-            startAutoPlay(); // Restart auto play
-        });
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            stopAutoPlay();
-            startAutoPlay(); // Restart auto play
-        });
-    }
-    
-    // Pause auto play on hover
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
-    
-    // Pause auto play when user is not viewing the page
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            stopAutoPlay();
-        } else {
-            startAutoPlay();
-        }
-    });
-    
-    // Touch/swipe support for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    carousel.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        stopAutoPlay();
-    });
-    
-    carousel.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-        startAutoPlay();
-    });
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        if (touchEndX < touchStartX - swipeThreshold) {
-            // Swipe left - next slide
-            nextSlide();
-        } else if (touchEndX > touchStartX + swipeThreshold) {
-            // Swipe right - previous slide
-            prevSlide();
-        }
-    }
-    
-    // Initialize carousel
-    createDots();
-    startAutoPlay();
-    
-    // Add keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            prevSlide();
-            stopAutoPlay();
-            startAutoPlay();
-        } else if (e.key === 'ArrowRight') {
-            nextSlide();
-            stopAutoPlay();
-            startAutoPlay();
-        }
-    });
-    
-    // Add smooth entrance animation for cards
-    const categoryCards = carousel.querySelectorAll('.category-card');
-    categoryCards.forEach((card, index) => {
+    // Add smooth entrance animation for academy department cards
+    const academyDepartmentCards = document.querySelectorAll('.academy-department-card');
+    academyDepartmentCards.forEach((card, index) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(30px)';
         
@@ -7304,92 +7013,8 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
-        }, index * 150); // Increased delay for better visual effect
+        }, index * 150); // Staggered animation for better visual effect
     });
-    
-    // Add loading indicator
-    const loadingIndicator = document.createElement('div');
-    loadingIndicator.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 50px;
-        height: 50px;
-        border: 4px solid rgba(16, 185, 129, 0.2);
-        border-top: 4px solid var(--primary-color);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        z-index: 10;
-    `;
-    
-    carousel.parentElement.appendChild(loadingIndicator);
-    
-    // Remove loading indicator after animation
-    setTimeout(() => {
-        loadingIndicator.remove();
-    }, categoryCards.length * 150 + 1000);
-    
-    // Update on window resize
-    window.addEventListener('resize', () => {
-        const newCardsPerView = getCardsPerView();
-        if (newCardsPerView !== cardsPerView) {
-            // Recalculate dimensions
-            calculateCarouselDimensions();
-            
-            // Reset to first slide
-            currentSlide = 0;
-            goToSlide(0);
-            
-            // Recreate dots
-            createDots();
-        }
-    });
-    
-    // Add intersection observer for performance
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                startAutoPlay();
-            } else {
-                stopAutoPlay();
-            }
-        });
-    }, { threshold: 0.3 });
-    
-    observer.observe(carousel);
-    
-    // Add progress indicator
-    const progressBar = document.createElement('div');
-    progressBar.style.cssText = `
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
-        width: 0%;
-        transition: width 0.1s linear;
-        z-index: 10;
-        border-radius: 2px;
-    `;
-    
-    carousel.parentElement.appendChild(progressBar);
-    
-    // Update progress bar
-    function updateProgress() {
-        const progress = ((currentSlide + 1) / totalSlides) * 100;
-        progressBar.style.width = `${progress}%`;
-    }
-    
-    // Update progress on slide change
-    const originalGoToSlide = goToSlide;
-    goToSlide = function(slideIndex) {
-        originalGoToSlide(slideIndex);
-        updateProgress();
-    };
-    
-    // Initialize progress
-    updateProgress();
 });
 
 // FAQ Functionality
@@ -7496,18 +7121,17 @@ document.addEventListener('DOMContentLoaded', function() {
     faqSearchInput.type = 'text';
     faqSearchInput.placeholder = 'ابحث في الأسئلة المتداولة...';
     faqSearchInput.className = 'faq-search-input';
-    faqSearchInput.style.cssText = `
-        width: 100%;
-        max-width: 500px;
-        padding: 15px 20px;
-        border: 2px solid var(--border-color);
-        border-radius: 25px;
-        font-size: 1rem;
-        margin-bottom: 30px;
-        background: var(--bg-primary);
-        transition: all 0.3s ease;
-        outline: none;
-    `;
+    // Set FAQ search input styles individually to avoid CSS parsing issues
+    faqSearchInput.style.width = '100%';
+    faqSearchInput.style.maxWidth = '500px';
+    faqSearchInput.style.padding = '15px 20px';
+    faqSearchInput.style.border = '2px solid var(--border-color)';
+    faqSearchInput.style.borderRadius = '25px';
+    faqSearchInput.style.fontSize = '1rem';
+    faqSearchInput.style.marginBottom = '30px';
+    faqSearchInput.style.background = 'var(--bg-primary)';
+    faqSearchInput.style.transition = 'all 0.3s ease';
+    faqSearchInput.style.outline = 'none';
     
     // Insert search input before FAQ container
     const faqContainer = document.querySelector('.faq-container');
@@ -7570,7 +7194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Function to update courses slider position
         function updateCoursesSliderPosition() {
             const translateX = -(coursesCurrentPosition * (courseItemWidth + courseGap));
-            coursesTrack.style.transform = `translateX(${translateX}px)`;
+            coursesTrack.style.transform = 'translateX(' + translateX + 'px)';
             
             // Update button states
             coursesPrevBtn.disabled = coursesCurrentPosition === 0;
@@ -7649,6 +7273,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Featured Courses JavaScript
+    // Add event listeners for wishlist buttons
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.course-btn.secondary')) {
+            const btn = event.target.closest('.course-btn.secondary');
+            const courseId = btn.getAttribute('data-course-id');
+            addToWishlist(courseId);
+        }
+    });
+
     function addToWishlist(courseId) {
         const btn = event.target.closest('.course-btn.secondary');
         const icon = btn.querySelector('i');
@@ -7672,33 +7305,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function showNotification(message, type = 'info') {
+    window.showNotification = function(message, type = 'info') {
         const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <i class="bi bi-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            </div>
-        `;
+        notification.className = 'notification notification-' + type;
         
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${type === 'success' ? '#10b981' : '#3b82f6'};
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            z-index: 10000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        `;
+        // Create notification content without template literals to avoid CSS parsing issues
+        const notificationContent = document.createElement('div');
+        notificationContent.className = 'notification-content';
+        
+        const icon = document.createElement('i');
+        icon.className = 'bi bi-' + (type === 'success' ? 'check-circle' : 'info-circle');
+        
+        const span = document.createElement('span');
+        span.textContent = message;
+        
+        notificationContent.appendChild(icon);
+        notificationContent.appendChild(span);
+        notification.appendChild(notificationContent);
+        
+        // Set notification styles individually to avoid CSS parsing issues
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '20px';
+        notification.style.background = type === 'success' ? '#10b981' : '#3b82f6';
+        notification.style.color = 'white';
+        notification.style.padding = '15px 20px';
+        notification.style.borderRadius = '10px';
+        notification.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+        notification.style.zIndex = '10000';
+        notification.style.transform = 'translateX(100%)';
+        notification.style.transition = 'transform 0.3s ease';
+        notification.style.fontWeight = '500';
+        notification.style.display = 'flex';
+        notification.style.alignItems = 'center';
+        notification.style.gap = '10px';
         
         document.body.appendChild(notification);
         
@@ -7735,7 +7375,6 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         courseObserver.observe(card);
     });
-
 });
 </script>
 @endpush 

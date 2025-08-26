@@ -81,7 +81,7 @@
                         <div class="border rounded p-3 mb-3">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0">
-                                    <img src="{{ $enrollment->course->image ? asset('storage/' . $enrollment->course->image) : asset('images/default-course.jpg') }}" 
+                                    <img src="{{ $enrollment->course->image ? asset('storage/' . $enrollment->course->image) : asset('images/default-course.svg') }}" 
                                          alt="{{ $enrollment->course->title_ar }}" class="rounded avatar-sm">
                                 </div>
                                 <div class="flex-grow-1 ms-3">

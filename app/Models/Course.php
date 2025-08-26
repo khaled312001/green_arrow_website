@@ -190,7 +190,13 @@ class Course extends Model
      */
     public function getThumbnailUrlAttribute(): string
     {
-        return $this->thumbnail ? asset('storage/' . $this->thumbnail) : asset('images/default-course.jpg');
+        // إذا كان thumbnail موجود وليس URL كامل
+        if ($this->thumbnail && !str_contains($this->thumbnail, 'http') && !str_contains($this->thumbnail, '127.0.0.1')) {
+            return asset('storage/' . $this->thumbnail);
+        }
+        
+        // إرجاع الصورة الافتراضية
+        return asset('images/default-course.svg');
     }
 
     /**
@@ -198,7 +204,13 @@ class Course extends Model
      */
     public function getBannerUrlAttribute(): string
     {
-        return $this->banner ? asset('storage/' . $this->banner) : $this->thumbnail_url;
+        // إذا كان banner موجود وليس URL كامل
+        if ($this->banner && !str_contains($this->banner, 'http') && !str_contains($this->banner, '127.0.0.1')) {
+            return asset('storage/' . $this->banner);
+        }
+        
+        // إرجاع الصورة المصغرة
+        return $this->thumbnail_url;
     }
 
     /**
@@ -206,7 +218,13 @@ class Course extends Model
      */
     public function getFeaturedImageAttribute(): string
     {
-        return $this->banner ? asset('storage/' . $this->banner) : $this->thumbnail_url;
+        // إذا كان banner موجود وليس URL كامل
+        if ($this->banner && !str_contains($this->banner, 'http') && !str_contains($this->banner, '127.0.0.1')) {
+            return asset('storage/' . $this->banner);
+        }
+        
+        // إرجاع الصورة المصغرة
+        return $this->thumbnail_url;
     }
 
     /**

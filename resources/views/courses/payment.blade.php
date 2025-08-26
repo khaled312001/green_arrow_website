@@ -32,6 +32,7 @@
                 <div class="card-body" style="padding: 30px;">
                     <form action="{{ route('payment.process', $course) }}" method="POST">
                         @csrf
+                        <input type="hidden" name="amount" value="{{ $total_amount }}">
                         
                         <!-- Payment Method Selection -->
                         <div style="margin-bottom: 30px;">
@@ -160,18 +161,25 @@
                     
                     <!-- Pricing Breakdown -->
                     <div style="margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: #6b7280;">سعر الدورة:</span>
-                            <span style="color: #1f2937; font-weight: 500;">{{ number_format($amount, 2) }} ريال</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: #6b7280;">ضريبة القيمة المضافة (15%):</span>
-                            <span style="color: #1f2937; font-weight: 500;">{{ number_format($tax_amount, 2) }} ريال</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding-top: 15px; border-top: 2px solid #e5e7eb; font-size: 1.1rem; font-weight: 600;">
-                            <span style="color: #1f2937;">المجموع:</span>
-                            <span style="color: #10b981;">{{ number_format($total_amount, 2) }} ريال</span>
-                        </div>
+                        @if($course->is_free)
+                            <div style="display: flex; justify-content: space-between; padding-top: 15px; font-size: 1.1rem; font-weight: 600;">
+                                <span style="color: #1f2937;">المجموع:</span>
+                                <span style="color: #10b981;">مجاني</span>
+                            </div>
+                        @else
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #6b7280;">سعر الدورة:</span>
+                                <span style="color: #1f2937; font-weight: 500;">{{ number_format($amount, 2) }} ريال</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="color: #6b7280;">ضريبة القيمة المضافة (15%):</span>
+                                <span style="color: #1f2937; font-weight: 500;">{{ number_format($tax_amount, 2) }} ريال</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-top: 15px; border-top: 2px solid #e5e7eb; font-size: 1.1rem; font-weight: 600;">
+                                <span style="color: #1f2937;">المجموع:</span>
+                                <span style="color: #10b981;">{{ number_format($total_amount, 2) }} ريال</span>
+                            </div>
+                        @endif
                     </div>
                     
                     <!-- Course Features -->

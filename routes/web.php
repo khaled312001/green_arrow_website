@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Teacher\TeacherController;
+use App\Http\Controllers\CertificateController;
 
 // الصفحات العامة
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -27,6 +28,12 @@ Route::get('/terms-of-service', function () {
 Route::get('/sitemap', function () {
     return view('sitemap');
 })->name('sitemap');
+
+// التحقق من الشهادات (عام - لا يحتاج تسجيل دخول)
+Route::get('/certificates/verify', [CertificateController::class, 'showVerificationForm'])->name('certificates.verify');
+Route::post('/certificates/verify', [CertificateController::class, 'verify'])->name('certificates.verify.post');
+Route::get('/certificates/verify/{certificateNumber}', [CertificateController::class, 'verifyByNumber'])->name('certificates.verify.number');
+
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/blog/{slug}', [HomeController::class, 'blogPost'])->name('blog.post');
 Route::get('/register-now', [HomeController::class, 'register'])->name('register.page');
@@ -84,6 +91,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
             Route::get('/courses', [StudentController::class, 'courses'])->name('courses');
             Route::get('/courses/{course}', [StudentController::class, 'course'])->name('courses.show');
+            Route::get('/courses/{course}/player/{lesson?}', [StudentController::class, 'coursePlayer'])->name('courses.player');
+            Route::get('/courses/{course}/completion-celebration', [StudentController::class, 'courseCompletionCelebration'])->name('courses.completion-celebration');
             Route::get('/lessons', [StudentController::class, 'lessons'])->name('lessons');
             Route::get('/progress', [StudentController::class, 'progress'])->name('progress');
             Route::get('/settings', [StudentController::class, 'settings'])->name('settings');
@@ -92,9 +101,15 @@ Route::middleware('auth')->group(function () {
             Route::post('/lessons/{lesson}/complete', [StudentController::class, 'completeLesson'])->name('lessons.complete');
             Route::get('/certificates', [StudentController::class, 'certificates'])->name('certificates');
             Route::get('/certificates/{certificate}/download', [StudentController::class, 'downloadCertificate'])->name('certificates.download');
+            
             Route::get('/payments', [StudentController::class, 'payments'])->name('payments');
             Route::get('/profile', [StudentController::class, 'profile'])->name('profile');
             Route::put('/profile', [StudentController::class, 'updateProfile'])->name('profile.update');
+            
+            // مسارات الاختبارات
+            Route::get('/quizzes/{quiz}/take', [StudentController::class, 'takeQuiz'])->name('quizzes.take');
+            Route::post('/quizzes/{quiz}/submit', [StudentController::class, 'submitQuiz'])->name('quizzes.submit');
+            Route::get('/quizzes/{quiz}/results', [StudentController::class, 'quizResults'])->name('quizzes.results');
         });
     });
     

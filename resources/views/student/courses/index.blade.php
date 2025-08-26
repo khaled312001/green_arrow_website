@@ -111,7 +111,7 @@
 
                         <!-- Action Buttons -->
                         <div style="display: flex; gap: 10px;">
-                            <a href="{{ route('student.courses.show', $enrollment->course) }}" 
+                            <a href="{{ route('student.courses.player', $enrollment->course) }}" 
                                class="btn btn-primary" 
                                style="flex: 1; padding: 12px; font-size: 0.9rem; border-radius: 10px; text-align: center; text-decoration: none; display: inline-block;">
                                 <i class="bi bi-play-circle"></i>

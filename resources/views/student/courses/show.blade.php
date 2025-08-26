@@ -3,31 +3,33 @@
 @section('title', $course->title_ar . ' - لوحة تحكم الطالب')
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('css/course-player.css') }}">
 <style>
-    /* CSS Variables */
+    /* CSS Variables - Udemy Style */
     :root {
-        --primary-color: #10b981;
-        --primary-dark: #059669;
-        --primary-light: #34d399;
-        --secondary-color: #fbbf24;
-        --secondary-dark: #f59e0b;
-        --accent-color: #8b5cf6;
-        --text-primary: #1f2937;
-        --text-secondary: #64748b;
-        --text-light: #9ca3af;
+        --primary-color: #1c1d1f;
+        --primary-dark: #0f0f0f;
+        --primary-light: #2d2f31;
+        --secondary-color: #a435f0;
+        --secondary-dark: #8710d8;
+        --secondary-light: #b469f3;
+        --accent-color: #f7f9fa;
+        --text-primary: #1c1d1f;
+        --text-secondary: #6a6f73;
+        --text-light: #a1a7ab;
         --bg-primary: #ffffff;
-        --bg-secondary: #f8fafc;
-        --bg-dark: #1f2937;
-        --border-color: #e2e8f0;
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        --border-radius-sm: 0.5rem;
-        --border-radius-md: 1rem;
-        --border-radius-lg: 1.5rem;
-        --border-radius-xl: 2rem;
+        --bg-secondary: #f7f9fa;
+        --bg-dark: #1c1d1f;
+        --border-color: #d1d7dc;
+        --border-light: #e5e5e5;
+        --shadow-sm: 0 2px 4px rgba(0,0,0,.08);
+        --shadow-md: 0 2px 4px rgba(0,0,0,.12);
+        --shadow-lg: 0 4px 8px rgba(0,0,0,.12);
+        --shadow-xl: 0 8px 16px rgba(0,0,0,.12);
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px;
+        --border-radius-xl: 16px;
         --transition-fast: 0.15s ease;
         --transition-normal: 0.3s ease;
         --transition-slow: 0.5s ease;
@@ -35,29 +37,31 @@
 
     /* Global Styles */
     * {
-        font-family: 'Cairo', 'Tajawal', sans-serif;
+        font-family: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
-        background: #f8fafc;
+        background: var(--bg-secondary);
         min-height: 100vh;
+        color: var(--text-primary);
     }
 
-    /* Course Container */
+    /* Course Container - Udemy Style */
     .course-container {
         padding: 0;
         min-height: 100vh;
-        background: #f8fafc;
+        background: var(--bg-secondary);
+        display: flex;
     }
 
-    /* Enhanced Sidebar - Udemy Style */
+    /* Enhanced Sidebar - Udemy Professional Style */
     .course-sidebar {
         background: var(--bg-primary);
-        border-right: 1px solid var(--border-color);
+        border-left: 1px solid var(--border-color);
         height: 100vh;
         position: fixed;
         top: 0;
-        right: 0;
+        left: 0;
         width: 320px;
         z-index: 1000;
         overflow-y: auto;
@@ -66,7 +70,7 @@
     }
 
     .course-sidebar::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
     }
 
     .course-sidebar::-webkit-scrollbar-track {
@@ -74,18 +78,22 @@
     }
 
     .course-sidebar::-webkit-scrollbar-thumb {
-        background: var(--primary-color);
-        border-radius: 3px;
+        background: var(--border-color);
+        border-radius: 4px;
+    }
+
+    .course-sidebar::-webkit-scrollbar-thumb:hover {
+        background: var(--text-light);
     }
 
     .sidebar-header {
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        color: white;
+        background: var(--bg-primary);
+        color: var(--text-primary);
         padding: 1.5rem;
         position: sticky;
         top: 0;
         z-index: 10;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid var(--border-color);
     }
 
     .sidebar-header h5 {
@@ -94,46 +102,49 @@
         font-size: 1.1rem;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        color: var(--text-primary);
     }
 
     .sidebar-header i {
         font-size: 1.2rem;
+        color: var(--secondary-color);
     }
 
     .course-progress-summary {
-        background: rgba(255, 255, 255, 0.1);
+        background: var(--bg-secondary);
         border-radius: var(--border-radius-md);
         padding: 1rem;
         margin-top: 1rem;
-        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
     }
 
     .progress-summary-text {
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-        opacity: 0.9;
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-secondary);
+        font-weight: 600;
     }
 
     .progress-summary-bar {
-        background: rgba(255, 255, 255, 0.2);
+        background: var(--border-color);
         border-radius: 10px;
-        height: 6px;
+        height: 8px;
         overflow: hidden;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
     }
 
     .progress-summary-fill {
-        background: white;
+        background: linear-gradient(90deg, var(--secondary-color), var(--secondary-light));
         height: 100%;
         border-radius: 10px;
         transition: width var(--transition-slow);
     }
 
     .progress-summary-percentage {
-        font-size: 0.8rem;
-        font-weight: 600;
-        opacity: 0.9;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--text-primary);
     }
 
     .lessons-list {
@@ -149,38 +160,34 @@
         text-decoration: none;
         color: var(--text-primary);
         display: block;
+        border-bottom: 1px solid var(--border-light);
     }
 
-    .lesson-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.05), transparent);
-        opacity: 0;
-        transition: opacity var(--transition-normal);
-    }
-
-    .lesson-item:hover::before {
-        opacity: 1;
+    .lesson-item:last-child {
+        border-bottom: none;
     }
 
     .lesson-item:hover {
         background: var(--bg-secondary);
-        color: var(--primary-color);
+        color: var(--text-primary);
         text-decoration: none;
+        transform: none;
     }
 
     .lesson-item.active {
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        color: white;
-        box-shadow: var(--shadow-md);
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border-left: 4px solid var(--secondary-color);
     }
 
-    .lesson-item.active::before {
-        display: none;
+    .lesson-item.lesson-completed {
+        background: rgba(164, 53, 240, 0.05);
+        border-left: 4px solid var(--secondary-color);
+    }
+
+    .lesson-item.lesson-completed .lesson-icon {
+        background: var(--secondary-color);
+        color: white;
     }
 
     .lesson-content {
@@ -199,44 +206,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(16, 185, 129, 0.1);
-        color: var(--primary-color);
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
         font-size: 1rem;
         transition: all var(--transition-normal);
         flex-shrink: 0;
-        position: relative;
-    }
-
-    .lesson-item:hover .lesson-icon {
-        background: rgba(16, 185, 129, 0.2);
-        transform: scale(1.1);
+        border: 1px solid var(--border-color);
     }
 
     .lesson-item.active .lesson-icon {
-        background: rgba(255, 255, 255, 0.2);
+        background: var(--secondary-color);
         color: white;
-    }
-
-    .lesson-completed .lesson-icon {
-        background: var(--primary-color);
-        color: white;
-    }
-
-    .lesson-completed .lesson-icon::after {
-        content: '✓';
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        background: white;
-        color: var(--primary-color);
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        font-size: 0.7rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
+        border-color: var(--secondary-color);
     }
 
     .lesson-info {
@@ -246,66 +227,91 @@
 
     .lesson-title {
         font-weight: 600;
-        font-size: 0.9rem;
-        margin: 0 0 0.25rem 0;
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
         line-height: 1.4;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        color: var(--text-primary);
     }
 
     .lesson-meta {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        font-size: 0.8rem;
-        color: var(--text-secondary);
-    }
-
-    .lesson-item.active .lesson-meta {
-        color: rgba(255, 255, 255, 0.8);
+        gap: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--text-light);
     }
 
     .lesson-duration {
-        background: var(--primary-color);
-        color: white;
-        padding: 0.2rem 0.6rem;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        transition: all var(--transition-normal);
-    }
-
-    .lesson-item:hover .lesson-duration {
-        background: var(--primary-dark);
-        transform: scale(1.05);
-    }
-
-    .lesson-item.active .lesson-duration {
-        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
     }
 
     .lesson-free-badge {
         background: var(--secondary-color);
-        color: var(--text-primary);
-        padding: 0.2rem 0.6rem;
+        color: white;
+        padding: 0.125rem 0.5rem;
         border-radius: 12px;
-        font-size: 0.75rem;
+        font-size: 0.625rem;
         font-weight: 600;
     }
 
-    /* Main Content Area */
-    .course-main {
-        margin-right: 320px;
-        min-height: 100vh;
+    /* Lesson Search Styles */
+    .lesson-search {
+        position: relative;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .lesson-search input {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-md);
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        font-size: 0.875rem;
+        width: 100%;
+        transition: all var(--transition-normal);
+        color: var(--text-primary);
+    }
+
+    .lesson-search input:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(164, 53, 240, 0.1);
         background: var(--bg-primary);
     }
 
-    /* Course Header - Udemy Style */
-    .course-header {
-        background: linear-gradient(135deg, var(--bg-secondary) 0%, #e2e8f0 100%);
+    .lesson-search input::placeholder {
+        color: var(--text-light);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-light);
+        pointer-events: none;
+        font-size: 0.875rem;
+    }
+
+    /* Main Content Area - Udemy Style */
+    .course-main {
+        margin-left: 320px;
         padding: 2rem;
-        border-bottom: 1px solid var(--border-color);
+        min-height: 100vh;
+        background: var(--bg-secondary);
+        flex: 1;
+    }
+
+    /* Course Header Section - Udemy Style */
+    .course-header {
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        border-radius: var(--border-radius-lg);
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
         position: relative;
         overflow: hidden;
     }
@@ -316,102 +322,92 @@
         top: 0;
         left: 0;
         right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(16,185,129,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-        opacity: 0.3;
+        height: 4px;
+        background: linear-gradient(90deg, var(--secondary-color), var(--secondary-light));
     }
 
     .course-title {
-        font-size: 2.2rem;
-        font-weight: 900;
+        font-size: 2.5rem;
+        font-weight: 800;
         color: var(--text-primary);
         margin-bottom: 1rem;
-        background: linear-gradient(45deg, var(--text-primary), var(--primary-color));
+        line-height: 1.2;
+        background: linear-gradient(135deg, var(--text-primary), var(--secondary-color));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        line-height: 1.2;
-        position: relative;
-        z-index: 1;
     }
 
     .course-description {
-        color: var(--text-secondary);
         font-size: 1rem;
+        color: var(--text-secondary);
         line-height: 1.6;
         margin-bottom: 1.5rem;
-        position: relative;
-        z-index: 1;
     }
 
-    /* Course Stats */
     .course-stats {
         display: flex;
         gap: 2rem;
-        margin-bottom: 1.5rem;
-        position: relative;
-        z-index: 1;
+        flex-wrap: wrap;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
     }
 
     .stat-item {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
         color: var(--text-secondary);
-        font-size: 0.9rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius-md);
+        border: 1px solid var(--border-light);
+        transition: all var(--transition-normal);
+    }
+
+    .stat-item:hover {
+        background: var(--bg-primary);
+        border-color: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
     }
 
     .stat-item i {
-        color: var(--primary-color);
+        color: var(--secondary-color);
         font-size: 1.1rem;
     }
 
-    /* Current Lesson Section */
+    /* Current Lesson Section - Udemy Style */
     .current-lesson-section {
         background: var(--bg-primary);
         border-radius: var(--border-radius-lg);
-        box-shadow: var(--shadow-lg);
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
         border: 1px solid var(--border-color);
         overflow: hidden;
-        margin: 2rem;
     }
 
     .lesson-header {
-        background: linear-gradient(135deg, var(--accent-color), #7c3aed);
-        color: white;
+        background: var(--bg-primary);
+        color: var(--text-primary);
         padding: 1.5rem 2rem;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .lesson-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left var(--transition-slow);
-    }
-
-    .current-lesson-section:hover .lesson-header::before {
-        left: 100%;
+        border-bottom: 1px solid var(--border-color);
     }
 
     .lesson-header h5 {
         margin: 0;
+        font-size: 1.25rem;
         font-weight: 700;
-        font-size: 1.2rem;
-        position: relative;
-        z-index: 1;
         display: flex;
         align-items: center;
         gap: 0.75rem;
+        color: var(--text-primary);
     }
 
     .lesson-header i {
-        font-size: 1.3rem;
+        color: var(--secondary-color);
     }
 
     .lesson-content-wrapper {
@@ -419,76 +415,70 @@
     }
 
     .lesson-media {
-        border-radius: var(--border-radius-lg);
-        overflow: hidden;
-        box-shadow: var(--shadow-lg);
-        margin-bottom: 1.5rem;
         background: #000;
+        border-radius: var(--border-radius-md);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-md);
     }
 
     .lesson-video {
         width: 100%;
-        aspect-ratio: 16/9;
+        height: 500px;
         border: none;
-        display: block;
     }
 
     .lesson-pdf-btn {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        color: white;
-        border: none;
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        font-weight: 700;
-        text-decoration: none;
         display: inline-flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.5rem;
+        background: var(--secondary-color);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: var(--border-radius-md);
+        text-decoration: none;
+        font-weight: 600;
         transition: all var(--transition-normal);
-        box-shadow: var(--shadow-lg);
+        border: none;
+        cursor: pointer;
     }
 
     .lesson-pdf-btn:hover {
-        background: linear-gradient(135deg, #dc2626, #b91c1c);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-xl);
+        background: var(--secondary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
         color: white;
         text-decoration: none;
     }
 
     .lesson-info-card {
         background: var(--bg-secondary);
-        border-radius: var(--border-radius-lg);
+        border-radius: var(--border-radius-md);
         padding: 1.5rem;
         border: 1px solid var(--border-color);
     }
 
     .lesson-info-title {
+        font-size: 1rem;
         font-weight: 700;
         color: var(--text-primary);
         margin-bottom: 1rem;
-        font-size: 1rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
 
-    .lesson-info-title i {
-        color: var(--primary-color);
-    }
-
     .lesson-info-list {
         list-style: none;
         padding: 0;
-        margin: 0;
+        margin: 0 0 1.5rem 0;
     }
 
     .lesson-info-item {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         padding: 0.75rem 0;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-light);
     }
 
     .lesson-info-item:last-child {
@@ -496,227 +486,332 @@
     }
 
     .lesson-info-label {
-        font-weight: 600;
         color: var(--text-secondary);
-        font-size: 0.9rem;
+        font-weight: 500;
+        font-size: 0.875rem;
     }
 
     .lesson-info-value {
-        font-weight: 700;
         color: var(--text-primary);
-        font-size: 0.9rem;
+        font-weight: 600;
+        font-size: 0.875rem;
     }
 
     .lesson-description {
-        background: var(--bg-primary);
-        border-radius: var(--border-radius-md);
-        padding: 1rem;
-        margin-top: 1rem;
-        border: 1px solid var(--border-color);
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-light);
     }
 
     .complete-lesson-btn {
-        background: linear-gradient(135deg, #10b981, #059669);
+        width: 100%;
+        background: var(--secondary-color);
         color: white;
         border: none;
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        font-weight: 700;
+        padding: 1rem;
+        border-radius: var(--border-radius-md);
+        font-weight: 600;
         font-size: 1rem;
-        width: 100%;
-        margin-top: 1rem;
+        cursor: pointer;
         transition: all var(--transition-normal);
-        box-shadow: var(--shadow-lg);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .complete-lesson-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left var(--transition-slow);
-    }
-
-    .complete-lesson-btn:hover::before {
-        left: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
     }
 
     .complete-lesson-btn:hover {
-        background: linear-gradient(135deg, #059669, #047857);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-xl);
+        background: var(--secondary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
     }
 
-    /* Course Information Section */
+    .complete-lesson-btn:disabled {
+        background: var(--text-light);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Course Information Section - Udemy Style */
     .course-info-section {
         background: var(--bg-primary);
         border-radius: var(--border-radius-lg);
-        box-shadow: var(--shadow-lg);
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
         border: 1px solid var(--border-color);
         overflow: hidden;
-        margin: 0 2rem 2rem 2rem;
     }
 
     .info-header {
-        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
-        color: var(--text-primary);
+        background: var(--bg-secondary);
         padding: 1.5rem 2rem;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .info-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left var(--transition-slow);
-    }
-
-    .course-info-section:hover .info-header::before {
-        left: 100%;
+        border-bottom: 1px solid var(--border-color);
     }
 
     .info-header h5 {
         margin: 0;
+        font-size: 1.25rem;
         font-weight: 700;
-        font-size: 1.2rem;
-        position: relative;
-        z-index: 1;
+        color: var(--text-primary);
         display: flex;
         align-items: center;
         gap: 0.75rem;
     }
 
     .info-header i {
-        font-size: 1.3rem;
+        color: var(--secondary-color);
     }
 
     .info-content {
         padding: 2rem;
     }
 
-    .info-section {
-        margin-bottom: 2rem;
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
     }
 
-    .info-section:last-child {
-        margin-bottom: 0;
-    }
-
-    .info-section h6 {
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 1rem;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .info-section h6 i {
-        color: var(--primary-color);
-    }
-
-    .info-section p {
-        color: var(--text-secondary);
-        line-height: 1.6;
-        margin: 0;
-        font-size: 0.95rem;
-    }
-
-    .course-meta-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .course-meta-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
+    .info-card {
         background: var(--bg-secondary);
         border-radius: var(--border-radius-md);
-        margin-bottom: 0.75rem;
+        padding: 1.5rem;
         border: 1px solid var(--border-color);
         transition: all var(--transition-normal);
     }
 
-    .course-meta-item:hover {
-        background: var(--bg-primary);
-        border-color: var(--primary-color);
-        transform: translateX(5px);
+    .info-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
     }
 
-    .course-meta-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .course-meta-label {
-        font-weight: 600;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-    }
-
-    .course-meta-value {
+    .info-card h6 {
+        color: var(--text-primary);
         font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .info-card h6 i {
+        color: var(--secondary-color);
+    }
+
+    .info-card p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin: 0;
+        font-size: 0.875rem;
+    }
+
+    /* Course Progress Section - Udemy Style */
+    .course-progress-section {
+        background: var(--bg-primary);
+        border-radius: var(--border-radius-lg);
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+    }
+
+    .progress-header {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .progress-header h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .progress-header i {
+        color: var(--secondary-color);
+    }
+
+    .progress-content {
+        padding: 2rem;
+    }
+
+    .progress-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .progress-stat {
+        text-align: center;
+        padding: 1.5rem;
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius-md);
+        border: 1px solid var(--border-color);
+        transition: all var(--transition-normal);
+    }
+
+    .progress-stat:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .progress-stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .progress-stat-label {
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .progress-bar-container {
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius-md);
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .progress-bar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .progress-bar-title {
+        font-weight: 700;
+        color: var(--text-primary);
+        font-size: 1rem;
+    }
+
+    .progress-bar-percentage {
+        font-weight: 700;
+        color: var(--secondary-color);
+        font-size: 1rem;
+    }
+
+    .progress-bar {
+        background: var(--border-color);
+        border-radius: 10px;
+        height: 12px;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+    }
+
+    .progress-bar-fill {
+        background: linear-gradient(90deg, var(--secondary-color), var(--secondary-light));
+        height: 100%;
+        border-radius: 10px;
+        transition: width var(--transition-slow);
+    }
+
+    .progress-bar-text {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+
+    /* Next Lesson Section - Udemy Style */
+    .next-lesson-section {
+        background: var(--bg-primary);
+        border-radius: var(--border-radius-lg);
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+    }
+
+    .next-lesson-header {
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
         color: white;
-        padding: 0.25rem 0.75rem;
-        background: var(--primary-color);
-        border-radius: 20px;
-        font-size: 0.8rem;
+        padding: 1.5rem 2rem;
     }
 
-    /* Loading States */
-    .loading {
-        opacity: 0.7;
-        pointer-events: none;
+    .next-lesson-header h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
     }
 
-    .loading::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 30px;
-        height: 30px;
-        margin: -15px 0 0 -15px;
-        border: 3px solid rgba(16, 185, 129, 0.2);
-        border-top: 3px solid var(--primary-color);
+    .next-lesson-content {
+        padding: 2rem;
+    }
+
+    .next-lesson-card {
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius-md);
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all var(--transition-normal);
+        text-decoration: none;
+        color: var(--text-primary);
+    }
+
+    .next-lesson-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+        text-decoration: none;
+        color: var(--text-primary);
+    }
+
+    .next-lesson-icon {
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
-        animation: spin 1s linear infinite;
-        z-index: 10;
+        background: var(--secondary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        flex-shrink: 0;
     }
 
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    .next-lesson-info {
+        flex: 1;
     }
 
-    /* Success Animation */
-    .success-animation {
-        animation: successPulse 0.6s ease-in-out;
+    .next-lesson-title {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
     }
 
-    @keyframes successPulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
+    .next-lesson-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+
+    .next-lesson-arrow {
+        color: var(--secondary-color);
+        font-size: 1.5rem;
     }
 
     /* Mobile Responsive */
     @media (max-width: 768px) {
         .course-sidebar {
-            transform: translateX(100%);
+            transform: translateX(-100%);
             width: 100%;
         }
 
@@ -725,69 +820,61 @@
         }
 
         .course-main {
-            margin-right: 0;
-        }
-
-        .course-header {
-            padding: 1.5rem;
+            margin-left: 0;
+            padding: 1rem;
         }
 
         .course-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
 
         .course-stats {
-            flex-direction: column;
             gap: 1rem;
         }
 
-        .current-lesson-section,
-        .course-info-section {
-            margin: 1rem;
+        .lesson-video {
+            height: 300px;
         }
 
-        .lesson-content-wrapper {
-            padding: 1rem;
+        .info-grid {
+            grid-template-columns: 1fr;
         }
 
-        .info-content {
-            padding: 1rem;
+        .progress-overview {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 
-    /* Sidebar Toggle Button */
+    /* Sidebar Toggle */
     .sidebar-toggle {
+        display: none;
         position: fixed;
         top: 1rem;
-        right: 1rem;
+        left: 1rem;
         z-index: 1001;
-        background: var(--primary-color);
+        background: var(--secondary-color);
         color: white;
         border: none;
+        padding: 0.75rem;
         border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
+        cursor: pointer;
         box-shadow: var(--shadow-lg);
         transition: all var(--transition-normal);
     }
 
     .sidebar-toggle:hover {
-        background: var(--primary-dark);
+        background: var(--secondary-dark);
         transform: scale(1.1);
     }
 
     @media (max-width: 768px) {
         .sidebar-toggle {
-            display: flex;
+            display: block;
         }
     }
 
-    /* Overlay for mobile */
     .sidebar-overlay {
+        display: none;
         position: fixed;
         top: 0;
         left: 0;
@@ -805,6 +892,12 @@
         visibility: visible;
     }
 
+    @media (max-width: 768px) {
+        .sidebar-overlay {
+            display: block;
+        }
+    }
+
     /* Print Styles */
     @media print {
         .course-sidebar,
@@ -813,14 +906,14 @@
         }
 
         .course-main {
-            margin-right: 0;
+            margin-left: 0;
         }
     }
 
     /* Accessibility */
     .lesson-item:focus,
     .complete-lesson-btn:focus {
-        outline: 3px solid var(--primary-color);
+        outline: 3px solid var(--secondary-color);
         outline-offset: 2px;
     }
 
@@ -831,6 +924,23 @@
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
         }
+    }
+
+    /* Loading States */
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    /* Success Animation */
+    @keyframes successPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .success-animation {
+        animation: successPulse 0.5s ease-in-out;
     }
 </style>
 @endpush
@@ -845,13 +955,17 @@
     <!-- Sidebar Overlay for Mobile -->
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Enhanced Sidebar -->
+    <!-- Enhanced Sidebar - Udemy Style -->
     <div class="course-sidebar" id="courseSidebar">
         <div class="sidebar-header">
             <h5>
-                <i class="bi bi-list"></i>
+                <i class="bi bi-list-ul"></i>
                 محتوى الدورة
             </h5>
+            <div class="lesson-search">
+                <input type="text" id="lessonSearch" placeholder="البحث في الدروس..." class="form-control">
+                <i class="bi bi-search search-icon"></i>
+            </div>
             <div class="course-progress-summary">
                 <div class="progress-summary-text">التقدم في الدورة</div>
                 <div class="progress-summary-bar">
@@ -876,7 +990,10 @@
                         <div class="lesson-info">
                             <div class="lesson-title">{{ $lesson->title_ar }}</div>
                             <div class="lesson-meta">
-                                <span class="lesson-duration">{{ $lesson->duration_minutes }} د</span>
+                                <span class="lesson-duration">
+                                    <i class="bi bi-clock"></i>
+                                    {{ $lesson->duration_minutes }} د
+                                </span>
                                 @if($lesson->is_free)
                                     <span class="lesson-free-badge">مجاني</span>
                                 @endif
@@ -888,9 +1005,9 @@
         </div>
     </div>
 
-    <!-- Enhanced Main Content -->
+    <!-- Enhanced Main Content - Udemy Style -->
     <div class="course-main">
-        <!-- Enhanced Course Header -->
+        <!-- Course Header Section -->
         <div class="course-header">
             <h1 class="course-title">{{ $course->title_ar }}</h1>
             <p class="course-description">{{ $course->description_ar }}</p>
@@ -902,16 +1019,101 @@
                 </div>
                 <div class="stat-item">
                     <i class="bi bi-clock"></i>
-                    <span>{{ $course->duration_hours }} ساعة</span>
+                    <span>{{ $course->duration_hours ?? 0 }} ساعة</span>
                 </div>
                 <div class="stat-item">
                     <i class="bi bi-check-circle"></i>
                     <span>{{ $enrollment ? $enrollment->lessons_completed : 0 }} مكتمل</span>
                 </div>
+                <div class="stat-item">
+                    <i class="bi bi-star"></i>
+                    <span>{{ $course->rating ?? 0 }}/5</span>
+                </div>
             </div>
         </div>
 
-        <!-- Enhanced Current Lesson Section -->
+        <!-- Course Progress Section -->
+        <div class="course-progress-section">
+            <div class="progress-header">
+                <h5>
+                    <i class="bi bi-graph-up"></i>
+                    تقدمك في الدورة
+                </h5>
+            </div>
+            <div class="progress-content">
+                <div class="progress-overview">
+                    <div class="progress-stat">
+                        <div class="progress-stat-number">{{ $enrollment ? $enrollment->progress_percentage : 0 }}%</div>
+                        <div class="progress-stat-label">نسبة الإكمال</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="progress-stat-number">{{ $enrollment ? $enrollment->lessons_completed : 0 }}</div>
+                        <div class="progress-stat-label">دروس مكتملة</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="progress-stat-number">{{ $lessons->count() - ($enrollment ? $enrollment->lessons_completed : 0) }}</div>
+                        <div class="progress-stat-label">دروس متبقية</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="progress-stat-number">{{ $enrollment ? $enrollment->quiz_attempts : 0 }}</div>
+                        <div class="progress-stat-label">محاولات اختبار</div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar-header">
+                        <div class="progress-bar-title">التقدم العام</div>
+                        <div class="progress-bar-percentage">{{ $enrollment ? $enrollment->progress_percentage : 0 }}%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" 
+                             style="width: {{ $enrollment ? $enrollment->progress_percentage : 0 }}%">
+                        </div>
+                    </div>
+                    <div class="progress-bar-text">
+                        أكملت {{ $enrollment ? $enrollment->lessons_completed : 0 }} من {{ $lessons->count() }} درس
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Lesson Section -->
+        @if($next_lesson)
+        <div class="next-lesson-section">
+            <div class="next-lesson-header">
+                <h5>
+                    <i class="bi bi-arrow-right-circle"></i>
+                    الدرس التالي
+                </h5>
+            </div>
+            <div class="next-lesson-content">
+                <a href="{{ route('student.lessons.show', ['course' => $course->id, 'lesson' => $next_lesson->id]) }}" 
+                   class="next-lesson-card">
+                    <div class="next-lesson-icon">
+                        <i class="bi bi-{{ $next_lesson->type === 'video' ? 'play-circle' : ($next_lesson->type === 'pdf' ? 'file-pdf' : 'file-text') }}"></i>
+                    </div>
+                    <div class="next-lesson-info">
+                        <div class="next-lesson-title">{{ $next_lesson->title_ar }}</div>
+                        <div class="next-lesson-meta">
+                            <span>
+                                <i class="bi bi-clock"></i>
+                                {{ $next_lesson->duration_minutes }} دقيقة
+                            </span>
+                            <span>
+                                <i class="bi bi-{{ $next_lesson->type === 'video' ? 'play-circle' : ($next_lesson->type === 'pdf' ? 'file-pdf' : 'file-text') }}"></i>
+                                {{ $next_lesson->type_text }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="next-lesson-arrow">
+                        <i class="bi bi-arrow-left"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        @endif
+
+        <!-- Current Lesson Section -->
         @if($current_lesson)
         <div class="current-lesson-section">
             <div class="lesson-header">
@@ -978,9 +1180,10 @@
                             @endif
                             
                             <button class="complete-lesson-btn" 
-                                    onclick="completeLesson({{ $current_lesson->id }})">
+                                    onclick="completeLesson({{ $current_lesson->id }})"
+                                    {{ $enrollment && $enrollment->isLessonCompleted($current_lesson->id) ? 'disabled' : '' }}>
                                 <i class="bi bi-check-circle"></i>
-                                تحديد كمكتمل
+                                {{ $enrollment && $enrollment->isLessonCompleted($current_lesson->id) ? 'مكتمل' : 'تحديد كمكتمل' }}
                             </button>
                         </div>
                     </div>
@@ -989,7 +1192,7 @@
         </div>
         @endif
 
-        <!-- Enhanced Course Information Section -->
+        <!-- Course Information Section -->
         <div class="course-info-section">
             <div class="info-header">
                 <h5>
@@ -998,83 +1201,65 @@
                 </h5>
             </div>
             <div class="info-content">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="info-section">
-                            <h6>
-                                <i class="bi bi-target"></i>
-                                أهداف الدورة
-                            </h6>
-                            <p>{{ $course->objectives_ar }}</p>
-                        </div>
-                        
-                        <div class="info-section">
-                            <h6>
-                                <i class="bi bi-list-check"></i>
-                                المتطلبات
-                            </h6>
-                            <p>{{ $course->requirements_ar }}</p>
-                        </div>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h6>
+                            <i class="bi bi-person"></i>
+                            المدرب
+                        </h6>
+                        <p>{{ $course->instructor->name }}</p>
                     </div>
                     
-                    <div class="col-lg-6">
-                        <div class="info-section">
-                            <h6>
-                                <i class="bi bi-gear"></i>
-                                معلومات إضافية
-                            </h6>
-                            <ul class="course-meta-list">
-                                <li class="course-meta-item">
-                                    <span class="course-meta-label">المستوى:</span>
-                                    <span class="course-meta-value">
-                                        @switch($course->level)
-                                            @case('beginner')
-                                                مبتدئ
-                                                @break
-                                            @case('intermediate')
-                                                متوسط
-                                                @break
-                                            @case('advanced')
-                                                متقدم
-                                                @break
-                                            @default
-                                                {{ $course->level }}
-                                        @endswitch
-                                    </span>
-                                </li>
-                                <li class="course-meta-item">
-                                    <span class="course-meta-label">النوع:</span>
-                                    <span class="course-meta-value">
-                                        @switch($course->type)
-                                            @case('online')
-                                                أونلاين
-                                                @break
-                                            @case('offline')
-                                                حضورياً
-                                                @break
-                                            @case('hybrid')
-                                                مختلط
-                                                @break
-                                            @default
-                                                {{ $course->type }}
-                                        @endswitch
-                                    </span>
-                                </li>
-                                <li class="course-meta-item">
-                                    <span class="course-meta-label">الشهادة:</span>
-                                    <span class="course-meta-value">
-                                        {{ $course->certificate_enabled ? 'متاحة' : 'غير متاحة' }}
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="info-card">
+                        <h6>
+                            <i class="bi bi-tag"></i>
+                            الفئة
+                        </h6>
+                        <p>{{ $course->category->name_ar }}</p>
                     </div>
+                    
+                    <div class="info-card">
+                        <h6>
+                            <i class="bi bi-bar-chart"></i>
+                            المستوى
+                        </h6>
+                        <p>{{ $course->level_text }}</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h6>
+                            <i class="bi bi-calendar"></i>
+                            تاريخ التسجيل
+                        </h6>
+                        <p>{{ $enrollment ? $enrollment->enrolled_at->format('Y-m-d') : 'غير مسجل' }}</p>
+                    </div>
+                    
+                    @if($course->objectives_ar)
+                    <div class="info-card">
+                        <h6>
+                            <i class="bi bi-target"></i>
+                            أهداف الدورة
+                        </h6>
+                        <p>{{ $course->objectives_ar }}</p>
+                    </div>
+                    @endif
+                    
+                    @if($course->requirements_ar)
+                    <div class="info-card">
+                        <h6>
+                            <i class="bi bi-list-check"></i>
+                            المتطلبات
+                        </h6>
+                        <p>{{ $course->requirements_ar }}</p>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<script src="{{ asset('js/course-player.js') }}"></script>
 <script>
 function toggleSidebar() {
     const sidebar = document.getElementById('courseSidebar');
@@ -1085,163 +1270,64 @@ function toggleSidebar() {
 }
 
 function completeLesson(lessonId) {
-    const button = event.target;
-    const originalText = button.innerHTML;
-    
-    // Add loading state
-    button.classList.add('loading');
-    button.innerHTML = '<i class="bi bi-hourglass-split"></i> جاري التحديث...';
-    button.disabled = true;
-
-    fetch(`/lessons/${lessonId}/complete`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-            time_spent_minutes: 30, // يمكن تحديث هذا ليكون الوقت الفعلي المستغرق
-            quiz_results: null
+    if (confirm('هل تريد تحديد هذا الدرس كمكتمل؟')) {
+        const btn = event.target.closest('.complete-lesson-btn');
+        btn.classList.add('loading');
+        
+        fetch(`/student/lessons/${lessonId}/complete`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json',
+            },
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Update progress bar with animation
-            const progressBar = document.querySelector('.progress-summary-fill');
-            const progressText = document.querySelector('.progress-summary-percentage');
-            const currentProgress = parseInt(progressText.textContent);
-            const newProgress = data.progress;
-            
-            // Animate progress bar
-            let current = currentProgress;
-            const increment = (newProgress - currentProgress) / 20;
-            const progressInterval = setInterval(() => {
-                current += increment;
-                if (current >= newProgress) {
-                    current = newProgress;
-                    clearInterval(progressInterval);
-                }
-                progressBar.style.width = current + '%';
-                progressText.textContent = Math.round(current) + '% مكتمل';
-            }, 50);
-
-            // Show success animation
-            button.classList.remove('loading');
-            button.classList.add('success-animation');
-            button.innerHTML = '<i class="bi bi-check-circle"></i> تم التحديث!';
-            button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-
-            // Show success message
-            const successAlert = document.createElement('div');
-            successAlert.className = 'alert alert-success alert-dismissible fade show';
-            successAlert.innerHTML = `
-                <i class="bi bi-check-circle"></i>
-                تم تحديد الدرس كمكتمل بنجاح!
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            const container = document.querySelector('.course-container');
-            container.insertBefore(successAlert, container.firstChild);
-
-            // Reload page after 3 seconds
-            setTimeout(() => {
-                location.reload();
-            }, 3000);
-        } else {
-            // Show error state
-            button.classList.remove('loading');
-            button.innerHTML = originalText;
-            button.disabled = false;
-            
-            const errorAlert = document.createElement('div');
-            errorAlert.className = 'alert alert-danger alert-dismissible fade show';
-            errorAlert.innerHTML = `
-                <i class="bi bi-exclamation-triangle"></i>
-                حدث خطأ أثناء تحديد الدرس كمكتمل
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            const container = document.querySelector('.course-container');
-            container.insertBefore(errorAlert, container.firstChild);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        
-        // Show error state
-        button.classList.remove('loading');
-        button.innerHTML = originalText;
-        button.disabled = false;
-        
-        const errorAlert = document.createElement('div');
-        errorAlert.className = 'alert alert-danger alert-dismissible fade show';
-        errorAlert.innerHTML = `
-            <i class="bi bi-exclamation-triangle"></i>
-            حدث خطأ أثناء تحديد الدرس كمكتمل
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        
-        const container = document.querySelector('.course-container');
-        container.insertBefore(errorAlert, container.firstChild);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                btn.classList.remove('loading');
+                btn.classList.add('success-animation');
+                btn.innerHTML = '<i class="bi bi-check-circle"></i> مكتمل';
+                btn.disabled = true;
+                
+                // تحديث شريط التقدم
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            } else {
+                btn.classList.remove('loading');
+                alert('حدث خطأ أثناء تحديث حالة الدرس');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            btn.classList.remove('loading');
+            alert('حدث خطأ أثناء تحديث حالة الدرس');
+        });
+    }
 }
 
-// Add smooth scrolling for lesson navigation
+// تحسين تجربة المستخدم
 document.addEventListener('DOMContentLoaded', function() {
-    // Add entrance animations
-    const elements = document.querySelectorAll('.course-sidebar, .course-main, .lesson-item');
-    elements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
+    // إضافة تأثيرات بصرية للعناصر
+    const cards = document.querySelectorAll('.info-card, .progress-stat');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+        });
         
-        setTimeout(() => {
-            el.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-        }, index * 100);
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
     });
-
-    // Add hover effects for lesson items
+    
+    // تحسين التنقل في الجانب
     const lessonItems = document.querySelectorAll('.lesson-item');
     lessonItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            if (!this.classList.contains('active')) {
-                this.style.transform = 'translateX(5px) scale(1.02)';
-            }
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            if (!this.classList.contains('active')) {
-                this.style.transform = 'translateX(0) scale(1)';
-            }
+        item.addEventListener('click', function() {
+            lessonItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
         });
     });
-
-    // Add progress bar animation on page load
-    const progressBar = document.querySelector('.progress-summary-fill');
-    if (progressBar) {
-        const targetWidth = progressBar.style.width;
-        progressBar.style.width = '0%';
-        
-        setTimeout(() => {
-            progressBar.style.width = targetWidth;
-        }, 500);
-    }
-
-    // Add intersection observer for animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
-
-    // Observe all animated elements
-    const animatedElements = document.querySelectorAll('.lesson-item, .course-info-section');
-    animatedElements.forEach(el => observer.observe(el));
 });
 </script>
 @endsection 
