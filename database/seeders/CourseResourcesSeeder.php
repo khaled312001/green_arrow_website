@@ -2,340 +2,140 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\CourseResource;
 use App\Models\Course;
 use App\Models\Lesson;
 
 class CourseResourcesSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        $course = Course::find(2);
-        if (!$course) {
-            $this->command->error('Course ID 2 not found!');
-            return;
-        }
+        $courses = Course::all();
 
-        // تحديث الدروس بمحتوى نصي إضافي ومرفقات
-        $lessons = $course->lessons()->get();
+        foreach ($courses as $course) {
+            // ملحقات عامة للدورة
+            CourseResource::create([
+                'course_id' => $course->id,
+                'lesson_id' => null,
+                'title_ar' => 'ملف PDF شامل للدورة',
+                'title_en' => 'Complete Course PDF',
+                'description_ar' => 'ملف PDF يحتوي على جميع محتويات الدورة بشكل منظم',
+                'description_en' => 'A comprehensive PDF containing all course content in an organized manner',
+                'type' => 'pdf',
+                'file_path' => 'course-resources/sample-course.pdf',
+                'file_name' => 'course-complete.pdf',
+                'file_size' => '2048576', // 2MB
+                'is_free' => true,
+                'is_published' => true,
+                'sort_order' => 1,
+            ]);
 
-        foreach ($lessons as $lesson) {
-            $attachments = [];
-            $textContent = '';
+            CourseResource::create([
+                'course_id' => $course->id,
+                'lesson_id' => null,
+                'title_ar' => 'ملاحظات مهمة',
+                'title_en' => 'Important Notes',
+                'description_ar' => 'ملاحظات وتلميحات مهمة للدورة',
+                'description_en' => 'Important notes and tips for the course',
+                'type' => 'document',
+                'file_path' => 'course-resources/notes.docx',
+                'file_name' => 'course-notes.docx',
+                'file_size' => '512000', // 500KB
+                'is_free' => true,
+                'is_published' => true,
+                'sort_order' => 2,
+            ]);
 
-            switch ($lesson->sort_order) {
-                case 1: // مقدمة في القيادة والإدارة
-                    $textContent = "
-## مقدمة في القيادة والإدارة
+            CourseResource::create([
+                'course_id' => $course->id,
+                'lesson_id' => null,
+                'title_ar' => 'روابط مفيدة',
+                'title_en' => 'Useful Links',
+                'description_ar' => 'مجموعة من الروابط المفيدة للتعلم الإضافي',
+                'description_en' => 'A collection of useful links for additional learning',
+                'type' => 'link',
+                'external_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                'is_free' => true,
+                'is_published' => true,
+                'sort_order' => 3,
+            ]);
 
-### ما هي القيادة؟
-القيادة هي عملية التأثير على الآخرين لتحقيق أهداف مشتركة. القائد الفعال هو من يستطيع تحفيز فريقه وإلهامهم للعمل بأفضل ما لديهم.
+            // ملحقات للدروس
+            $lessons = $course->lessons()->take(3)->get();
+            foreach ($lessons as $index => $lesson) {
+                CourseResource::create([
+                    'course_id' => $course->id,
+                    'lesson_id' => $lesson->id,
+                    'title_ar' => "ملف PDF للدرس {$lesson->title_ar}",
+                    'title_en' => "PDF for lesson {$lesson->title_en}",
+                    'description_ar' => "ملف PDF يحتوي على محتوى الدرس {$lesson->title_ar}",
+                    'description_en' => "PDF file containing the content of lesson {$lesson->title_en}",
+                    'type' => 'pdf',
+                    'file_path' => "course-resources/lesson-{$lesson->id}.pdf",
+                    'file_name' => "lesson-{$lesson->id}.pdf",
+                    'file_size' => '1024000', // 1MB
+                    'is_free' => true,
+                    'is_published' => true,
+                    'sort_order' => $index + 1,
+                ]);
 
-### الفرق بين القائد والمدير
-- **المدير**: يركز على المهام والعمليات، يتبع القواعد والإجراءات
-- **القائد**: يركز على الأهداف والرؤية، يلهم ويحفز الفريق
-
-### أهمية القيادة في المنظمات الحديثة
-1. تحسين الأداء التنظيمي
-2. زيادة رضا الموظفين
-3. تعزيز الابتكار والإبداع
-4. بناء ثقافة عمل إيجابية
-
-### خصائص القيادة الفعالة
-- التواصل الفعال
-- الذكاء العاطفي
-- القدرة على اتخاذ القرارات
-- النزاهة والشفافية
-- المرونة والتكيف
-
-### التطبيق العملي
-في هذا الدرس ستتعلم:
-- كيفية تطوير رؤية واضحة لفريقك
-- طرق تحفيز الموظفين
-- مهارات التواصل القيادي
-- أساليب بناء الثقة
-                    ";
-                    $attachments = [
-                        'مخطط-القيادة-والإدارة.pdf',
-                        'نموذج-تقييم-القيادة.docx',
-                        'قائمة-مراجعة-القائد-الفعال.pdf'
-                    ];
-                    break;
-
-                case 2: // أنماط القيادة المختلفة
-                    $textContent = "
-## أنماط القيادة المختلفة
-
-### 1. القيادة الاستبدادية (Autocratic)
-**الخصائص:**
-- اتخاذ القرارات منفرداً
-- التحكم المطلق
-- عدم مشاركة المعلومات
-
-**متى تستخدم:**
-- في حالات الطوارئ
-- مع الموظفين الجدد
-- عند الحاجة لسرعة في التنفيذ
-
-### 2. القيادة الديمقراطية (Democratic)
-**الخصائص:**
-- مشاركة الفريق في القرارات
-- التشاور والمناقشة
-- بناء الإجماع
-
-**متى تستخدم:**
-- في المشاريع الإبداعية
-- مع الفرق المتمرسة
-- عند الحاجة لابتكار حلول
-
-### 3. القيادة الحرة (Laissez-faire)
-**الخصائص:**
-- حرية كاملة للفريق
-- تدخل محدود من القائد
-- الاعتماد على المبادرة الذاتية
-
-**متى تستخدم:**
-- مع الخبراء المتخصصين
-- في بيئات العمل المرنة
-- عند الحاجة للإبداع
-
-### 4. القيادة التحويلية (Transformational)
-**الخصائص:**
-- إلهام وتطوير الفريق
-- رؤية واضحة للمستقبل
-- تحفيز التغيير الإيجابي
-
-**متى تستخدم:**
-- في فترات التغيير
-- مع الفرق عالية الأداء
-- عند الحاجة للتحول التنظيمي
-
-### اختيار النمط المناسب
-يعتمد اختيار نمط القيادة على:
-- طبيعة المهمة
-- خبرة الفريق
-- الوقت المتاح
-- الثقافة التنظيمية
-                    ";
-                    $attachments = [
-                        'دليل-أنماط-القيادة.pdf',
-                        'استبيان-نمط-القيادة.docx',
-                        'حالات-عملية-لأنماط-القيادة.pdf'
-                    ];
-                    break;
-
-                case 3: // بناء وإدارة الفرق الفعالة
-                    $textContent = "
-## بناء وإدارة الفرق الفعالة
-
-### مراحل تطور الفريق (Tuckman Model)
-
-#### 1. مرحلة التشكيل (Forming)
-- التعارف بين الأعضاء
-- تحديد الأدوار والمسؤوليات
-- بناء الثقة الأولية
-
-#### 2. مرحلة العصف الذهني (Storming)
-- ظهور الصراعات والخلافات
-- مناقشة الأهداف والطرق
-- تحديد القيادة
-
-#### 3. مرحلة المعايير (Norming)
-- تطوير قواعد العمل
-- بناء العلاقات
-- تحسين التواصل
-
-#### 4. مرحلة الأداء (Performing)
-- العمل بكفاءة عالية
-- تحقيق الأهداف
-- الابتكار والإبداع
-
-#### 5. مرحلة الإنهاء (Adjourning)
-- إنهاء المشروع
-- تقييم النتائج
-- الاحتفال بالإنجازات
-
-### أدوار أعضاء الفريق (Belbin Team Roles)
-1. **المنسق (Coordinator)**: يوجه الفريق نحو الأهداف
-2. **المشكل (Shaper)**: يدفع الفريق للأمام
-3. **المبتكر (Plant)**: يقدم الأفكار الإبداعية
-4. **المحلل (Monitor Evaluator)**: يحلل الخيارات
-5. **المنفذ (Implementer)**: يحول الأفكار إلى واقع
-6. **المكمل (Completer Finisher)**: يضمن إكمال المهام
-7. **الباحث عن الموارد (Resource Investigator)**: يجلب المعلومات والموارد
-8. **المتخصص (Specialist)**: يوفر المعرفة المتخصصة
-9. **العامل الجماعي (Team Worker)**: يدعم الفريق
-
-### إدارة ديناميكيات الفريق
-- حل الصراعات بفعالية
-- تحسين التواصل
-- بناء الثقة المتبادلة
-- تحفيز التعاون
-                    ";
-                    $attachments = [
-                        'دليل-بناء-الفرق.pdf',
-                        'نموذج-تقييم-أدوار-الفريق.docx',
-                        'استراتيجيات-حل-الصراعات.pdf'
-                    ];
-                    break;
-
-                case 13: // دليل القيادة الفعالة - PDF
-                    $textContent = "
-# دليل القيادة الفعالة الشامل
-
-## المحتويات
-
-### الفصل الأول: أساسيات القيادة
-- تعريف القيادة وأنواعها
-- الفرق بين القيادة والإدارة
-- خصائص القائد الفعال
-- نظريات القيادة الحديثة
-
-### الفصل الثاني: مهارات القيادة الأساسية
-- مهارات التواصل
-- مهارات الاستماع النشط
-- مهارات تقديم التغذية الراجعة
-- مهارات التحفيز
-
-### الفصل الثالث: إدارة الفرق
-- بناء الفرق الفعالة
-- مراحل تطور الفريق
-- أدوار أعضاء الفريق
-- إدارة الصراعات
-
-### الفصل الرابع: حل المشكلات واتخاذ القرارات
-- طرق حل المشكلات
-- أدوات اتخاذ القرارات
-- تحليل المخاطر
-- تطوير الحلول الإبداعية
-
-### الفصل الخامس: التخطيط الاستراتيجي
-- أساسيات التخطيط الاستراتيجي
-- تحديد الأهداف
-- تطوير الاستراتيجيات
-- قياس النتائج
-
-### الفصل السادس: إدارة التغيير
-- قيادة التغيير
-- إدارة مقاومة التغيير
-- تعزيز ثقافة الابتكار
-- التكيف مع التحديات
-
-### الفصل السابع: التطوير المهني
-- خطة التطوير المهني
-- القيادة المستدامة
-- التوازن بين العمل والحياة
-- الاستمرار في التعلم
-
-## النماذج والقالب الجاهزة
-- نموذج تقييم الأداء
-- قالب خطة التطوير
-- استبيان رضا الموظفين
-- نموذج تقييم القيادة
-
-## المراجع الإضافية
-- كتب موصى بها
-- مقالات مهمة
-- مواقع إلكترونية مفيدة
-- دورات تدريبية إضافية
-                    ";
-                    $attachments = [
-                        'دليل-القيادة-الفعالة-الشامل.pdf',
-                        'نماذج-و-قوالب-جاهزة.zip',
-                        'مراجع-إضافية.pdf',
-                        'خطة-تطوير-شخصية.docx'
-                    ];
-                    break;
-
-                case 15: // الاختبار النهائي والتقييم
-                    $textContent = "
-# الاختبار النهائي والتقييم الشامل
-
-## تعليمات الاختبار
-- مدة الاختبار: 60 دقيقة
-- عدد الأسئلة: 8 أسئلة
-- درجة النجاح: 80%
-- يمكن إعادة الاختبار مرة واحدة
-
-## محتوى الاختبار
-1. **أسئلة متعددة الخيارات**: تقييم الفهم النظري
-2. **حالات عملية**: تطبيق المفاهيم على مواقف واقعية
-3. **تقييم ذاتي**: تقييم المهارات المكتسبة
-4. **خطة تطوير**: وضع خطة للتطوير المستقبلي
-
-## معايير التقييم
-- **90-100%**: ممتاز - إتقان كامل للمفاهيم
-- **80-89%**: جيد جداً - فهم عميق للمحتوى
-- **70-79%**: جيد - فهم أساسي للمفاهيم
-- **أقل من 70%**: يحتاج مراجعة إضافية
-
-## بعد الاختبار
-- تحليل النتائج
-- تحديد نقاط القوة والضعف
-- وضع خطة تطوير شخصية
-- الحصول على شهادة إتمام الدورة
-
-## الشهادة
-سيتم إصدار شهادة معتمدة من أكاديمية السهم الأخضر للتدريب عند اجتياز الاختبار بنجاح.
-
-## التطوير المستمر
-- المشاركة في ورش العمل التطبيقية
-- الانضمام لمجتمع المتعلمين
-- متابعة الدورات المتقدمة
-- التطبيق العملي في بيئة العمل
-                    ";
-                    $attachments = [
-                        'دليل-الاختبار-النهائي.pdf',
-                        'نموذج-التقييم-الذاتي.docx',
-                        'خطة-التطوير-المهني.docx',
-                        'شهادة-إتمام-الدورة.pdf'
-                    ];
-                    break;
-
-                default:
-                    $textContent = "
-## محتوى الدرس
-
-هذا الدرس يتضمن:
-- شرح مفصل للمفاهيم
-- أمثلة عملية
-- تمارين تطبيقية
-- موارد إضافية للقراءة
-
-### النقاط الرئيسية
-1. فهم المفاهيم الأساسية
-2. تطبيق المعرفة عملياً
-3. تطوير المهارات المطلوبة
-4. تقييم التعلم
-
-### التطبيق العملي
-- تمارين فردية
-- أنشطة جماعية
-- حالات عملية
-- تقييم ذاتي
-
-### الموارد الإضافية
-- قراءات موصى بها
-- فيديوهات تعليمية
-- مقالات مهمة
-- روابط مفيدة
-                    ";
-                    $attachments = [
-                        'ملخص-الدرس.pdf',
-                        'تمارين-تطبيقية.docx',
-                        'موارد-إضافية.pdf'
-                    ];
-                    break;
+                CourseResource::create([
+                    'course_id' => $course->id,
+                    'lesson_id' => $lesson->id,
+                    'title_ar' => "ملاحظات الدرس {$lesson->title_ar}",
+                    'title_en' => "Notes for lesson {$lesson->title_en}",
+                    'description_ar' => "ملاحظات مهمة من الدرس {$lesson->title_ar}",
+                    'description_en' => "Important notes from lesson {$lesson->title_en}",
+                    'type' => 'document',
+                    'file_path' => "course-resources/lesson-notes-{$lesson->id}.docx",
+                    'file_name' => "lesson-notes-{$lesson->id}.docx",
+                    'file_size' => '256000', // 250KB
+                    'is_free' => true,
+                    'is_published' => true,
+                    'sort_order' => $index + 2,
+                ]);
             }
 
-            // تحديث الدرس بالمحتوى والمرفقات
-            $lesson->update([
-                'text_content' => $textContent,
-                'attachments' => $attachments
+            // ملفات صوتية
+            CourseResource::create([
+                'course_id' => $course->id,
+                'lesson_id' => null,
+                'title_ar' => 'ملف صوتي للدورة',
+                'title_en' => 'Course Audio File',
+                'description_ar' => 'ملف صوتي يحتوي على شرح الدورة',
+                'description_en' => 'Audio file containing course explanation',
+                'type' => 'audio',
+                'file_path' => 'course-resources/course-audio.mp3',
+                'file_name' => 'course-audio.mp3',
+                'file_size' => '52428800', // 50MB
+                'is_free' => false,
+                'is_published' => true,
+                'sort_order' => 4,
+            ]);
+
+            // صور توضيحية
+            CourseResource::create([
+                'course_id' => $course->id,
+                'lesson_id' => null,
+                'title_ar' => 'صور توضيحية',
+                'title_en' => 'Illustrative Images',
+                'description_ar' => 'مجموعة من الصور التوضيحية للدورة',
+                'description_en' => 'A collection of illustrative images for the course',
+                'type' => 'image',
+                'file_path' => 'course-resources/images.zip',
+                'file_name' => 'course-images.zip',
+                'file_size' => '10485760', // 10MB
+                'is_free' => true,
+                'is_published' => true,
+                'sort_order' => 5,
             ]);
         }
 
-        $this->command->info('Course resources have been successfully added!');
-        $this->command->info('Updated ' . $lessons->count() . ' lessons with content and attachments');
+        $this->command->info('تم إنشاء ملحقات الدورات بنجاح!');
     }
 } 

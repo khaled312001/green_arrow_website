@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\CourseResourceController;
+use App\Http\Controllers\MessageController;
 
 // الصفحات العامة
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -315,4 +317,27 @@ Route::prefix('api')->middleware('auth:sanctum')->group(function () {
     Route::post('/lessons/{lesson}/progress', [StudentController::class, 'updateProgress']);
     Route::get('/notifications', [HomeController::class, 'notifications']);
     Route::post('/notifications/{notification}/read', [HomeController::class, 'markNotificationRead']);
+});
+
+// Certificate routes
+Route::get('/certificates/verify', [CertificateController::class, 'verify'])->name('certificates.verify');
+Route::post('/certificates/verify', [CertificateController::class, 'verifyPost'])->name('certificates.verify.post');
+Route::get('/certificates/verify/{number}', [CertificateController::class, 'verifyNumber'])->name('certificates.verify.number');
+
+// Course Resources routes
+Route::get('/course-resources/{resource}/download', [CourseResourceController::class, 'download'])->name('course-resources.download');
+
+// Messages routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/messages/inbox', [MessageController::class, 'inbox'])->name('messages.inbox');
+    Route::get('/messages/sent', [MessageController::class, 'sent'])->name('messages.sent');
+    Route::get('/messages/create', [MessageController::class, 'create'])->name('messages.create');
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/{message}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{message}/reply', [MessageController::class, 'reply'])->name('messages.reply');
+    Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
+    Route::patch('/messages/{message}/status', [MessageController::class, 'updateStatus'])->name('messages.update-status');
+    Route::get('/messages/search', [MessageController::class, 'search'])->name('messages.search');
+    Route::post('/courses/{course}/send-message', [MessageController::class, 'sendFromCourse'])->name('messages.send-from-course');
+    Route::get('/messages/unread-count', [MessageController::class, 'unreadCount'])->name('messages.unread-count');
 });

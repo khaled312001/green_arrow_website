@@ -71,6 +71,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="stat-card" style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h3 style="font-size: 2rem; color: #ec4899; margin: 0 0 5px 0;">{{ auth()->user()->receivedMessages()->unread()->count() }}</h3>
+                    <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">الرسائل الجديدة</p>
+                </div>
+                <div style="width: 50px; height: 50px; background: #ec4899; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-chat-dots" style="color: white; font-size: 1.5rem;"></i>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Live Lessons Today -->
@@ -279,6 +291,12 @@
                 <i class="bi bi-award" style="font-size: 3rem; color: #f59e0b; margin-bottom: 15px; display: block;"></i>
                 <h4 style="color: #1f2937; margin-bottom: 10px;">شهاداتي</h4>
                 <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">عرض الشهادات المحصل عليها</p>
+            </a>
+            
+            <a href="{{ route('messages.inbox') }}" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-decoration: none; text-align: center; transition: transform 0.2s;">
+                <i class="bi bi-chat-dots" style="font-size: 3rem; color: #ec4899; margin-bottom: 15px; display: block;"></i>
+                <h4 style="color: #1f2937; margin-bottom: 10px;">رسائلي</h4>
+                <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">عرض الرسائل والمراسلات</p>
             </a>
             
             <a href="#" style="background: white; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-decoration: none; text-align: center; transition: transform 0.2s;">

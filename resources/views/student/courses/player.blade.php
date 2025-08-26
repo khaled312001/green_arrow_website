@@ -667,6 +667,126 @@
         text-decoration: none;
         color: white;
     }
+
+    /* Course Resources Enhanced */
+    .resource-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
+        color: var(--text-light);
+    }
+
+    .resource-type {
+        background: var(--secondary-color);
+        color: white;
+        padding: 0.125rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.625rem;
+    }
+
+    .resource-size {
+        color: var(--text-secondary);
+    }
+
+    .no-resources {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-light);
+    }
+
+    .no-resources i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    /* Contact Instructor Section */
+    .contact-section {
+        background: var(--bg-primary);
+        border-top: 1px solid var(--border-color);
+        padding: 1.5rem;
+    }
+
+    .contact-header {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .contact-form {
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius-md);
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-md);
+        font-size: 0.875rem;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        transition: all var(--transition-normal);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(164, 53, 240, 0.1);
+    }
+
+    .form-control option {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+    }
+
+    .send-message-btn {
+        background: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--border-radius-md);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .send-message-btn:hover {
+        background: var(--secondary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .send-message-btn:disabled {
+        background: var(--text-light);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
 </style>
 @endpush
 
@@ -798,29 +918,69 @@
                 ملحقات الدورة
             </h3>
             <div class="resources-grid">
-                <a href="#" class="resource-card">
-                    <div class="resource-icon">
-                        <i class="bi bi-file-pdf"></i>
+                @forelse($course->resources()->published()->ordered()->get() as $resource)
+                    <a href="{{ route('course-resources.download', $resource) }}" class="resource-card" target="_blank">
+                        <div class="resource-icon">
+                            <i class="bi {{ $resource->type_icon }}"></i>
+                        </div>
+                        <div class="resource-title">{{ $resource->title }}</div>
+                        <div class="resource-description">{{ $resource->description }}</div>
+                        <div class="resource-meta">
+                            <span class="resource-type">{{ $resource->type_label }}</span>
+                            @if($resource->file_size)
+                                <span class="resource-size">{{ $resource->formatted_file_size }}</span>
+                            @endif
+                        </div>
+                    </a>
+                @empty
+                    <div class="no-resources">
+                        <i class="bi bi-folder-x"></i>
+                        <p>لا توجد ملحقات متاحة لهذه الدورة</p>
                     </div>
-                    <div class="resource-title">ملف PDF للدرس</div>
-                    <div class="resource-description">تحميل الملف المرفق مع الدرس</div>
-                </a>
-                
-                <a href="#" class="resource-card">
-                    <div class="resource-icon">
-                        <i class="bi bi-file-earmark-text"></i>
+                @endforelse
+            </div>
+        </div>
+
+        <!-- Contact Instructor Section -->
+        <div class="contact-section">
+            <h3 class="contact-header">
+                <i class="bi bi-chat-dots"></i>
+                مراسلة المدرب
+            </h3>
+            <div class="contact-form">
+                <form action="{{ route('messages.send-from-course', $course) }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="type">نوع الرسالة</label>
+                        <select name="type" id="type" class="form-control" required>
+                            <option value="course_question">سؤال عن الدورة</option>
+                            <option value="technical_support">دعم فني</option>
+                            <option value="feedback">تقييم وملاحظات</option>
+                            <option value="general">رسالة عامة</option>
+                        </select>
                     </div>
-                    <div class="resource-title">ملاحظات الدرس</div>
-                    <div class="resource-description">ملاحظات مهمة من الدرس</div>
-                </a>
-                
-                <a href="#" class="resource-card">
-                    <div class="resource-icon">
-                        <i class="bi bi-link-45deg"></i>
+                    
+                    <div class="form-group">
+                        <label for="priority">الأولوية</label>
+                        <select name="priority" id="priority" class="form-control" required>
+                            <option value="low">منخفضة</option>
+                            <option value="medium" selected>متوسطة</option>
+                            <option value="high">عالية</option>
+                            <option value="urgent">عاجلة</option>
+                        </select>
                     </div>
-                    <div class="resource-title">روابط مفيدة</div>
-                    <div class="resource-description">روابط إضافية للتعلم</div>
-                </a>
+                    
+                    <div class="form-group">
+                        <label for="content">محتوى الرسالة</label>
+                        <textarea name="content" id="content" class="form-control" rows="4" 
+                                  placeholder="اكتب رسالتك هنا..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="send-message-btn">
+                        <i class="bi bi-send"></i>
+                        إرسال الرسالة
+                    </button>
+                </form>
             </div>
         </div>
 

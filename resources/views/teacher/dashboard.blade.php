@@ -67,6 +67,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="stat-card" style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h3 style="font-size: 2rem; color: #ec4899; margin: 0 0 5px 0;">{{ auth()->user()->receivedMessages()->unread()->count() }}</h3>
+                    <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">الرسائل الجديدة</p>
+                </div>
+                <div style="width: 50px; height: 50px; background: #ec4899; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-chat-dots" style="color: white; font-size: 1.5rem;"></i>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Charts Section -->
@@ -237,6 +249,12 @@
                 <i class="bi bi-graph-up" style="font-size: 2rem; color: #8b5cf6; margin-bottom: 10px;"></i>
                 <h3 style="color: #1f2937; margin-bottom: 5px; font-size: 1rem;">التقارير</h3>
                 <p style="color: #6b7280; font-size: 0.8rem; margin: 0;">عرض التحليلات</p>
+            </a>
+
+            <a href="{{ route('messages.inbox') }}" class="quick-action-card" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-decoration: none; text-align: center; transition: transform 0.2s;">
+                <i class="bi bi-chat-dots" style="font-size: 2rem; color: #ec4899; margin-bottom: 10px;"></i>
+                <h3 style="color: #1f2937; margin-bottom: 5px; font-size: 1rem;">الرسائل</h3>
+                <p style="color: #6b7280; font-size: 0.8rem; margin: 0;">عرض الرسائل الجديدة</p>
             </a>
         </div>
     </section>
