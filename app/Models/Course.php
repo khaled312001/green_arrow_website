@@ -126,6 +126,22 @@ class Course extends Model
     }
 
     /**
+     * ملحقات الدورة
+     */
+    public function resources(): HasMany
+    {
+        return $this->hasMany(CourseResource::class);
+    }
+
+    /**
+     * الرسائل المرتبطة بالدورة
+     */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    /**
      * الحصول على العنوان باللغة المناسبة
      */
     public function getTitleAttribute(): string

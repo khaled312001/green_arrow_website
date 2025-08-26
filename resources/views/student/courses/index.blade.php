@@ -6,8 +6,57 @@
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="page-header" style="margin-bottom: 30px;">
-        <h1 style="font-size: 2rem; color: #1f2937; margin-bottom: 10px;">دوراتي</h1>
-        <p style="color: #6b7280;">استكشف الدورات المسجل بها وتابع تقدمك</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div>
+                <h1 style="font-size: 2rem; color: #1f2937; margin-bottom: 10px;">دوراتي</h1>
+                <p style="color: #6b7280;">استكشف الدورات المسجل بها وتابع تقدمك</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <a href="{{ route('student.certificates') }}" class="btn btn-outline" style="padding: 10px 20px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 2px solid #10b981; color: #10b981;">
+                    <i class="bi bi-award"></i>
+                    شهاداتي
+                </a>
+                <a href="{{ route('student.dashboard') }}" class="btn btn-primary" style="padding: 10px 20px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="bi bi-house"></i>
+                    لوحة التحكم
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #10b981; margin-bottom: 10px;">
+                <i class="bi bi-book"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $enrollments->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">إجمالي الدورات</div>
+        </div>
+        
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #3b82f6; margin-bottom: 10px;">
+                <i class="bi bi-play-circle"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $enrollments->where('status', 'active')->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">قيد التقدم</div>
+        </div>
+        
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #10b981; margin-bottom: 10px;">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $enrollments->where('status', 'completed')->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">مكتمل</div>
+        </div>
+        
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #f59e0b; margin-bottom: 10px;">
+                <i class="bi bi-award"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $enrollments->where('status', 'completed')->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">شهادات</div>
+        </div>
     </div>
 
     <!-- Filters -->
@@ -118,11 +167,24 @@
                                 استمر في التعلم
                             </a>
                             @if($enrollment->status == 'completed')
-                                <a href="{{ route('student.certificates.download', $enrollment->course) }}" 
-                                   class="btn btn-outline" 
-                                   style="padding: 12px; font-size: 0.9rem; border-radius: 10px; text-align: center; text-decoration: none; display: inline-block; border: 2px solid #10b981; color: #10b981;">
-                                    <i class="bi bi-award"></i>
-                                </a>
+                                @php
+                                    $certificate = $enrollment->user->certificates()->where('course_id', $enrollment->course_id)->first();
+                                @endphp
+                                @if($certificate)
+                                    <a href="{{ route('student.certificates.download', $certificate) }}" 
+                                       class="btn btn-outline" 
+                                       style="padding: 12px; font-size: 0.9rem; border-radius: 10px; text-align: center; text-decoration: none; display: inline-block; border: 2px solid #10b981; color: #10b981;"
+                                       title="تحميل الشهادة">
+                                        <i class="bi bi-award"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ route('student.courses.completion-celebration', $enrollment->course) }}" 
+                                       class="btn btn-outline" 
+                                       style="padding: 12px; font-size: 0.9rem; border-radius: 10px; text-align: center; text-decoration: none; display: inline-block; border: 2px solid #f59e0b; color: #f59e0b;"
+                                       title="عرض الاحتفال">
+                                        <i class="bi bi-trophy"></i>
+                                    </a>
+                                @endif
                             @endif
                         </div>
                     </div>

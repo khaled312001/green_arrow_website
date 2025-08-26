@@ -39,6 +39,14 @@ class Lesson extends Model
         return $this->hasMany(Quiz::class);
     }
 
+    /**
+     * ملحقات الدرس
+     */
+    public function resources(): HasMany
+    {
+        return $this->hasMany(CourseResource::class);
+    }
+
     public function getTitleAttribute(): string
     {
         return app()->getLocale() === 'ar' ? $this->title_ar : ($this->title_en ?? $this->title_ar);

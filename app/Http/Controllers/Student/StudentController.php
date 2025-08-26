@@ -770,6 +770,12 @@ class StudentController extends Controller
             'enrollment' => $certificate->enrollment,
         ]);
         
+        // إعدادات PDF للتصميم الصحيح
+        $pdf->setPaper('a4', 'landscape');
+        $pdf->setOption('isRemoteEnabled', true);
+        $pdf->setOption('isHtml5ParserEnabled', true);
+        $pdf->setOption('isFontSubsettingEnabled', true);
+        
         $filename = "شهادة_{$certificate->course->title_ar}_{$certificate->user->name}.pdf";
         
         return $pdf->download($filename);
@@ -1030,8 +1036,8 @@ class StudentController extends Controller
             'completed_lessons' => $enrollment->lessons_completed,
             'total_hours' => $enrollment->total_hours_watched ?? 0,
             'completion_date' => $enrollment->completed_at,
-            'certificate_issued' => $enrollment->certificate_issued,
-            'certificate_number' => $enrollment->certificate_number,
+            'certificate_issued' => $certificate ? true : false,
+            'certificate_number' => $certificate ? $certificate->certificate_number : null,
         ];
         
         return view('student.courses.completion-celebration', compact(

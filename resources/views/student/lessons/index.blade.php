@@ -6,8 +6,57 @@
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="page-header" style="margin-bottom: 30px;">
-        <h1 style="font-size: 2rem; color: #1f2937; margin-bottom: 10px;">دروسي</h1>
-        <p style="color: #6b7280;">استكشف جميع الدروس في الدورات المسجل بها</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div>
+                <h1 style="font-size: 2rem; color: #1f2937; margin-bottom: 10px;">دروسي</h1>
+                <p style="color: #6b7280;">استكشف جميع الدروس في الدورات المسجل بها</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <a href="{{ route('student.courses') }}" class="btn btn-outline" style="padding: 10px 20px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 2px solid #10b981; color: #10b981;">
+                    <i class="bi bi-book"></i>
+                    دوراتي
+                </a>
+                <a href="{{ route('student.dashboard') }}" class="btn btn-primary" style="padding: 10px 20px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="bi bi-house"></i>
+                    لوحة التحكم
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #10b981; margin-bottom: 10px;">
+                <i class="bi bi-book"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $lessons->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">إجمالي الدروس</div>
+        </div>
+        
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #3b82f6; margin-bottom: 10px;">
+                <i class="bi bi-play-circle"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $lessons->where('type', 'video')->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">دروس فيديو</div>
+        </div>
+        
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #f59e0b; margin-bottom: 10px;">
+                <i class="bi bi-file-text"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $lessons->where('type', 'document')->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">مستندات</div>
+        </div>
+        
+        <div class="stat-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2rem; color: #8b5cf6; margin-bottom: 10px;">
+                <i class="bi bi-question-circle"></i>
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 5px;">{{ $lessons->where('type', 'quiz')->count() }}</div>
+            <div style="color: #6b7280; font-size: 0.9rem;">اختبارات</div>
+        </div>
     </div>
 
     <!-- Filters -->
@@ -81,6 +130,24 @@
                                     <i class="bi bi-file-earmark"></i> درس
                             @endswitch
                         </div>
+                        
+                        <!-- Completion Status -->
+                        @php
+                            $isCompleted = \App\Models\LessonCompletion::where('lesson_id', $lesson->id)
+                                ->where('user_id', auth()->id())
+                                ->exists();
+                        @endphp
+                        <div style="position: absolute; top: 15px; left: 15px; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; z-index: 2;">
+                            @if($isCompleted)
+                                <span style="background: #10b981; color: white;">
+                                    <i class="bi bi-check-circle"></i> مكتمل
+                                </span>
+                            @else
+                                <span style="background: #6b7280; color: white;">
+                                    <i class="bi bi-circle"></i> لم يكتمل
+                                </span>
+                            @endif
+                        </div>
 
                         <!-- Course Image or Placeholder -->
                         <img src="{{ $lesson->course->featured_image ? asset('storage/' . $lesson->course->featured_image) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
@@ -124,11 +191,11 @@
                         </div>
 
                         <!-- Action Button -->
-                        <a href="{{ route('student.lessons.show', ['course' => $lesson->course, 'lesson' => $lesson]) }}" 
-                           class="btn btn-primary" 
-                           style="width: 100%; padding: 12px; font-size: 0.9rem; border-radius: 10px; text-align: center; text-decoration: none; display: inline-block;">
-                            <i class="bi bi-play-circle"></i>
-                            ابدأ الدرس
+                        <a href="{{ route('student.courses.player', ['course' => $lesson->course, 'lesson' => $lesson]) }}" 
+                           class="btn {{ $isCompleted ? 'btn-success' : 'btn-primary' }}" 
+                           style="width: 100%; padding: 12px; font-size: 0.9rem; border-radius: 10px; text-align: center; text-decoration: none; display: inline-block; {{ $isCompleted ? 'background: linear-gradient(135deg, #10b981, #059669);' : '' }}">
+                            <i class="bi {{ $isCompleted ? 'bi-check-circle' : 'bi-play-circle' }}"></i>
+                            {{ $isCompleted ? 'إعادة الدرس' : 'ابدأ الدرس' }}
                         </a>
                     </div>
                 </div>
@@ -172,6 +239,16 @@
 }
 
 .btn:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.btn-success:hover {
     background: linear-gradient(135deg, #059669, #047857);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);

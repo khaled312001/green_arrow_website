@@ -74,6 +74,7 @@
                     <li><a href="{{ route('courses') }}?category=business"><i class="bi bi-briefcase"></i>دورات الأعمال</a></li>
                     <li><a href="{{ route('courses') }}?category=language"><i class="bi bi-translate"></i>دورات اللغات</a></li>
                     <li><a href="{{ route('courses') }}?category=soft-skills"><i class="bi bi-people"></i>المهارات الناعمة</a></li>
+                    <li><a href="{{ route('certificates.verify') }}"><i class="bi bi-shield-check"></i>التحقق من الشهادات</a></li>
                 </ul>
             </div>
 
@@ -134,6 +135,7 @@
                     <li><a href="{{ route('contact') }}"><i class="bi bi-headset"></i>الدعم الفني</a></li>
                     <li><a href="{{ route('contact') }}"><i class="bi bi-chat-dots"></i>الاستشارات</a></li>
                     <li><a href="{{ route('contact') }}"><i class="bi bi-award"></i>الشهادات المعتمدة</a></li>
+                    <li><a href="{{ route('certificates.verify') }}"><i class="bi bi-shield-check"></i>التحقق من الشهادات</a></li>
                 </ul>
             </div>
         </div>

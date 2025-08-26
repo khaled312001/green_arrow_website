@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>شهادة إكمال الدورة</title>
     <style>
-        @font-face {
-            font-family: 'Cairo';
-            src: url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -17,41 +12,30 @@
         }
         
         body {
-            font-family: 'Cairo', 'Tajawal', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Arial', 'Tahoma', sans-serif;
+            background: white;
+            margin: 0;
             padding: 20px;
+            direction: rtl;
+            text-align: right;
+        }
+        
+        @page {
+            size: landscape;
             margin: 0;
         }
         
-        /* تحسين الطباعة */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-            
-            .certificate-container {
-                box-shadow: none;
-                border: none;
-            }
-        }
-        
         .certificate-container {
-            background: white;
             width: 1200px;
             height: 800px;
-            border-radius: 30px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            background: white;
+            border: 8px solid #10b981;
+            border-radius: 20px;
             position: relative;
             overflow: hidden;
-            border: 8px solid #10b981;
+            margin: 0 auto;
         }
         
-        /* إطار احترافي */
         .certificate-border {
             position: absolute;
             top: 20px;
@@ -59,8 +43,7 @@
             right: 20px;
             bottom: 20px;
             border: 3px solid #10b981;
-            border-radius: 20px;
-            z-index: 1;
+            border-radius: 15px;
         }
         
         .certificate-border::before {
@@ -71,82 +54,13 @@
             right: 15px;
             bottom: 15px;
             border: 1px solid #10b981;
-            border-radius: 15px;
-        }
-        
-        .certificate-border::after {
-            content: '';
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            right: 30px;
-            bottom: 30px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 10px;
-        }
-        
-        .certificate-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 40% 60%, rgba(251, 191, 36, 0.08) 0%, transparent 50%),
-                linear-gradient(45deg, rgba(16, 185, 129, 0.02) 0%, transparent 50%);
-            z-index: 1;
-        }
-        
-        /* زوايا مزخرفة */
-        .corner-decoration {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            z-index: 2;
-        }
-        
-        .corner-decoration.top-left {
-            top: 40px;
-            left: 40px;
-            background: 
-                radial-gradient(circle at 20px 20px, #10b981 0%, transparent 50%),
-                radial-gradient(circle at 60px 60px, rgba(16, 185, 129, 0.3) 0%, transparent 50%);
-            border-radius: 50%;
-        }
-        
-        .corner-decoration.top-right {
-            top: 40px;
-            right: 40px;
-            background: 
-                radial-gradient(circle at 20px 20px, #10b981 0%, transparent 50%),
-                radial-gradient(circle at 60px 60px, rgba(16, 185, 129, 0.3) 0%, transparent 50%);
-            border-radius: 50%;
-        }
-        
-        .corner-decoration.bottom-left {
-            bottom: 40px;
-            left: 40px;
-            background: 
-                radial-gradient(circle at 20px 20px, #10b981 0%, transparent 50%),
-                radial-gradient(circle at 60px 60px, rgba(16, 185, 129, 0.3) 0%, transparent 50%);
-            border-radius: 50%;
-        }
-        
-        .corner-decoration.bottom-right {
-            bottom: 40px;
-            right: 40px;
-            background: 
-                radial-gradient(circle at 20px 20px, #10b981 0%, transparent 50%),
-                radial-gradient(circle at 60px 60px, rgba(16, 185, 129, 0.3) 0%, transparent 50%);
-            border-radius: 50%;
         }
         
         .certificate-content {
             position: relative;
             z-index: 3;
-            padding: 60px;
+            padding: 50px;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -155,140 +69,118 @@
         
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            position: relative;
+            margin-bottom: 30px;
         }
         
         .logo {
-            font-size: 3rem;
-            font-weight: 900;
+            font-size: 2.5rem;
+            font-weight: bold;
             color: #10b981;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(16, 185, 129, 0.2);
+            margin-bottom: 10px;
         }
         
         .academy-name {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #6b7280;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             font-weight: 600;
         }
         
         .academy-subtitle {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #9ca3af;
             font-style: italic;
         }
         
         .certificate-title {
-            font-size: 3.5rem;
-            font-weight: 900;
+            font-size: 3rem;
+            font-weight: bold;
             color: #1f2937;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-align: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            background: linear-gradient(135deg, #10b981, #059669);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
         .certificate-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #6b7280;
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             font-weight: 600;
         }
         
         .student-info {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05));
-            border-radius: 20px;
-            border: 2px solid rgba(16, 185, 129, 0.1);
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f0fdf4;
+            border-radius: 15px;
+            border: 2px solid #dcfce7;
         }
         
         .student-name {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: bold;
             color: #10b981;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(16, 185, 129, 0.2);
-            background: linear-gradient(135deg, #10b981, #059669);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 10px;
         }
         
         .course-info {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 25px;
-            background: rgba(248, 250, 252, 0.8);
-            border-radius: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
             border-left: 4px solid #10b981;
         }
         
         .course-name {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: bold;
             color: #1f2937;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .course-details {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #6b7280;
-            margin-bottom: 20px;
             line-height: 1.6;
         }
         
         .course-details div {
-            margin-bottom: 8px;
-            padding: 5px 0;
-        }
-        
-        .course-details div:before {
-            content: '• ';
-            color: #10b981;
-            font-weight: bold;
+            margin-bottom: 5px;
         }
         
         .completion-date {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #6b7280;
             text-align: center;
-            margin-bottom: 35px;
-            padding: 15px;
-            background: rgba(16, 185, 129, 0.05);
-            border-radius: 10px;
+            margin-bottom: 25px;
+            padding: 12px;
+            background: #f0fdf4;
+            border-radius: 8px;
             font-weight: 600;
         }
         
         .certificate-number {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
         
         .number-label {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #6b7280;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
         }
         
         .number-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #1f2937;
-            background: linear-gradient(135deg, #10b981, #059669);
+            font-size: 1.1rem;
+            font-weight: bold;
             color: white;
-            padding: 15px 30px;
-            border-radius: 15px;
+            background: #10b981;
+            padding: 12px 25px;
+            border-radius: 10px;
             display: inline-block;
-            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
         }
         
         .signatures {
@@ -302,61 +194,59 @@
         .signature-box {
             text-align: center;
             flex: 1;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
             margin: 0 10px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid #e5e7eb;
         }
         
         .signature-line {
-            width: 180px;
-            height: 3px;
-            background: linear-gradient(90deg, #10b981, #059669);
-            margin: 0 auto 15px;
-            border-radius: 2px;
+            width: 150px;
+            height: 2px;
+            background: #10b981;
+            margin: 0 auto 10px;
+            border-radius: 1px;
         }
         
         .signature-name {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: bold;
             color: #1f2937;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         
         .signature-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #6b7280;
             font-weight: 500;
         }
         
         .verification-info {
             text-align: center;
-            margin-top: 25px;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-            border-radius: 15px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
             border: 2px solid #e2e8f0;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
         
         .verification-text {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #6b7280;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 500;
         }
         
         .verification-code {
-            font-size: 1rem;
-            font-weight: 700;
+            font-size: 0.9rem;
+            font-weight: bold;
             color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
-            padding: 5px 10px;
-            border-radius: 8px;
+            background: #f0fdf4;
+            padding: 4px 8px;
+            border-radius: 6px;
             display: inline-block;
             font-family: 'Courier New', monospace;
-            letter-spacing: 1px;
         }
         
         .watermark {
@@ -364,39 +254,56 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 5rem;
+            font-size: 4rem;
             color: rgba(16, 185, 129, 0.08);
-            font-weight: 900;
+            font-weight: bold;
             z-index: 1;
             pointer-events: none;
-            letter-spacing: 2px;
         }
         
-        .border-pattern {
+        .corner-decoration {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(45deg, #10b981 1px, transparent 1px),
-                linear-gradient(-45deg, #10b981 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.08;
-            z-index: 1;
+            width: 60px;
+            height: 60px;
+            background: #10b981;
+            border-radius: 50%;
+            z-index: 2;
         }
         
-        /* تحسينات إضافية */
-        .certificate-container::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 25px;
-            z-index: 1;
+        .corner-decoration.top-left {
+            top: 30px;
+            left: 30px;
+        }
+        
+        .corner-decoration.top-right {
+            top: 30px;
+            right: 30px;
+        }
+        
+        .corner-decoration.bottom-left {
+            bottom: 30px;
+            left: 30px;
+        }
+        
+        .corner-decoration.bottom-right {
+            bottom: 30px;
+            right: 30px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .certificate-container {
+                box-shadow: none;
+                border: none;
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
         }
     </style>
 </head>
@@ -411,14 +318,8 @@
         <div class="corner-decoration bottom-left"></div>
         <div class="corner-decoration bottom-right"></div>
         
-        <!-- Background Pattern -->
-        <div class="border-pattern"></div>
-        
         <!-- Watermark -->
         <div class="watermark">GREEN ARROW ACADEMY</div>
-        
-        <!-- Background Gradients -->
-        <div class="certificate-bg"></div>
         
         <!-- Certificate Content -->
         <div class="certificate-content">
@@ -435,36 +336,36 @@
             
             <!-- Student Info -->
             <div class="student-info">
-                <div class="student-name">{{ $user->name }}</div>
-                <div style="color: #6b7280; font-size: 1rem;">الطالب / Student</div>
+                <div class="student-name">{{ $user->name ?? 'اسم الطالب' }}</div>
+                <div style="color: #6b7280; font-size: 0.9rem;">الطالب / Student</div>
             </div>
             
             <!-- Course Info -->
             <div class="course-info">
-                <div class="course-name">{{ $course->title_ar }}</div>
+                <div class="course-name">{{ $course->title_ar ?? $course->title ?? 'اسم الدورة' }}</div>
                 <div class="course-details">
-                    <div>المدرب: {{ $course->instructor->name }}</div>
-                    <div>عدد الدروس: {{ $enrollment->total_lessons }}</div>
+                    <div>المدرب: {{ $course->instructor->name ?? 'اسم المدرب' }}</div>
+                    <div>عدد الدروس: {{ $enrollment->total_lessons ?? 0 }}</div>
                     <div>مدة الدورة: {{ $course->duration_hours ?? 'غير محدد' }} ساعة</div>
                 </div>
             </div>
             
             <!-- Completion Date -->
             <div class="completion-date">
-                تم إكمال الدورة بنجاح في تاريخ: {{ $certificate->issued_at->format('d/m/Y') }}
+                تم إكمال الدورة بنجاح في تاريخ: {{ $certificate->issued_at ? $certificate->issued_at->format('d/m/Y') : date('d/m/Y') }}
             </div>
             
             <!-- Certificate Number -->
             <div class="certificate-number">
                 <div class="number-label">رقم الشهادة / Certificate Number</div>
-                <div class="number-value">{{ $certificate->certificate_number }}</div>
+                <div class="number-value">{{ $certificate->certificate_number ?? 'GA-2025-000001' }}</div>
             </div>
             
             <!-- Verification Info -->
             <div class="verification-info">
                 <div class="verification-text">للتحقق من صحة الشهادة، قم بزيارة:</div>
                 <div class="verification-text">http://127.0.0.1:8000/certificates/verify</div>
-                <div class="verification-text">رمز التحقق: <span class="verification-code">{{ $certificate->verification_code }}</span></div>
+                <div class="verification-text">رمز التحقق: <span class="verification-code">{{ $certificate->verification_code ?? 'ABC12345' }}</span></div>
             </div>
             
             <!-- Signatures -->
@@ -477,7 +378,7 @@
                 
                 <div class="signature-box">
                     <div class="signature-line"></div>
-                    <div class="signature-name">{{ $course->instructor->name }}</div>
+                    <div class="signature-name">{{ $course->instructor->name ?? 'اسم المدرب' }}</div>
                     <div class="signature-title">مدرب الدورة / Course Instructor</div>
                 </div>
             </div>
