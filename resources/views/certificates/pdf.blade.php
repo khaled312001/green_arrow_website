@@ -12,7 +12,7 @@
         }
         
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial', 'Tahoma', 'Times New Roman', sans-serif;
             background: white;
             margin: 0;
             padding: 20px;
@@ -28,9 +28,59 @@
         
         /* إضافة دعم للخطوط العربية */
         .arabic-text {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial', 'Tahoma', 'Times New Roman', sans-serif;
             direction: rtl;
             text-align: right;
+            font-feature-settings: "liga" 1, "kern" 1;
+        }
+        
+        /* تحسين عرض النصوص العربية */
+        .arabic-text,
+        .certificate-title,
+        .student-name,
+        .course-name,
+        .course-details,
+        .completion-date,
+        .signature-name,
+        .signature-title,
+        .verification-text {
+            font-family: 'Arial', 'Tahoma', 'Times New Roman', sans-serif !important;
+            direction: rtl !important;
+            text-align: right !important;
+            font-feature-settings: "liga" 1, "kern" 1;
+            unicode-bidi: embed;
+            word-spacing: 1px;
+            letter-spacing: 0.2px;
+        }
+        
+        /* إعدادات خاصة للعناوين */
+        .certificate-title {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: 2rem;
+        }
+        
+        /* إعدادات خاصة لأسماء الطلاب */
+        .student-name {
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            font-size: 1.3rem;
+        }
+        
+        /* إعدادات خاصة لتفاصيل الدورة */
+        .course-details {
+            font-weight: 400;
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+        
+        /* تحسين عرض النصوص في العناوين */
+        .logo,
+        .academy-name,
+        .academy-subtitle {
+            font-family: 'Arial', 'Tahoma', 'Times New Roman', sans-serif !important;
+            direction: rtl !important;
+            text-align: center !important;
         }
         
         @page {
@@ -314,6 +364,7 @@
                 margin: 0;
                 width: 100%;
                 height: 100%;
+                font-family: 'Arial', 'Tahoma', 'Times New Roman', sans-serif !important;
             }
             
             .certificate-container {
@@ -349,6 +400,24 @@
             /* منع تقسيم العناصر */
             * {
                 page-break-inside: avoid;
+                font-family: 'Arial', 'Tahoma', 'Times New Roman', sans-serif !important;
+            }
+            
+            /* إعدادات خاصة للنصوص العربية في الطباعة */
+            .arabic-text,
+            .certificate-title,
+            .student-name,
+            .course-name,
+            .course-details,
+            .completion-date,
+            .signature-name,
+            .signature-title,
+            .verification-text {
+                font-family: 'Arial', 'Tahoma', 'Times New Roman', sans-serif !important;
+                direction: rtl !important;
+                text-align: right !important;
+                font-feature-settings: "liga" 1, "kern" 1;
+                unicode-bidi: embed;
             }
         }
     </style>
