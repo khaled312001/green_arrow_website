@@ -249,6 +249,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/teachers/{instructor}/edit', [AdminController::class, 'editInstructor'])->name('instructors.edit');
         Route::put('/teachers/{instructor}', [AdminController::class, 'updateInstructor'])->name('instructors.update');
         Route::delete('/teachers/{instructor}', [AdminController::class, 'deleteInstructor'])->name('instructors.delete');
+        Route::post('/teachers/bulk-action', [AdminController::class, 'bulkActionInstructors'])->name('instructors.bulk-action');
         
         // إدارة المدفوعات
         Route::get('/payments', [AdminController::class, 'payments'])->name('payments');

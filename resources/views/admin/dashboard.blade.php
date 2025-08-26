@@ -92,7 +92,7 @@
                         <i class="bi bi-person-plus"></i>
                     </div>
                     <div class="activity-content">
-                        <p><strong>{{ $enrollment->student->name }}</strong> سجل في <strong>{{ $enrollment->course->title_ar }}</strong></p>
+                        <p><strong>{{ $enrollment->user->name ?? 'مستخدم غير معروف' }}</strong> سجل في <strong>{{ $enrollment->course->title_ar ?? 'دورة غير معروفة' }}</strong></p>
                         <small>{{ $enrollment->created_at->diffForHumans() }}</small>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                         <i class="bi bi-credit-card"></i>
                     </div>
                     <div class="activity-content">
-                        <p><strong>{{ $payment->student->name }}</strong> دفع <strong>{{ $payment->total_amount }} ريال</strong></p>
+                        <p><strong>{{ $payment->user->name ?? 'مستخدم غير معروف' }}</strong> دفع <strong>{{ $payment->total_amount }} ريال</strong></p>
                         <small>{{ $payment->created_at->diffForHumans() }}</small>
                     </div>
                 </div>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="course-content">
                     <h4>{{ $course->title_ar }}</h4>
-                    <p>{{ $course->category->name_ar }}</p>
+                    <p>{{ $course->category->name_ar ?? 'فئة غير معروفة' }}</p>
                     <div class="course-stats">
                         <span><i class="bi bi-people"></i> {{ $course->enrollments_count ?? 0 }}</span>
                         <span><i class="bi bi-star"></i> {{ number_format($course->rating ?? 0, 1) }}</span>

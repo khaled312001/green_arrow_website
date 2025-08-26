@@ -91,12 +91,16 @@ class AdminController extends Controller
 
         // أحدث التسجيلات
         $recent_enrollments = Enrollment::with(['user', 'course'])
+            ->whereHas('user')
+            ->whereHas('course')
             ->latest()
             ->limit(10)
             ->get();
 
         // أحدث المدفوعات
         $recent_payments = Payment::with(['user', 'course'])
+            ->whereHas('user')
+            ->whereHas('course')
             ->latest()
             ->limit(10)
             ->get();
@@ -182,6 +186,8 @@ class AdminController extends Controller
         // المدفوعات المعلقة
         $pending_payments = Payment::where('status', 'pending')
             ->with(['user', 'course'])
+            ->whereHas('user')
+            ->whereHas('course')
             ->latest()
             ->limit(5)
             ->get();
@@ -1933,6 +1939,58 @@ class AdminController extends Controller
 
                 return redirect()->route('admin.instructors')
             ->with('success', 'تم حذف المدرب بنجاح');
+    }
+
+    /**
+     * إجراءات جماعية على المدربين
+     */
+    public function bulkActionInstructors(Request $request)
+    {
+        $action = $request->input('action');
+        $instructorIds = $request->input('instructor_ids', []);
+
+        if (empty($instructorIds)) {
+            return response()->json(['success' => false, 'message' => 'لم يتم تحديد أي مدربين']);
+        }
+
+        try {
+            $instructors = User::whereIn('id', $instructorIds)->get();
+
+            switch ($action) {
+                case 'delete':
+                    foreach ($instructors as $instructor) {
+                        if ($instructor->teachingCourses()->count() > 0) {
+                            continue; // تخطي المدربين الذين لديهم دورات
+                        }
+                        
+                        if ($instructor->avatar) {
+                            Storage::disk('public')->delete($instructor->avatar);
+                        }
+                        
+                        if ($instructor->cv) {
+                            Storage::disk('public')->delete($instructor->cv);
+                        }
+                        
+                        $instructor->delete();
+                    }
+                    break;
+
+                case 'activate':
+                    User::whereIn('id', $instructorIds)->update(['status' => 'active']);
+                    break;
+
+                case 'deactivate':
+                    User::whereIn('id', $instructorIds)->update(['status' => 'inactive']);
+                    break;
+
+                default:
+                    return response()->json(['success' => false, 'message' => 'إجراء غير معروف']);
+            }
+
+            return response()->json(['success' => true, 'message' => 'تم تنفيذ الإجراء بنجاح']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء تنفيذ الإجراء']);
+        }
     }
 
     /**

@@ -775,6 +775,16 @@ class StudentController extends Controller
         $pdf->setOption('isRemoteEnabled', true);
         $pdf->setOption('isHtml5ParserEnabled', true);
         $pdf->setOption('isFontSubsettingEnabled', true);
+        $pdf->setOption('defaultFont', 'Arial');
+        $pdf->setOption('encoding', 'UTF-8');
+        $pdf->setOption('isPhpEnabled', true);
+        $pdf->setOption('enable-local-file-access', true);
+        $pdf->setOption('page-size', 'A4');
+        $pdf->setOption('orientation', 'landscape');
+        $pdf->setOption('margin-top', '10mm');
+        $pdf->setOption('margin-right', '10mm');
+        $pdf->setOption('margin-bottom', '10mm');
+        $pdf->setOption('margin-left', '10mm');
         
         $filename = "شهادة_{$certificate->course->title_ar}_{$certificate->user->name}.pdf";
         

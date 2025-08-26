@@ -541,7 +541,7 @@ function updateBulkButtons() {
 function deleteInstructor(instructorId) {
     if (confirm('هل أنت متأكد من حذف هذا المعلم؟')) {
         const form = document.getElementById('deleteForm');
-        form.action = `/admin/instructors/${instructorId}`;
+        form.action = `/admin/teachers/${instructorId}`;
         form.submit();
     }
 }
@@ -557,7 +557,7 @@ function bulkDelete() {
     }
     
     if (confirm(`هل أنت متأكد من حذف ${instructorIds.length} معلم؟`)) {
-        fetch('/admin/instructors/bulk-action', {
+        fetch('/admin/teachers/bulk-action', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -588,7 +588,7 @@ function bulkActivate() {
         return;
     }
     
-    fetch('/admin/instructors/bulk-action', {
+    fetch('/admin/teachers/bulk-action', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -618,7 +618,7 @@ function bulkDeactivate() {
         return;
     }
     
-    fetch('/admin/instructors/bulk-action', {
+    fetch('/admin/teachers/bulk-action', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
