@@ -276,8 +276,14 @@
     </ul>
     @guest
         <div class="mobile-auth-buttons">
-            <a href="{{ route('login') }}" class="btn btn-outline">دخول</a>
-            <a href="{{ route('register') }}" class="btn btn-primary">سجل الآن</a>
+            <a href="{{ route('login') }}" class="btn btn-outline">
+                <i class="bi bi-box-arrow-in-right"></i>
+                دخول
+            </a>
+            <a href="{{ route('register') }}" class="btn btn-primary">
+                <i class="bi bi-person-plus"></i>
+                سجل الآن
+            </a>
         </div>
     @else
         <div class="mobile-user-info">
