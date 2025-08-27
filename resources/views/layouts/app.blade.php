@@ -1671,13 +1671,11 @@
             }
             
             .header-top .social-links {
-                justify-content: center;
-                gap: 8px;
+                display: none;
             }
             
             .header-top .social-links a {
-                font-size: 14px;
-                padding: 3px;
+                display: none;
             }
         }
         
@@ -1781,12 +1779,11 @@
             }
             
             .header-top .social-links {
-                gap: 6px;
+                display: none;
             }
             
             .header-top .social-links a {
-                font-size: 12px;
-                padding: 2px;
+                display: none;
             }
         }
         
