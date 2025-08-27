@@ -16,37 +16,53 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // إحصائيات عامة
-        $stats = [
-            'total_courses' => Course::published()->count(),
-            'total_students' => User::role('student')->count() ?? 0,
-            'total_instructors' => User::role('teacher')->count() ?? 0,
-            'total_graduates' => User::role('student')->whereHas('enrollments', function($query) {
-                $query->where('status', 'completed');
-            })->count() ?? 0,
-        ];
+        try {
+            // إحصائيات عامة
+            $stats = [
+                'total_courses' => Course::where('status', 'published')->count(),
+                'total_students' => User::role('student')->count() ?? 0,
+                'total_instructors' => User::role('teacher')->count() ?? 0,
+                'total_categories' => Category::where('is_active', true)->count() ?? 0,
+            ];
 
-        // الأقسام مع عدد الدورات النشطة
-        $categories = Category::withCount(['courses as active_courses_count' => function($query) {
-            $query->where('status', 'published');
-        }])->get();
+            // الأقسام مع عدد الدورات النشطة
+            $categories = Category::where('is_active', true)
+                ->withCount(['courses as active_courses_count' => function($query) {
+                    $query->where('status', 'published');
+                }])
+                ->take(8)
+                ->get();
 
-        // الدورات المميزة
-        $featuredCourses = Course::published()
-            ->with(['category', 'instructor'])
-            ->where('is_featured', true)
-            ->latest()
-            ->limit(6)
-            ->get();
+            // الدورات المميزة
+            $featuredCourses = Course::where('status', 'published')
+                ->with(['category', 'instructor'])
+                ->where('is_featured', true)
+                ->latest()
+                ->take(6)
+                ->get();
 
-        // أحدث المقالات
-        $latestPosts = BlogPost::published()
-            ->with('author')
-            ->latest('published_at')
-            ->limit(3)
-            ->get();
+            // أحدث المقالات
+            $latestPosts = BlogPost::where('status', 'published')
+                ->with('author')
+                ->latest('published_at')
+                ->take(3)
+                ->get();
 
-        return view('home', compact('stats', 'categories', 'featuredCourses', 'latestPosts'));
+            return view('home', compact('stats', 'categories', 'featuredCourses', 'latestPosts'));
+        } catch (\Exception $e) {
+            // Fallback data if database is not ready
+            return view('home', [
+                'stats' => [
+                    'total_courses' => 0,
+                    'total_students' => 0,
+                    'total_instructors' => 0,
+                    'total_categories' => 0,
+                ],
+                'categories' => collect(),
+                'featuredCourses' => collect(),
+                'latestPosts' => collect(),
+            ]);
+        }
     }
     
     /**
@@ -54,17 +70,36 @@ class HomeController extends Controller
      */
     public function about()
     {
-        // المدربين المميزين مع معلومات إضافية
-        $instructors = User::role('teacher')
-            ->with(['teachingCourses' => function($query) {
-                $query->where('status', 'published');
-            }])
-            ->where('is_active', true)
-            ->inRandomOrder()
-            ->limit(8)
-            ->get() ?? collect();
-            
-        return view('about', compact('instructors'));
+        try {
+            $stats = [
+                'total_courses' => Course::where('status', 'published')->count(),
+                'total_students' => User::role('student')->count() ?? 0,
+                'total_instructors' => User::role('teacher')->count() ?? 0,
+                'total_categories' => Category::where('is_active', true)->count() ?? 0,
+            ];
+
+            // المدربين المميزين مع معلومات إضافية
+            $instructors = User::role('teacher')
+                ->with(['teachingCourses' => function($query) {
+                    $query->where('status', 'published');
+                }])
+                ->where('is_active', true)
+                ->inRandomOrder()
+                ->take(8)
+                ->get() ?? collect();
+                
+            return view('about', compact('instructors', 'stats'));
+        } catch (\Exception $e) {
+            return view('about', [
+                'instructors' => collect(),
+                'stats' => [
+                    'total_courses' => 0,
+                    'total_students' => 0,
+                    'total_instructors' => 0,
+                    'total_categories' => 0,
+                ]
+            ]);
+        }
     }
     
     /**

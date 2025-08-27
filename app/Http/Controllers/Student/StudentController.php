@@ -155,7 +155,7 @@ class StudentController extends Controller
             'quizzes_taken' => \App\Models\QuizAttempt::where('user_id', $user->id)
                 ->whereYear('created_at', now()->year)
                 ->select(
-                    \Illuminate\Support\Facades\DB::raw('strftime("%m", created_at) as month'),
+                    \Illuminate\Support\Facades\DB::raw('MONTH(created_at) as month'),
                     \Illuminate\Support\Facades\DB::raw('COUNT(*) as count')
                 )
                 ->groupBy('month')
@@ -329,7 +329,7 @@ class StudentController extends Controller
         $monthly_progress = \App\Models\QuizAttempt::where('user_id', $user->id)
             ->whereYear('created_at', now()->year)
             ->select(
-                \Illuminate\Support\Facades\DB::raw('strftime("%m", created_at) as month'),
+                \Illuminate\Support\Facades\DB::raw('MONTH(created_at) as month'),
                 \Illuminate\Support\Facades\DB::raw('COUNT(*) as quizzes_taken'),
                 \Illuminate\Support\Facades\DB::raw('AVG(score) as average_score')
             )

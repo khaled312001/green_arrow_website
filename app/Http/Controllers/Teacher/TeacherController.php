@@ -335,8 +335,8 @@ class TeacherController extends Controller
         $monthlyRevenue = Payment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
         })
-        ->selectRaw('strftime("%m", created_at) as month, SUM(amount) as total')
-        ->whereRaw('strftime("%Y", created_at) = ?', [date('Y')])
+        ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
+        ->whereRaw('YEAR(created_at) = ?', [date('Y')])
         ->groupBy('month')
         ->get();
 
@@ -543,8 +543,8 @@ class TeacherController extends Controller
         $monthlyRevenue = Payment::whereHas('course', function($query) use ($teacher) {
             $query->where('instructor_id', $teacher->id);
         })
-        ->selectRaw('strftime("%m", created_at) as month, SUM(amount) as total')
-        ->whereRaw('strftime("%Y", created_at) = ?', [date('Y')])
+        ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
+        ->whereRaw('YEAR(created_at) = ?', [date('Y')])
         ->groupBy('month')
         ->get();
 
