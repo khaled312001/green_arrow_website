@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // الطالب
             $table->foreignId('course_id')->constrained()->onDelete('cascade'); // الدورة
-            $table->foreignId('payment_id')->nullable()->constrained()->onDelete('set null'); // الدفعة
+            $table->foreignId('payment_id')->nullable(); // الدفعة - سيتم إضافة القيد لاحقاً
             
             // حالة التسجيل
             $table->enum('status', ['pending', 'active', 'completed', 'cancelled', 'expired'])->default('pending');

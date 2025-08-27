@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('course_resources', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('enrollments', function (Blueprint $table) {
+            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('set null');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_resources');
+        Schema::table('enrollments', function (Blueprint $table) {
+            $table->dropForeign(['payment_id']);
+        });
     }
 };
