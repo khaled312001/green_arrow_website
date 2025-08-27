@@ -43,7 +43,7 @@
             <label for="site_primary_color" class="form-label">اللون الأساسي</label>
             <div class="d-flex align-items-center">
                 <div class="color-preview" style="background-color: {{ $settings['appearance']['site_primary_color'] ?? '#10b981' }}"></div>
-                <input type="color" class="form-control form-control-color" id="site_primary_color" name="settings[site_primary_color]" 
+                <input type="color" class="form-control form-control-color" id="site_primary_color" name="settings[appearance][site_primary_color]" 
                        value="{{ $settings['appearance']['site_primary_color'] ?? '#10b981' }}">
             </div>
             <div class="form-text">اللون الأساسي للموقع</div>
@@ -52,7 +52,7 @@
             <label for="site_secondary_color" class="form-label">اللون الثانوي</label>
             <div class="d-flex align-items-center">
                 <div class="color-preview" style="background-color: {{ $settings['appearance']['site_secondary_color'] ?? '#1f2937' }}"></div>
-                <input type="color" class="form-control form-control-color" id="site_secondary_color" name="settings[site_secondary_color]" 
+                <input type="color" class="form-control form-control-color" id="site_secondary_color" name="settings[appearance][site_secondary_color]" 
                        value="{{ $settings['appearance']['site_secondary_color'] ?? '#1f2937' }}">
             </div>
             <div class="form-text">اللون الثانوي للموقع</div>
@@ -61,7 +61,7 @@
             <label for="site_accent_color" class="form-label">لون التمييز</label>
             <div class="d-flex align-items-center">
                 <div class="color-preview" style="background-color: {{ $settings['appearance']['site_accent_color'] ?? '#f59e0b' }}"></div>
-                <input type="color" class="form-control form-control-color" id="site_accent_color" name="settings[site_accent_color]" 
+                <input type="color" class="form-control form-control-color" id="site_accent_color" name="settings[appearance][site_accent_color]" 
                        value="{{ $settings['appearance']['site_accent_color'] ?? '#f59e0b' }}">
             </div>
             <div class="form-text">لون التمييز للموقع</div>

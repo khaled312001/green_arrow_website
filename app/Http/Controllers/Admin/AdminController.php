@@ -1122,7 +1122,7 @@ class AdminController extends Controller
                             [
                                 'value' => $valueToStore,
                                 'type' => $type,
-                                'group' => $this->determineSettingGroup($key),
+                                'group' => $groupKey, // Use the group from the form structure
                                 'label' => $key,
                                 'description' => 'Auto-updated setting',
                                 'is_public' => false
