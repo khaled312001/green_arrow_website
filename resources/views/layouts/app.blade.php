@@ -24,7 +24,8 @@
     
     <!-- Favicon -->
     @if(setting('site_favicon'))
-        <link rel="icon" type="image/x-icon" href="{{ setting('site_favicon') }}">
+        <link rel="icon" type="image/svg+xml" href="{{ asset(setting('site_favicon')) }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset(setting('site_favicon')) }}">
     @else
         <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -34,9 +35,9 @@
     <meta property="og:title" content="@yield('og_title', setting('og_title', setting('site_title')))">
     <meta property="og:description" content="@yield('og_description', setting('og_description', setting('site_description')))">
     @if(setting('og_image'))
-        <meta property="og:image" content="{{ setting('og_image') }}">
+        <meta property="og:image" content="{{ asset(setting('og_image')) }}">
     @elseif(setting('site_logo'))
-        <meta property="og:image" content="{{ setting('site_logo') }}">
+        <meta property="og:image" content="{{ asset(setting('site_logo')) }}">
     @else
         <meta property="og:image" content="{{ asset('images/logo.svg') }}">
     @endif
@@ -49,9 +50,9 @@
     <meta name="twitter:title" content="@yield('og_title', setting('og_title', setting('site_title')))">
     <meta name="twitter:description" content="@yield('og_description', setting('og_description', setting('site_description')))">
     @if(setting('og_image'))
-        <meta name="twitter:image" content="{{ setting('og_image') }}">
+        <meta name="twitter:image" content="{{ asset(setting('og_image')) }}">
     @elseif(setting('site_logo'))
-        <meta name="twitter:image" content="{{ setting('site_logo') }}">
+        <meta name="twitter:image" content="{{ asset(setting('site_logo')) }}">
     @else
         <meta name="twitter:image" content="{{ asset('images/logo.svg') }}">
     @endif

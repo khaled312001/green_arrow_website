@@ -55,6 +55,11 @@
             font-weight: 600;
         }
 
+        .sidebar-logo img {
+            height: 30px;
+            width: auto;
+        }
+
         .sidebar-logo i {
             color: #10b981;
             font-size: 1.5rem;
@@ -610,8 +615,12 @@
             </button>
             <div class="sidebar-header">
                 <a href="{{ route('teacher.dashboard') }}" class="sidebar-logo">
-                    <i class="bi bi-person-workspace"></i>
-                    لوحة المدرب
+                    @if(setting('site_logo'))
+                        <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}">
+                    @else
+                        <i class="bi bi-person-workspace"></i>
+                    @endif
+                    {{ setting('site_name', 'لوحة المدرب') }}
                 </a>
             </div>
             <nav class="sidebar-nav">

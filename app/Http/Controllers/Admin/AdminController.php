@@ -285,7 +285,7 @@ class AdminController extends Controller
         });
 
         // Get notifications from database
-        $notifications = Notification::latest()->limit(10)->get();
+        $notifications = CustomNotification::latest()->limit(10)->get();
 
         // System status data
         $systemStatus = [
@@ -2122,7 +2122,7 @@ class AdminController extends Controller
      */
     public function notifications()
     {
-        $notifications = Notification::where('user_id', auth()->id())
+        $notifications = CustomNotification::where('user_id', auth()->id())
             ->orWhere('user_id', null) // إشعارات عامة
             ->orderBy('created_at', 'desc')
             ->paginate(20);
@@ -2161,7 +2161,7 @@ class AdminController extends Controller
      */
     public function markAllNotificationsRead()
     {
-        Notification::where('user_id', auth()->id())
+        CustomNotification::where('user_id', auth()->id())
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
         
@@ -2189,13 +2189,13 @@ class AdminController extends Controller
      */
     public function getNotifications()
     {
-        $notifications = Notification::where('user_id', auth()->id())
+        $notifications = CustomNotification::where('user_id', auth()->id())
             ->orWhere('user_id', null)
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
 
-        $unreadCount = Notification::where('user_id', auth()->id())
+        $unreadCount = CustomNotification::where('user_id', auth()->id())
             ->orWhere('user_id', null)
             ->whereNull('read_at')
             ->count();

@@ -1284,8 +1284,12 @@
             </button>
             <div class="sidebar-header">
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-logo">
-                    <i class="bi bi-arrow-up-circle"></i>
-                    لوحة الإدارة
+                    @if(setting('site_logo'))
+                        <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}" style="height: 30px; width: auto; margin-left: 10px;">
+                    @else
+                        <i class="bi bi-arrow-up-circle"></i>
+                    @endif
+                    {{ setting('site_name', 'لوحة الإدارة') }}
                 </a>
             </div>
             
