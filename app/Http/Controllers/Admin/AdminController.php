@@ -1744,7 +1744,9 @@ class AdminController extends Controller
         // Statistics for the view
         $activeInstructors = User::role('teacher')->where('status', 'active')->count();
         $totalCourses = Course::count();
-        $averageRating = User::role('teacher')->avg('rating') ?? 0;
+        $averageRating = Course::whereHas('instructor', function($query) {
+            $query->role('teacher');
+        })->avg('rating') ?? 0;
 
         return view('admin.instructors.index', compact('instructors', 'activeInstructors', 'totalCourses', 'averageRating'));
     }
