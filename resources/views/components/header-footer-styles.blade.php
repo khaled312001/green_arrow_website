@@ -1596,9 +1596,12 @@ section:first-of-type {
     }
     
     .header-top {
-        padding: 3px 0; /* تقليل المساحة أكثر للموبايل */
-        margin-bottom: 0;
-        font-size: 10px; /* تقليل حجم الخط للموبايل */
+        display: none !important; /* إخفاء الشريط العلوي في الموبايل */
+        visibility: hidden !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
     }
     
     .top-bar-content {
@@ -1792,7 +1795,12 @@ section:first-of-type {
 
 @media (max-width: 480px) {
     .header-top {
-        padding: 2px 0;
+        display: none !important; /* إخفاء الشريط العلوي في الموبايل الصغير */
+        visibility: hidden !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
     }
     
     .top-bar-content {
