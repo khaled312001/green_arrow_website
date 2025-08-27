@@ -1545,7 +1545,7 @@
         }
         
         function markAllAsRead() {
-            fetch('/admin/notifications/mark-all-read', {
+            fetch('{{ route("admin.notifications.mark-all-read") }}', {
                 method: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -1624,7 +1624,7 @@
         
         function loadNotifications() {
             console.log('Loading notifications...');
-            fetch('/admin/notifications/api', {
+            fetch('{{ route("admin.notifications.api") }}', {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     'Accept': 'application/json'
@@ -1724,7 +1724,7 @@
         }
 
         function markAsRead(notificationId) {
-            fetch(`/admin/notifications/${notificationId}/read`, {
+            fetch(`{{ route("admin.notifications.read", "") }}/${notificationId}`, {
                 method: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -1757,7 +1757,7 @@
                 return;
             }
             
-            fetch(`/admin/notifications/${notificationId}`, {
+            fetch(`{{ route("admin.notifications.delete", "") }}/${notificationId}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
