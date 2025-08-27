@@ -1785,7 +1785,7 @@
             });
         }
 
-
+        function formatTimeExtended(timestamp) {
             const date = new Date(timestamp);
             const now = new Date();
             const diffInMinutes = Math.floor((now - date) / (1000 * 60));

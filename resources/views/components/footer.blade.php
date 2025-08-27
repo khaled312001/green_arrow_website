@@ -8,41 +8,66 @@
             <!-- Footer Brand Section -->
             <div class="footer-brand">
                 <div class="footer-logo">
-                    <div class="logo-icon">
-                        <i class="bi bi-mortarboard-fill"></i>
-                    </div>
+                    @if(setting('site_logo'))
+                        <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}" style="height: 50px; width: auto; margin-bottom: 15px;">
+                    @else
+                        <div class="logo-icon">
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+                    @endif
                     <div class="logo-text">
-                        <h3>أكاديمية السهم الأخضر</h3>
-                        <p class="logo-tagline">نحو مستقبل تعليمي أفضل</p>
+                        <h3>{{ setting('site_name', 'أكاديمية السهم الأخضر') }}</h3>
+                        <p class="logo-tagline">{{ setting('site_description', 'نحو مستقبل تعليمي أفضل') }}</p>
                     </div>
                 </div>
                 <p class="footer-description">
-                    نقدم دورات تعليمية عالية الجودة في مختلف المجالات التقنية والبرمجية، 
-                    نساعدك على تطوير مهاراتك وبناء مستقبلك المهني.
+                    {{ setting('site_description', 'نقدم دورات تعليمية عالية الجودة في مختلف المجالات التقنية والبرمجية، نساعدك على تطوير مهاراتك وبناء مستقبلك المهني.') }}
                 </p>
                 
                 <!-- Enhanced Social Links -->
                 <div class="footer-social">
                     <h4><i class="bi bi-share"></i> تابعنا على</h4>
                     <div class="social-icons-grid">
-                        <a href="https://api.whatsapp.com/send?phone=9660598200437" target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" title="WhatsApp">
-                            <i class="bi bi-whatsapp"></i>
-                        </a>
-                        <a href="https://x.com/greenarrowac" target="_blank" rel="noopener noreferrer" class="social-icon twitter" title="X (Twitter)">
-                            <i class="bi bi-twitter-x"></i>
-                        </a>
-                        <a href="https://t.me/greenarrowac" target="_blank" rel="noopener noreferrer" class="social-icon telegram" title="Telegram">
-                            <i class="bi bi-telegram"></i>
-                        </a>
-                        <a href="https://www.youtube.com/@%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%D8%A7%D9%84%D8%B3%D9%87%D9%85%D8%A7%D9%84%D8%A3%D8%AE%D8%B6%D8%B1" target="_blank" rel="noopener noreferrer" class="social-icon youtube" title="YouTube">
-                            <i class="bi bi-youtube"></i>
-                        </a>
-                        <a href="https://tiktok.com/@green.arrow645" target="_blank" rel="noopener noreferrer" class="social-icon tiktok" title="TikTok">
-                            <i class="bi bi-tiktok"></i>
-                        </a>
-                        <a href="mailto:greenarrowacademic@gmail.com" class="social-icon email" title="Email">
-                            <i class="bi bi-envelope"></i>
-                        </a>
+                        @if(setting('site_whatsapp'))
+                            <a href="https://wa.me/{{ str_replace(['+', ' ', '-'], '', setting('site_whatsapp')) }}" target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" title="WhatsApp">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+                        @endif
+                        @if(setting('twitter_url'))
+                            <a href="{{ setting('twitter_url') }}" target="_blank" rel="noopener noreferrer" class="social-icon twitter" title="X (Twitter)">
+                                <i class="bi bi-twitter-x"></i>
+                            </a>
+                        @endif
+                        @if(setting('telegram_url'))
+                            <a href="{{ setting('telegram_url') }}" target="_blank" rel="noopener noreferrer" class="social-icon telegram" title="Telegram">
+                                <i class="bi bi-telegram"></i>
+                            </a>
+                        @endif
+                        @if(setting('youtube_url'))
+                            <a href="{{ setting('youtube_url') }}" target="_blank" rel="noopener noreferrer" class="social-icon youtube" title="YouTube">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+                        @endif
+                        @if(setting('tiktok_url'))
+                            <a href="{{ setting('tiktok_url') }}" target="_blank" rel="noopener noreferrer" class="social-icon tiktok" title="TikTok">
+                                <i class="bi bi-tiktok"></i>
+                            </a>
+                        @endif
+                        @if(setting('site_email'))
+                            <a href="mailto:{{ setting('site_email') }}" class="social-icon email" title="Email">
+                                <i class="bi bi-envelope"></i>
+                            </a>
+                        @endif
+                        @if(setting('facebook_url'))
+                            <a href="{{ setting('facebook_url') }}" target="_blank" rel="noopener noreferrer" class="social-icon facebook" title="Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                        @endif
+                        @if(setting('instagram_url'))
+                            <a href="{{ setting('instagram_url') }}" target="_blank" rel="noopener noreferrer" class="social-icon instagram" title="Instagram">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -90,7 +115,7 @@
                         </div>
                         <div class="contact-card-content">
                             <h5>ساعات العمل</h5>
-                            <p>الأحد - الخميس: 9:00 ص - 6:00 م</p>
+                            <p>{{ setting('site_working_hours', 'الأحد - الخميس: 9:00 ص - 6:00 م') }}</p>
                         </div>
                     </div>
                     <div class="contact-card">
@@ -99,7 +124,7 @@
                         </div>
                         <div class="contact-card-content">
                             <h5>البريد الإلكتروني</h5>
-                            <a href="mailto:greenarrowacademic@gmail.com">greenarrowacademic@gmail.com</a>
+                            <p>{{ setting('site_email', 'greenarrowacademic@gmail.com') }}</p>
                         </div>
                     </div>
                     <div class="contact-card">
@@ -108,7 +133,7 @@
                         </div>
                         <div class="contact-card-content">
                             <h5>الهاتف</h5>
-                            <a href="tel:+966598200437">+966 59 820 0437</a>
+                            <p>{{ setting('site_phone', '+966 50 826 0274') }}</p>
                         </div>
                     </div>
                     <div class="contact-card">
@@ -117,7 +142,7 @@
                         </div>
                         <div class="contact-card-content">
                             <h5>العنوان</h5>
-                            <p>مكة المكرمة، المملكة العربية السعودية</p>
+                            <p>{{ setting('site_address', 'مكة المكرمة - حي الخضراء') }}</p>
                         </div>
                     </div>
                 </div>
