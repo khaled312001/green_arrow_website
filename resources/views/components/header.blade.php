@@ -81,7 +81,7 @@
                 <a href="{{ route('home') }}" class="logo">
                     <div class="logo-container">
                         @if(setting('site_logo'))
-                            <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}" class="logo-image">
+                            <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}" class="logo-image">
                         @else
                             <div class="logo-icon">
                                 <i class="bi bi-arrow-up-circle-fill"></i>
