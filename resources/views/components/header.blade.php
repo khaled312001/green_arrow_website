@@ -274,6 +274,37 @@
             <i class="bi bi-telephone"></i>اتصل بنا
         </a></li>
     </ul>
+    
+    <!-- Social Media Links in Mobile Sidebar -->
+    <div class="mobile-social-section">
+        <h4>تابعنا على</h4>
+        <div class="mobile-social-links">
+            <a href="https://api.whatsapp.com/send?phone=9660598200437" target="_blank" rel="noopener noreferrer" class="mobile-social-link whatsapp" title="WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+                <span>WhatsApp</span>
+            </a>
+            <a href="https://x.com/greenarrowac" target="_blank" rel="noopener noreferrer" class="mobile-social-link twitter" title="X (Twitter)">
+                <i class="bi bi-twitter-x"></i>
+                <span>X (Twitter)</span>
+            </a>
+            <a href="https://t.me/greenarrowac" target="_blank" rel="noopener noreferrer" class="mobile-social-link telegram" title="Telegram">
+                <i class="bi bi-telegram"></i>
+                <span>Telegram</span>
+            </a>
+            <a href="https://www.youtube.com/@%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%D8%A7%D9%84%D8%B3%D9%87%D9%85%D8%A7%D9%84%D8%A3%D8%AE%D8%B6%D8%B1" target="_blank" rel="noopener noreferrer" class="mobile-social-link youtube" title="YouTube">
+                <i class="bi bi-youtube"></i>
+                <span>YouTube</span>
+            </a>
+            <a href="https://tiktok.com/@green.arrow645" target="_blank" rel="noopener noreferrer" class="mobile-social-link tiktok" title="TikTok">
+                <i class="bi bi-tiktok"></i>
+                <span>TikTok</span>
+            </a>
+            <a href="mailto:greenarrowacademic@gmail.com" class="mobile-social-link email" title="Email">
+                <i class="bi bi-envelope"></i>
+                <span>Email</span>
+            </a>
+        </div>
+    </div>
     @guest
         <div class="mobile-auth-buttons">
             <a href="{{ route('login') }}" class="btn btn-outline">

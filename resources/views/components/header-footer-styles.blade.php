@@ -1301,6 +1301,88 @@ section:first-of-type {
     text-align: center;
 }
 
+/* Mobile Social Media Section */
+.mobile-social-section {
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.mobile-social-section h4 {
+    margin: 0 0 15px 0;
+    color: #374151;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.mobile-social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mobile-social-links .mobile-social-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background: white;
+    border: 1px solid #e5e7eb;
+}
+
+.mobile-social-links .mobile-social-link:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.mobile-social-links .mobile-social-link i {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.mobile-social-links .mobile-social-link.whatsapp:hover {
+    background: #25d366;
+    color: white;
+    border-color: #25d366;
+}
+
+.mobile-social-links .mobile-social-link.twitter:hover {
+    background: #000;
+    color: white;
+    border-color: #000;
+}
+
+.mobile-social-links .mobile-social-link.telegram:hover {
+    background: #0088cc;
+    color: white;
+    border-color: #0088cc;
+}
+
+.mobile-social-links .mobile-social-link.youtube:hover {
+    background: #ff0000;
+    color: white;
+    border-color: #ff0000;
+}
+
+.mobile-social-links .mobile-social-link.tiktok:hover {
+    background: #000;
+    color: white;
+    border-color: #000;
+}
+
+.mobile-social-links .mobile-social-link.email:hover {
+    background: #ea4335;
+    color: white;
+    border-color: #ea4335;
+}
+
 .mobile-auth-buttons {
     padding: 20px;
     display: flex;
@@ -1733,17 +1815,29 @@ section:first-of-type {
     }
     
     .social-links {
-        gap: 6px;
-        padding: 6px 10px;
-        width: auto;
-        justify-content: center;
-        flex-wrap: nowrap;
+        display: none;
     }
     
     .social-link {
-        padding: 6px;
-        font-size: 14px;
-        flex-shrink: 0;
+        display: none;
+    }
+    
+    .mobile-social-section {
+        padding: 12px;
+    }
+    
+    .mobile-social-section h4 {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+    
+    .mobile-social-links .mobile-social-link {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .mobile-social-links .mobile-social-link i {
+        font-size: 15px;
     }
     
     .lang-btn {
