@@ -192,9 +192,12 @@ class Setting extends Model
             ['password_require_special', '1', 'boolean', 'system', 'تطلب رموز خاصة', 'تطلب كلمة المرور رموز خاصة', false],
             
             // Notification Settings
-            ['email_notifications_enabled', '1', 'boolean', 'notifications', 'تفعيل إشعارات البريد', 'تفعيل إرسال الإشعارات عبر البريد', false],
-            ['sms_notifications_enabled', '0', 'boolean', 'notifications', 'تفعيل إشعارات SMS', 'تفعيل إرسال الإشعارات عبر SMS', false],
-            ['push_notifications_enabled', '1', 'boolean', 'notifications', 'تفعيل الإشعارات الفورية', 'تفعيل الإشعارات الفورية في المتصفح', false],
+            ['notifications_email_enabled', '1', 'boolean', 'notifications', 'تفعيل إشعارات البريد', 'تفعيل إرسال الإشعارات عبر البريد', false],
+            ['notifications_sms_enabled', '0', 'boolean', 'notifications', 'تفعيل إشعارات SMS', 'تفعيل إرسال الإشعارات عبر SMS', false],
+            ['notifications_push_enabled', '1', 'boolean', 'notifications', 'تفعيل الإشعارات الفورية', 'تفعيل الإشعارات الفورية في المتصفح', false],
+            ['notifications_whatsapp_enabled', '0', 'boolean', 'notifications', 'تفعيل إشعارات الواتساب', 'تفعيل إرسال الإشعارات عبر الواتساب', false],
+            ['notifications_sound_enabled', '1', 'boolean', 'notifications', 'تفعيل صوت الإشعارات', 'تفعيل صوت الإشعارات في المتصفح', false],
+            ['notifications_frequency', 'immediate', 'string', 'notifications', 'تكرار الإشعارات', 'تكرار إرسال الإشعارات', false],
             ['new_course_notification', '1', 'boolean', 'notifications', 'إشعارات الدورات الجديدة', 'إرسال إشعارات عند إضافة دورات جديدة', false],
             ['course_update_notification', '1', 'boolean', 'notifications', 'إشعارات تحديث الدورات', 'إرسال إشعارات عند تحديث الدورات', false],
             ['payment_notification', '1', 'boolean', 'notifications', 'إشعارات المدفوعات', 'إرسال إشعارات عند إتمام المدفوعات', false],

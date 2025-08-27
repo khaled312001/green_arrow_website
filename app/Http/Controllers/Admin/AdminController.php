@@ -1063,6 +1063,7 @@ class AdminController extends Controller
         try {
             $request->validate([
                 'settings' => 'required|array',
+                'settings.*' => 'nullable',
             ]);
 
             // Log the incoming data for debugging
@@ -1071,15 +1072,46 @@ class AdminController extends Controller
             \Log::info('Settings count:', ['count' => count($request->input('settings', []))]);
 
             $updatedCount = 0;
-            foreach ($request->settings as $key => $value) {
-                \Log::info("Processing setting: {$key} = {$value}");
+            $settingsData = $request->input('settings', []);
+            
+            // Flatten nested arrays and process all settings
+            $flattenedSettings = $this->flattenSettingsArray($settingsData);
+            
+            foreach ($flattenedSettings as $key => $value) {
+                \Log::info("Processing setting: {$key} = " . (is_array($value) ? json_encode($value) : $value));
+                
+                // Handle file uploads
+                if ($request->hasFile("settings.{$key}")) {
+                    $file = $request->file("settings.{$key}");
+                    if ($file->isValid()) {
+                        // Delete old file if exists
+                        $oldSetting = Setting::where('key', $key)->first();
+                        if ($oldSetting && $oldSetting->value) {
+                            \Storage::disk('public')->delete($oldSetting->value);
+                        }
+                        
+                        // Store new file
+                        $path = $file->store('settings', 'public');
+                        $valueToStore = $path;
+                        $type = 'file';
+                        
+                        \Log::info("File uploaded for setting: {$key}, stored at: {$path}");
+                    } else {
+                        \Log::warning("Invalid file upload for setting: {$key}");
+                        continue;
+                    }
+                } else {
+                    // Convert array values to JSON string for storage
+                    $valueToStore = is_array($value) ? json_encode($value) : $value;
+                    $type = is_array($value) ? 'json' : 'string';
+                }
                 
                 // Try to update the setting directly using updateOrCreate
                 $setting = Setting::updateOrCreate(
                     ['key' => $key],
                     [
-                        'value' => $value,
-                        'type' => 'string',
+                        'value' => $valueToStore,
+                        'type' => $type,
                         'group' => $this->determineSettingGroup($key),
                         'label' => $key,
                         'description' => 'Auto-updated setting',
@@ -1088,9 +1120,9 @@ class AdminController extends Controller
                 );
                 
                 $updatedCount++;
-                \Log::info("Updated/Created setting: {$key} with value: {$value}");
-            \Log::info("Setting object:", ['setting' => $setting->toArray()]);
-            \Log::info("Database updated successfully for key: {$key}");
+                \Log::info("Updated/Created setting: {$key} with value: " . (is_array($value) ? json_encode($value) : $value));
+                \Log::info("Setting object:", ['setting' => $setting->toArray()]);
+                \Log::info("Database updated successfully for key: {$key}");
             }
 
             // Clear all settings cache
@@ -1102,6 +1134,34 @@ class AdminController extends Controller
             \Log::error('Settings update error: ' . $e->getMessage());
             return back()->with('error', 'حدث خطأ أثناء تحديث الإعدادات: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Flatten nested settings array
+     */
+    private function flattenSettingsArray($array, $prefix = '')
+    {
+        $result = [];
+        
+        foreach ($array as $key => $value) {
+            $newKey = $prefix ? $prefix . '_' . $key : $key;
+            
+            if (is_array($value) && !$this->isFileUpload($value)) {
+                $result = array_merge($result, $this->flattenSettingsArray($value, $newKey));
+            } else {
+                $result[$newKey] = $value;
+            }
+        }
+        
+        return $result;
+    }
+
+    /**
+     * Check if the value is a file upload
+     */
+    private function isFileUpload($value)
+    {
+        return is_array($value) && isset($value['tmp_name']) && isset($value['name']);
     }
 
     /**

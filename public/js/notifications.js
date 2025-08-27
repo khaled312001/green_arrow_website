@@ -296,4 +296,4 @@ function deleteNotification(notificationId) {
         console.error('Error:', error);
         showNotification('حدث خطأ أثناء حذف الإشعار', 'error');
     });
-}
+} 
