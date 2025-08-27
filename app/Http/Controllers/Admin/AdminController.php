@@ -12,7 +12,7 @@ use App\Models\Enrollment;
 use App\Models\BlogPost;
 use App\Models\Quiz;
 use App\Models\Setting;
-use App\Models\Notification as CustomNotification;
+use App\Models\Notification as AppNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -285,7 +285,7 @@ class AdminController extends Controller
         });
 
         // Get notifications from database
-        $notifications = CustomNotification::latest()->limit(10)->get();
+        $notifications = AppNotification::latest()->limit(10)->get();
 
         // System status data
         $systemStatus = [
@@ -2122,7 +2122,7 @@ class AdminController extends Controller
      */
     public function notifications()
     {
-        $notifications = CustomNotification::where('user_id', auth()->id())
+        $notifications = AppNotification::where('user_id', auth()->id())
             ->orWhere('user_id', null) // إشعارات عامة
             ->orderBy('created_at', 'desc')
             ->paginate(20);
@@ -2133,7 +2133,7 @@ class AdminController extends Controller
     /**
      * عرض إشعار محدد
      */
-    public function showNotification(Notification $notification)
+    public function showNotification(AppNotification $notification)
     {
         // تحديث حالة الإشعار كمقروء
         if (!$notification->read_at) {
@@ -2146,7 +2146,7 @@ class AdminController extends Controller
     /**
      * تحديد إشعار كمقروء
      */
-    public function markNotificationRead(Notification $notification)
+    public function markNotificationRead(AppNotification $notification)
     {
         $notification->update(['read_at' => now()]);
         
@@ -2161,7 +2161,7 @@ class AdminController extends Controller
      */
     public function markAllNotificationsRead()
     {
-        CustomNotification::where('user_id', auth()->id())
+        AppNotification::where('user_id', auth()->id())
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
         
@@ -2174,7 +2174,7 @@ class AdminController extends Controller
     /**
      * حذف إشعار
      */
-    public function deleteNotification(Notification $notification)
+    public function deleteNotification(AppNotification $notification)
     {
         $notification->delete();
         
@@ -2189,13 +2189,13 @@ class AdminController extends Controller
      */
     public function getNotifications()
     {
-        $notifications = CustomNotification::where('user_id', auth()->id())
+        $notifications = AppNotification::where('user_id', auth()->id())
             ->orWhere('user_id', null)
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
 
-        $unreadCount = CustomNotification::where('user_id', auth()->id())
+        $unreadCount = AppNotification::where('user_id', auth()->id())
             ->orWhere('user_id', null)
             ->whereNull('read_at')
             ->count();

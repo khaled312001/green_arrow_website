@@ -1724,7 +1724,7 @@
         }
 
         function markAsRead(notificationId) {
-            fetch(`{{ route("admin.notifications.read", "") }}/${notificationId}`, {
+            fetch(`/admin/notifications/${notificationId}/read`, {
                 method: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -1757,7 +1757,7 @@
                 return;
             }
             
-            fetch(`{{ route("admin.notifications.delete", "") }}/${notificationId}`, {
+            fetch(`/admin/notifications/${notificationId}`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
