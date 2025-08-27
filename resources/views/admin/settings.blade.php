@@ -117,7 +117,7 @@
                                 <i class="bi bi-arrow-clockwise"></i>
                                 مسح الذاكرة المؤقتة
                             </button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" onclick="return validateForm()">
                                 <i class="bi bi-check-lg"></i>
                                 حفظ الإعدادات
                             </button>
@@ -260,6 +260,38 @@ function clearSettingsCache() {
             button.disabled = false;
         });
     }
+}
+
+function validateForm() {
+    console.log('Form validation started');
+    
+    // Log form data for debugging
+    const form = document.getElementById('settingsForm');
+    const formData = new FormData(form);
+    
+    console.log('Form data:');
+    for (let [key, value] of formData.entries()) {
+        console.log(key + ': ' + value);
+    }
+    
+    // Check if any file inputs have files selected
+    const fileInputs = form.querySelectorAll('input[type="file"]');
+    let hasFiles = false;
+    
+    fileInputs.forEach(input => {
+        if (input.files.length > 0) {
+            console.log('File selected:', input.name, input.files[0].name);
+            hasFiles = true;
+        }
+    });
+    
+    if (hasFiles) {
+        console.log('Files detected, proceeding with form submission');
+    } else {
+        console.log('No files selected');
+    }
+    
+    return true; // Allow form submission
 }
 </script>
 

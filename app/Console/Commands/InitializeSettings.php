@@ -19,19 +19,35 @@ class InitializeSettings extends Command
      *
      * @var string
      */
-    protected $description = 'Initialize default settings for the application';
+    protected $description = 'Initialize all default settings in the database';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->info('Initializing default settings...');
-        
+        $this->info('Initializing settings...');
+
+        // Initialize default settings
         Setting::initializeDefaults();
-        
+
         $this->info('Settings initialized successfully!');
-        
-        return Command::SUCCESS;
+
+        // Show current settings count
+        $count = Setting::count();
+        $this->info("Total settings in database: {$count}");
+
+        // Show appearance settings specifically
+        $appearanceSettings = Setting::where('group', 'appearance')->get();
+        $this->info('Appearance settings:');
+        foreach ($appearanceSettings as $setting) {
+            $this->line("- {$setting->key}: {$setting->value} ({$setting->type})");
+        }
+
+        // Clear cache
+        Setting::clearCache();
+        $this->info('Settings cache cleared');
+
+        return 0;
     }
 }

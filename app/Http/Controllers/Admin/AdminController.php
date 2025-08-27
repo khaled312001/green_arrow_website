@@ -1074,6 +1074,9 @@ class AdminController extends Controller
             $updatedCount = 0;
             $settingsData = $request->input('settings', []);
             
+            // Log file uploads specifically
+            \Log::info('File uploads:', $request->allFiles());
+            
             // Process settings directly without flattening to preserve structure
             foreach ($settingsData as $groupKey => $groupSettings) {
                 if (is_array($groupSettings)) {
@@ -1105,6 +1108,12 @@ class AdminController extends Controller
                             $existingSetting = Setting::where('key', $key)->first();
                             if ($existingSetting && $existingSetting->type === 'file' && empty($value)) {
                                 \Log::info("Skipping empty value for file setting: {$key}");
+                                continue;
+                            }
+                            
+                            // Skip completely empty values
+                            if (empty($value) && $value !== '0' && $value !== 0) {
+                                \Log::info("Skipping completely empty value for setting: {$key}");
                                 continue;
                             }
                             
@@ -1145,6 +1154,11 @@ class AdminController extends Controller
             \Artisan::call('cache:clear');
 
             \Log::info("Settings update completed. Updated count: {$updatedCount}");
+            
+            if ($updatedCount === 0) {
+                return back()->with('info', 'لم يتم تحديث أي إعداد. تأكد من إدخال قيم جديدة أو اختيار ملفات جديدة.');
+            }
+            
             return back()->with('success', "تم تحديث {$updatedCount} إعداد بنجاح");
         } catch (\Exception $e) {
             \Log::error('Settings update error: ' . $e->getMessage());
