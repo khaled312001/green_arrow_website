@@ -530,10 +530,12 @@ section:first-of-type {
 }
 
 .logo-image {
-    height: 32px;
+    height: 50px;
     width: auto;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
     transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
 }
 
 .logo:hover .logo-image {
