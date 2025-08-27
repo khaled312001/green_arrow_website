@@ -94,8 +94,8 @@ section:first-of-type {
 /* Enhanced Header Top Bar */
 .header-top {
     background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 100%);
-    padding: 12px 0;
-    font-size: 13px;
+    padding: 8px 0; /* تقليل المساحة من 12px إلى 8px */
+    font-size: 12px; /* تقليل حجم الخط من 13px إلى 12px */
     border-bottom: 1px solid rgba(255,255,255,0.15);
     position: relative;
 }
@@ -115,8 +115,6 @@ section:first-of-type {
         position: absolute !important;
         left: -9999px !important;
     }
-}
-    overflow: hidden;
 }
 
 .header-top::before {
@@ -138,7 +136,7 @@ section:first-of-type {
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap !important; /* منع الالتفاف على الشاشات الكبيرة */
-    gap: 25px;
+    gap: 15px; /* تقليل المساحة من 25px إلى 15px */
     position: relative;
     z-index: 2;
     width: 100%;
@@ -148,7 +146,7 @@ section:first-of-type {
     display: flex;
     flex-direction: row !important; /* تأكيد الاتجاه الأفقي */
     align-items: center;
-    gap: 20px;
+    gap: 12px; /* تقليل المساحة من 20px إلى 12px */
     flex-wrap: nowrap !important; /* منع الالتفاف على الشاشات الكبيرة */
     flex-shrink: 1;
     min-width: 0;
@@ -157,12 +155,12 @@ section:first-of-type {
 .contact-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px; /* تقليل المساحة من 10px إلى 6px */
     color: rgba(255,255,255,0.95);
-    font-size: 12px;
+    font-size: 11px; /* تقليل حجم الخط من 12px إلى 11px */
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 8px 12px;
-    border-radius: 12px;
+    padding: 6px 8px; /* تقليل المساحة من 8px 12px إلى 6px 8px */
+    border-radius: 8px; /* تقليل من 12px إلى 8px */
     background: rgba(255,255,255,0.08);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.1);
@@ -199,11 +197,11 @@ section:first-of-type {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 20px; /* تقليل من 24px إلى 20px */
+    height: 20px; /* تقليل من 24px إلى 20px */
     background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
     border-radius: 50%;
-    font-size: 12px;
+    font-size: 10px; /* تقليل من 12px إلى 10px */
     color: #fbbf24;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
@@ -219,11 +217,11 @@ section:first-of-type {
 .contact-details {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 2px; /* تقليل من 3px إلى 2px */
 }
 
 .contact-label {
-    font-size: 10px;
+    font-size: 9px; /* تقليل من 10px إلى 9px */
     opacity: 0.8;
     font-weight: 600;
     text-transform: uppercase;
@@ -235,7 +233,7 @@ section:first-of-type {
     color: white;
     text-decoration: none;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 11px; /* تقليل من 13px إلى 11px */
     transition: all 0.3s ease;
     line-height: 1.2;
 }
@@ -249,7 +247,7 @@ section:first-of-type {
     display: flex;
     flex-direction: row !important; /* تأكيد الاتجاه الأفقي */
     align-items: center;
-    gap: 20px;
+    gap: 15px; /* تقليل من 20px إلى 15px */
     flex-wrap: nowrap !important; /* منع الالتفاف على الشاشات الكبيرة */
     flex-shrink: 1;
     min-width: 0;
@@ -259,10 +257,10 @@ section:first-of-type {
 .social-links {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px; /* تقليل من 10px إلى 8px */
     background: rgba(255,255,255,0.05);
-    padding: 8px 15px;
-    border-radius: 25px;
+    padding: 6px 12px; /* تقليل من 8px 15px إلى 6px 12px */
+    border-radius: 20px; /* تقليل من 25px إلى 20px */
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -273,9 +271,9 @@ section:first-of-type {
 .social-link {
     position: relative;
     color: rgba(255,255,255,0.9);
-    font-size: 18px;
+    font-size: 16px; /* تقليل من 18px إلى 16px */
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 10px;
+    padding: 8px; /* تقليل من 10px إلى 8px */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1598,28 +1596,65 @@ section:first-of-type {
     }
     
     .header-top {
-        padding: 4px 0;
+        padding: 3px 0; /* تقليل المساحة أكثر للموبايل */
         margin-bottom: 0;
+        font-size: 10px; /* تقليل حجم الخط للموبايل */
     }
     
     .top-bar-content {
-        gap: 8px;
+        gap: 6px; /* تقليل المساحة بين العناصر */
+        flex-direction: row !important;
+        justify-content: space-between;
+        align-items: center;
     }
     
     .contact-info {
-        gap: 6px;
+        gap: 4px; /* تقليل المساحة بين عناصر الاتصال */
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .contact-info::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .contact-item {
+        padding: 3px 5px; /* تقليل المساحة الداخلية */
+        font-size: 9px; /* تقليل حجم الخط */
+        gap: 4px; /* تقليل المساحة بين الأيقونة والنص */
+        min-width: auto;
+        flex-shrink: 0;
+    }
+    
+    .contact-icon {
+        width: 16px; /* تقليل حجم الأيقونة */
+        height: 16px;
+        font-size: 8px;
+    }
+    
+    .contact-label {
+        font-size: 7px; /* تقليل حجم النص */
+    }
+    
+    .contact-value {
+        font-size: 8px; /* تقليل حجم النص */
     }
     
     .top-bar-right {
-        gap: 8px;
+        gap: 6px;
+        flex-shrink: 0;
     }
     
     .social-links {
-        display: none;
+        display: none !important;
     }
     
     .social-link {
-        display: none;
+        display: none !important;
     }
     
     /* Remove any gaps between header and main content */

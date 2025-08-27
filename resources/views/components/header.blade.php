@@ -254,6 +254,41 @@
             <i class="bi bi-x-lg"></i>
         </button>
     </div>
+    
+    <!-- Contact Information Section in Mobile Sidebar -->
+    <div class="mobile-contact-section">
+        <h4>معلومات الاتصال</h4>
+        <div class="mobile-contact-links">
+            @if(setting('site_phone'))
+                <a href="tel:{{ setting('site_phone') }}" class="mobile-contact-link phone">
+                    <i class="bi bi-telephone-fill"></i>
+                    <div class="contact-text">
+                        <span class="contact-label">اتصل بنا</span>
+                        <span class="contact-value">{{ setting('site_phone') }}</span>
+                    </div>
+                </a>
+            @endif
+            @if(setting('site_email'))
+                <a href="mailto:{{ setting('site_email') }}" class="mobile-contact-link email">
+                    <i class="bi bi-envelope-fill"></i>
+                    <div class="contact-text">
+                        <span class="contact-label">البريد الإلكتروني</span>
+                        <span class="contact-value">{{ setting('site_email') }}</span>
+                    </div>
+                </a>
+            @endif
+            @if(setting('site_working_hours'))
+                <div class="mobile-contact-link hours">
+                    <i class="bi bi-clock-fill"></i>
+                    <div class="contact-text">
+                        <span class="contact-label">ساعات العمل</span>
+                        <span class="contact-value">{{ setting('site_working_hours') }}</span>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+    
     <ul class="mobile-nav-menu">
         <li><a href="{{ route('home') }}" class="mobile-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
             <i class="bi bi-house-door"></i>الرئيسية
