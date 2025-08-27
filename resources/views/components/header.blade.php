@@ -138,6 +138,39 @@
             
             <div class="navbar-actions">
                 
+                @auth
+                    <!-- Notifications -->
+                    <div class="notifications-dropdown">
+                        <button class="notifications-toggle" id="notificationsToggle">
+                            <i class="bi bi-bell"></i>
+                            <span class="notifications-badge" id="notificationsCount">0</span>
+                        </button>
+                        
+                        <div class="notifications-panel" id="notificationsPanel">
+                            <div class="notifications-header">
+                                <h6>الإشعارات</h6>
+                                <div class="header-actions">
+                                    <button class="mark-all-read" onclick="markAllAsRead()">
+                                        <i class="bi bi-check-all"></i>
+                                        تحديد الكل كمقروء
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="notifications-list" id="notificationsList">
+                                <div class="no-notifications">
+                                    <i class="bi bi-bell-slash"></i>
+                                    <p>لم يصل أي إشعار من الموقع</p>
+                                </div>
+                            </div>
+                            
+                            <div class="notifications-footer">
+                                <a href="#" onclick="viewAllNotifications()">عرض جميع الإشعارات</a>
+                            </div>
+                        </div>
+                    </div>
+                @endauth
+                
                 <div class="auth-buttons">
                     @guest
                         <a href="{{ route('login') }}" class="btn btn-outline">
