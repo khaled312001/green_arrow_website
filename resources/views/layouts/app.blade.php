@@ -2268,7 +2268,7 @@
         
         function viewAllNotifications() {
             // Redirect to notifications page based on user role
-            const userRole = '{{ auth()->user()->roles->first()->name ?? "" }}';
+            const userRole = '{{ auth()->check() ? (auth()->user()->roles->first()->name ?? "") : "" }}';
             if (userRole === 'admin') {
                 window.location.href = '/admin/notifications';
             } else if (userRole === 'teacher') {
