@@ -294,12 +294,12 @@ Route::middleware('auth')->group(function () {
         
         // الإعدادات
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
-        Route::put('/settings', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
+        Route::put('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
     Route::get('/social-links', [AdminController::class, 'socialLinks'])->name('social-links');
-        Route::post('/settings/clear-cache', [AdminController::class, 'clearCache'])->name('admin.settings.clear-cache');
-        Route::post('/settings/backup-database', [AdminController::class, 'backupDatabase'])->name('admin.settings.backup-database');
-        Route::post('/settings/optimize-database', [AdminController::class, 'optimizeDatabase'])->name('admin.settings.optimize-database');
-        Route::post('/settings/maintenance-mode', [AdminController::class, 'maintenanceMode'])->name('admin.settings.maintenance-mode');
+        Route::post('/settings/clear-cache', [AdminController::class, 'clearCache'])->name('settings.clear-cache');
+        Route::post('/settings/backup-database', [AdminController::class, 'backupDatabase'])->name('settings.backup-database');
+        Route::post('/settings/optimize-database', [AdminController::class, 'optimizeDatabase'])->name('settings.optimize-database');
+        Route::post('/settings/maintenance-mode', [AdminController::class, 'maintenanceMode'])->name('settings.maintenance-mode');
         
         // Dashboard API endpoints
         Route::get('/dashboard/stats', [AdminController::class, 'getDashboardStats'])->name('dashboard.stats');
