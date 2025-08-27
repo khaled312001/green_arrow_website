@@ -287,9 +287,10 @@ Route::middleware('auth')->group(function () {
         
         // إدارة الإشعارات
         Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
+        Route::get('/notifications/api', [AdminController::class, 'getNotifications'])->name('notifications.api');
+        Route::put('/notifications/mark-all-read', [AdminController::class, 'markAllNotificationsRead'])->name('notifications.mark-all-read');
         Route::get('/notifications/{notification}', [AdminController::class, 'showNotification'])->name('notifications.show');
         Route::put('/notifications/{notification}/read', [AdminController::class, 'markNotificationRead'])->name('notifications.read');
-        Route::put('/notifications/mark-all-read', [AdminController::class, 'markAllNotificationsRead'])->name('notifications.mark-all-read');
         Route::delete('/notifications/{notification}', [AdminController::class, 'deleteNotification'])->name('notifications.delete');
         
         // الإعدادات
@@ -305,9 +306,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/stats', [AdminController::class, 'getDashboardStats'])->name('dashboard.stats');
         Route::get('/dashboard/activity', [AdminController::class, 'getRecentActivity'])->name('dashboard.activity');
         Route::get('/dashboard/system-status', [AdminController::class, 'getSystemStatus'])->name('dashboard.system-status');
-        
-                            // API routes for notifications
-                            Route::get('/notifications/api', [AdminController::class, 'getNotifications'])->name('notifications.api');
         });
     });
 });
