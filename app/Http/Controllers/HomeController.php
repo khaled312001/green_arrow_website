@@ -23,6 +23,7 @@ class HomeController extends Controller
                 'total_students' => User::role('student')->count() ?? 0,
                 'total_instructors' => User::role('teacher')->count() ?? 0,
                 'total_categories' => Category::where('is_active', true)->count() ?? 0,
+                'total_graduates' => \App\Models\Certificate::count() ?? 0,
             ];
 
             // الأقسام مع عدد الدورات النشطة
@@ -57,6 +58,7 @@ class HomeController extends Controller
                     'total_students' => 0,
                     'total_instructors' => 0,
                     'total_categories' => 0,
+                    'total_graduates' => 0,
                 ],
                 'categories' => collect(),
                 'featuredCourses' => collect(),
@@ -76,6 +78,7 @@ class HomeController extends Controller
                 'total_students' => User::role('student')->count() ?? 0,
                 'total_instructors' => User::role('teacher')->count() ?? 0,
                 'total_categories' => Category::where('is_active', true)->count() ?? 0,
+                'total_graduates' => \App\Models\Certificate::count() ?? 0,
             ];
 
             // المدربين المميزين مع معلومات إضافية
@@ -97,6 +100,7 @@ class HomeController extends Controller
                     'total_students' => 0,
                     'total_instructors' => 0,
                     'total_categories' => 0,
+                    'total_graduates' => 0,
                 ]
             ]);
         }
