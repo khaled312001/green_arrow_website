@@ -12,7 +12,7 @@ use App\Models\Enrollment;
 use App\Models\BlogPost;
 use App\Models\Quiz;
 use App\Models\Setting;
-use App\Models\Notification;
+use App\Models\Notification as CustomNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

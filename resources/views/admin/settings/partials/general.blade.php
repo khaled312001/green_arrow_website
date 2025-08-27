@@ -6,7 +6,7 @@
         <div class="col-md-6 mb-3">
             <label for="site_name" class="form-label">اسم الموقع</label>
             <input type="text" class="form-control" id="site_name" name="settings[site_name]" 
-                   value="{{ $settings['site']['site_name'] ?? '' }}" required>
+                   value="{{ $settings['site']['site_name'] ?? 'أكاديمية السهم الأخضر للتدريب' }}">
             <div class="form-text">اسم الموقع كما يظهر في المتصفح</div>
         </div>
         <div class="col-md-6 mb-3">
@@ -23,7 +23,7 @@
                 <i class="bi bi-envelope"></i> البريد الإلكتروني
             </label>
             <input type="email" class="form-control" id="site_email" name="settings[site_email]" 
-                   value="{{ $settings['site']['site_email'] ?? '' }}" required>
+                   value="{{ $settings['site']['site_email'] ?? 'greenarrowacademic@gmail.com' }}">
             <div class="form-text">البريد الإلكتروني الرئيسي للموقع</div>
         </div>
         <div class="col-md-6 mb-3">
