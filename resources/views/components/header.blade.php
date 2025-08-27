@@ -82,10 +82,7 @@
                     <div class="logo-container">
                         @if(setting('site_logo'))
                             <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}" class="logo-image">
-                        @else
-                            <div class="logo-icon">
-                                <i class="bi bi-arrow-up-circle-fill"></i>
-                            </div>
+                       
                         @endif
                         <div class="logo-text">
                             <span class="logo-title">{{ setting('site_name', 'أكاديمية السهم الأخضر') }}</span>
