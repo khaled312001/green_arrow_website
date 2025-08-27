@@ -100,86 +100,6 @@ section:first-of-type {
     position: relative;
 }
 
-/* Enhanced Social Media Links */
-.social-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
-}
-
-.social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-.social-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.6s ease;
-}
-
-.social-link:hover::before {
-    left: 100%;
-}
-
-.social-link:hover {
-    transform: translateY(-2px) scale(1.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.social-link i {
-    font-size: 14px;
-    z-index: 1;
-    position: relative;
-}
-
-.social-link.whatsapp:hover {
-    background: #25d366;
-    border-color: #25d366;
-}
-
-.social-link.twitter:hover {
-    background: #000;
-    border-color: #000;
-}
-
-.social-link.telegram:hover {
-    background: #0088cc;
-    border-color: #0088cc;
-}
-
-.social-link.youtube:hover {
-    background: #ff0000;
-    border-color: #ff0000;
-}
-
-.social-link.tiktok:hover {
-    background: #000;
-    border-color: #000;
-}
-
-.social-link.email:hover {
-    background: #ea4335;
-    border-color: #ea4335;
-}
-
 /* Hide social media links on mobile */
 @media (max-width: 768px) {
     .header-top .social-links,
@@ -195,6 +115,8 @@ section:first-of-type {
         position: absolute !important;
         left: -9999px !important;
     }
+}
+    overflow: hidden;
 }
 
 .header-top::before {
@@ -1401,113 +1323,74 @@ section:first-of-type {
 .mobile-social-section {
     padding: 20px;
     border-top: 1px solid #e5e7eb;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: #f9fafb;
 }
 
 .mobile-social-section h4 {
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0;
     color: #374151;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 600;
     text-align: center;
-    position: relative;
-}
-
-.mobile-social-section h4::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 3px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    border-radius: 2px;
 }
 
 .mobile-social-links {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .mobile-social-links .mobile-social-link {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 16px 20px;
+    padding: 12px 16px;
     color: #374151;
     text-decoration: none;
-    border-radius: 12px;
+    border-radius: 8px;
     transition: all 0.3s ease;
-    font-weight: 600;
+    font-weight: 500;
     background: white;
-    border: 2px solid #e5e7eb;
-    position: relative;
-    overflow: hidden;
-}
-
-.mobile-social-links .mobile-social-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.6s ease;
-}
-
-.mobile-social-links .mobile-social-link:hover::before {
-    left: 100%;
+    border: 1px solid #e5e7eb;
 }
 
 .mobile-social-links .mobile-social-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    border-color: transparent;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .mobile-social-links .mobile-social-link i {
-    font-size: 20px;
-    width: 24px;
+    font-size: 18px;
+    width: 20px;
     text-align: center;
-    z-index: 1;
-    position: relative;
-}
-
-.mobile-social-links .mobile-social-link span {
-    font-size: 14px;
-    z-index: 1;
-    position: relative;
 }
 
 .mobile-social-links .mobile-social-link.whatsapp:hover {
-    background: linear-gradient(135deg, #25d366, #128c7e);
+    background: #25d366;
     color: white;
     border-color: #25d366;
 }
 
 .mobile-social-links .mobile-social-link.twitter:hover {
-    background: linear-gradient(135deg, #000, #333);
+    background: #000;
     color: white;
     border-color: #000;
 }
 
 .mobile-social-links .mobile-social-link.telegram:hover {
-    background: linear-gradient(135deg, #0088cc, #005580);
+    background: #0088cc;
     color: white;
     border-color: #0088cc;
 }
 
 .mobile-social-links .mobile-social-link.youtube:hover {
-    background: linear-gradient(135deg, #ff0000, #cc0000);
+    background: #ff0000;
     color: white;
     border-color: #ff0000;
 }
 
 .mobile-social-links .mobile-social-link.tiktok:hover {
-    background: linear-gradient(135deg, #000, #333);
+    background: #000;
     color: white;
     border-color: #000;
 }
@@ -1986,26 +1869,21 @@ section:first-of-type {
     }
     
     .mobile-social-section {
-        padding: 15px;
+        padding: 12px;
     }
     
     .mobile-social-section h4 {
-        font-size: 16px;
-        margin-bottom: 15px;
-    }
-    
-    .mobile-social-links {
-        grid-template-columns: 1fr;
-        gap: 10px;
+        font-size: 13px;
+        margin-bottom: 10px;
     }
     
     .mobile-social-links .mobile-social-link {
-        padding: 12px 16px;
-        font-size: 14px;
+        padding: 8px 12px;
+        font-size: 13px;
     }
     
     .mobile-social-links .mobile-social-link i {
-        font-size: 18px;
+        font-size: 15px;
     }
     
     .lang-btn {
@@ -2659,5 +2537,144 @@ section:first-of-type {
     .contact-card-content a {
         font-size: 13px;
     }
+}
+
+/* Mobile Contact Information Section */
+.mobile-contact-section {
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.mobile-contact-section h4 {
+    margin: 0 0 20px 0;
+    color: #374151;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+}
+
+.mobile-contact-section h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 2px;
+}
+
+.mobile-contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mobile-contact-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 20px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background: white;
+    border: 2px solid #e5e7eb;
+    position: relative;
+    overflow: hidden;
+}
+
+.mobile-contact-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.mobile-contact-link:hover::before {
+    left: 100%;
+}
+
+.mobile-contact-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    border-color: #10b981;
+}
+
+.mobile-contact-link i {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+    z-index: 1;
+    position: relative;
+    color: #10b981;
+}
+
+.mobile-contact-link .contact-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1;
+    position: relative;
+    flex: 1;
+}
+
+.mobile-contact-link .contact-label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mobile-contact-link .contact-value {
+    font-size: 14px;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.mobile-contact-link.phone:hover {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border-color: #10b981;
+}
+
+.mobile-contact-link.phone:hover i,
+.mobile-contact-link.phone:hover .contact-label,
+.mobile-contact-link.phone:hover .contact-value {
+    color: white;
+}
+
+.mobile-contact-link.email:hover {
+    background: linear-gradient(135deg, #ea4335, #d32f2f);
+    color: white;
+    border-color: #ea4335;
+}
+
+.mobile-contact-link.email:hover i,
+.mobile-contact-link.email:hover .contact-label,
+.mobile-contact-link.email:hover .contact-value {
+    color: white;
+}
+
+.mobile-contact-link.hours:hover {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    border-color: #fbbf24;
+}
+
+.mobile-contact-link.hours:hover i,
+.mobile-contact-link.hours:hover .contact-label,
+.mobile-contact-link.hours:hover .contact-value {
+    color: white;
 }
 </style> 
