@@ -1514,6 +1514,14 @@ section:first-of-type {
         gap: 8px;
     }
     
+    .social-links {
+        display: none;
+    }
+    
+    .social-link {
+        display: none;
+    }
+    
     /* Remove any gaps between header and main content */
     .main-content-area,
     .main-content,
@@ -1590,13 +1598,11 @@ section:first-of-type {
     }
     
     .social-links {
-        padding: 4px 8px;
-        gap: 6px;
+        display: none;
     }
     
     .social-link {
-        padding: 6px;
-        font-size: 14px;
+        display: none;
     }
     
     .lang-btn {
@@ -1646,6 +1652,14 @@ section:first-of-type {
     
     .top-bar-right {
         gap: 5px;
+    }
+    
+    .social-links {
+        display: none;
+    }
+    
+    .social-link {
+        display: none;
     }
     
     .navbar {
