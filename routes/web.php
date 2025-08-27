@@ -18,6 +18,8 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+
+
 // صفحات الشروط والسياسات
 Route::get('/privacy-policy', function () {
     return view('privacy-policy');

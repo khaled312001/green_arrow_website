@@ -1074,55 +1074,67 @@ class AdminController extends Controller
             $updatedCount = 0;
             $settingsData = $request->input('settings', []);
             
-            // Flatten nested arrays and process all settings
-            $flattenedSettings = $this->flattenSettingsArray($settingsData);
-            
-            foreach ($flattenedSettings as $key => $value) {
-                \Log::info("Processing setting: {$key} = " . (is_array($value) ? json_encode($value) : $value));
-                
-                // Handle file uploads
-                if ($request->hasFile("settings.{$key}")) {
-                    $file = $request->file("settings.{$key}");
-                    if ($file->isValid()) {
-                        // Delete old file if exists
-                        $oldSetting = Setting::where('key', $key)->first();
-                        if ($oldSetting && $oldSetting->value) {
-                            \Storage::disk('public')->delete($oldSetting->value);
+            // Process settings directly without flattening to preserve structure
+            foreach ($settingsData as $groupKey => $groupSettings) {
+                if (is_array($groupSettings)) {
+                    foreach ($groupSettings as $key => $value) {
+                        \Log::info("Processing setting: {$key} = " . (is_array($value) ? json_encode($value) : $value));
+                        
+                        // Handle file uploads
+                        if ($request->hasFile("settings.{$groupKey}.{$key}")) {
+                            $file = $request->file("settings.{$groupKey}.{$key}");
+                            if ($file->isValid()) {
+                                // Delete old file if exists
+                                $oldSetting = Setting::where('key', $key)->first();
+                                if ($oldSetting && $oldSetting->value) {
+                                    \Storage::disk('public')->delete($oldSetting->value);
+                                }
+                                
+                                // Store new file
+                                $path = $file->store('settings', 'public');
+                                $valueToStore = $path;
+                                $type = 'file';
+                                
+                                \Log::info("File uploaded for setting: {$key}, stored at: {$path}");
+                            } else {
+                                \Log::warning("Invalid file upload for setting: {$key}");
+                                continue;
+                            }
+                        } else {
+                            // Skip empty values for file type settings to avoid overwriting with empty values
+                            $existingSetting = Setting::where('key', $key)->first();
+                            if ($existingSetting && $existingSetting->type === 'file' && empty($value)) {
+                                \Log::info("Skipping empty value for file setting: {$key}");
+                                continue;
+                            }
+                            
+                            // Convert array values to JSON string for storage
+                            $valueToStore = is_array($value) ? json_encode($value) : $value;
+                            $type = is_array($value) ? 'json' : 'string';
                         }
                         
-                        // Store new file
-                        $path = $file->store('settings', 'public');
-                        $valueToStore = $path;
-                        $type = 'file';
+                        // Additional logging for debugging
+                        \Log::info("Final value to store for {$key}: {$valueToStore} (type: {$type})");
                         
-                        \Log::info("File uploaded for setting: {$key}, stored at: {$path}");
-                    } else {
-                        \Log::warning("Invalid file upload for setting: {$key}");
-                        continue;
+                        // Try to update the setting directly using updateOrCreate
+                        $setting = Setting::updateOrCreate(
+                            ['key' => $key],
+                            [
+                                'value' => $valueToStore,
+                                'type' => $type,
+                                'group' => $this->determineSettingGroup($key),
+                                'label' => $key,
+                                'description' => 'Auto-updated setting',
+                                'is_public' => false
+                            ]
+                        );
+                        
+                        $updatedCount++;
+                        \Log::info("Updated/Created setting: {$key} with value: " . (is_array($value) ? json_encode($value) : $value));
+                        \Log::info("Setting object:", ['setting' => $setting->toArray()]);
+                        \Log::info("Database updated successfully for key: {$key}");
                     }
-                } else {
-                    // Convert array values to JSON string for storage
-                    $valueToStore = is_array($value) ? json_encode($value) : $value;
-                    $type = is_array($value) ? 'json' : 'string';
                 }
-                
-                // Try to update the setting directly using updateOrCreate
-                $setting = Setting::updateOrCreate(
-                    ['key' => $key],
-                    [
-                        'value' => $valueToStore,
-                        'type' => $type,
-                        'group' => $this->determineSettingGroup($key),
-                        'label' => $key,
-                        'description' => 'Auto-updated setting',
-                        'is_public' => false
-                    ]
-                );
-                
-                $updatedCount++;
-                \Log::info("Updated/Created setting: {$key} with value: " . (is_array($value) ? json_encode($value) : $value));
-                \Log::info("Setting object:", ['setting' => $setting->toArray()]);
-                \Log::info("Database updated successfully for key: {$key}");
             }
 
             // Clear all settings cache
@@ -1242,6 +1254,9 @@ class AdminController extends Controller
             'social' => Setting::getGroup('social'),
         ];
 
+        // Get raw database values
+        $rawSettings = Setting::whereIn('key', ['site_logo', 'site_name', 'site_phone', 'site_email'])->get();
+
         return response()->json([
             'settings' => $settings,
             'cached_values' => [
@@ -1249,7 +1264,17 @@ class AdminController extends Controller
                 'site_logo' => setting('site_logo'),
                 'site_phone' => setting('site_phone'),
                 'site_email' => setting('site_email'),
-            ]
+            ],
+            'raw_database_values' => $rawSettings->mapWithKeys(function($setting) {
+                return [$setting->key => [
+                    'value' => $setting->value,
+                    'type' => $setting->type,
+                    'group' => $setting->group
+                ]];
+            }),
+            'storage_path' => storage_path('app/public'),
+            'public_path' => public_path('storage'),
+            'asset_url' => asset('storage/test'),
         ]);
     }
 
