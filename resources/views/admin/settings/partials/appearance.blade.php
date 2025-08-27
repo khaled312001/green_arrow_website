@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="site_logo" class="form-label">شعار الموقع</label>
-            <input type="file" class="form-control" id="site_logo" name="settings[site_logo]" accept="image/*">
+            <input type="file" class="form-control" id="site_logo" name="settings[appearance][site_logo]" accept="image/*">
             @if($settings['appearance']['site_logo'] ?? false)
                 <div class="mt-2">
                     <img src="{{ $settings['appearance']['site_logo'] }}" alt="الشعار الحالي" class="file-preview">
@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-6 mb-3">
             <label for="site_logo_light" class="form-label">الشعار الفاتح</label>
-            <input type="file" class="form-control" id="site_logo_light" name="settings[site_logo_light]" accept="image/*">
+            <input type="file" class="form-control" id="site_logo_light" name="settings[appearance][site_logo_light]" accept="image/*">
             @if($settings['appearance']['site_logo_light'] ?? false)
                 <div class="mt-2">
                     <img src="{{ $settings['appearance']['site_logo_light'] }}" alt="الشعار الفاتح الحالي" class="file-preview">
@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="site_favicon" class="form-label">أيقونة الموقع</label>
-            <input type="file" class="form-control" id="site_favicon" name="settings[site_favicon]" accept="image/*">
+            <input type="file" class="form-control" id="site_favicon" name="settings[appearance][site_favicon]" accept="image/*">
             @if($settings['appearance']['site_favicon'] ?? false)
                 <div class="mt-2">
                     <img src="{{ $settings['appearance']['site_favicon'] }}" alt="الأيقونة الحالية" class="file-preview">

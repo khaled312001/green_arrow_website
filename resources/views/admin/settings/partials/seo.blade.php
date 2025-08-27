@@ -53,7 +53,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label for="og_image" class="form-label">صورة Open Graph</label>
-            <input type="file" class="form-control" id="og_image" name="settings[og_image]" accept="image/*">
+            <input type="file" class="form-control" id="og_image" name="settings[seo][og_image]" accept="image/*">
             @if($settings['seo']['og_image'] ?? false)
                 <div class="mt-2">
                     <img src="{{ $settings['seo']['og_image'] }}" alt="صورة Open Graph الحالية" class="file-preview">
