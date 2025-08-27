@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
+    <!-- Additional Meta Tags -->
+    <meta name="author" content="{{ setting('site_author', 'أكاديمية السهم الأخضر للتدريب') }}">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="ar">
+    <meta name="revisit-after" content="7 days">
+    <meta name="distribution" content="global">
+    <meta name="rating" content="general">
+    <meta name="theme-color" content="#10b981">
+    <meta name="msapplication-TileColor" content="#10b981">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}">
+    
     <title>@yield('title', setting('site_title', 'أكاديمية السهم الأخضر للتدريب - مكة'))</title>
     <meta name="description" content="@yield('meta_description', setting('site_description', 'أكاديمية السهم الأخضر للتدريب بمكة المكرمة - دورات تدريبية متخصصة في البرمجة والإدارة واللغات'))">
     <meta name="keywords" content="@yield('meta_keywords', setting('site_keywords', 'دورات تدريبية, أكاديمية, السهم الأخضر, مكة, برمجة, إدارة, لغات'))">
@@ -12,6 +25,9 @@
     <!-- Favicon -->
     @if(setting('site_favicon'))
         <link rel="icon" type="image/x-icon" href="{{ setting('site_favicon') }}">
+    @else
+        <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     @endif
     
     <!-- Open Graph Meta Tags -->
@@ -19,8 +35,14 @@
     <meta property="og:description" content="@yield('og_description', setting('og_description', setting('site_description')))">
     @if(setting('og_image'))
         <meta property="og:image" content="{{ setting('og_image') }}">
+    @elseif(setting('site_logo'))
+        <meta property="og:image" content="{{ setting('site_logo') }}">
+    @else
+        <meta property="og:image" content="{{ asset('images/logo.svg') }}">
     @endif
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="{{ setting('site_name', 'أكاديمية السهم الأخضر للتدريب') }}">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="{{ setting('twitter_card', 'summary_large_image') }}">
@@ -28,6 +50,10 @@
     <meta name="twitter:description" content="@yield('og_description', setting('og_description', setting('site_description')))">
     @if(setting('og_image'))
         <meta name="twitter:image" content="{{ setting('og_image') }}">
+    @elseif(setting('site_logo'))
+        <meta name="twitter:image" content="{{ setting('site_logo') }}">
+    @else
+        <meta name="twitter:image" content="{{ asset('images/logo.svg') }}">
     @endif
     
     <!-- Google Analytics -->
