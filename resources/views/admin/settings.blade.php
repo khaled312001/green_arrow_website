@@ -112,7 +112,11 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end mt-4">
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-warning" onclick="clearSettingsCache()">
+                                <i class="bi bi-arrow-clockwise"></i>
+                                مسح الذاكرة المؤقتة
+                            </button>
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-lg"></i>
                                 حفظ الإعدادات
@@ -220,6 +224,44 @@
         </div>
     </div>
 </div>
+
+<script>
+function clearSettingsCache() {
+    if (confirm('هل أنت متأكد من مسح الذاكرة المؤقتة؟ هذا سيضمن تحديث جميع الإعدادات فوراً.')) {
+        // Show loading state
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="bi bi-hourglass-split"></i> جاري المسح...';
+        button.disabled = true;
+        
+        // Make AJAX request to clear cache
+        fetch('{{ route("admin.settings.clear-cache") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('تم مسح الذاكرة المؤقتة بنجاح!');
+                location.reload();
+            } else {
+                alert('حدث خطأ أثناء مسح الذاكرة المؤقتة');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('حدث خطأ أثناء مسح الذاكرة المؤقتة');
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        });
+    }
+}
+</script>
 
 <style>
 .nav-tabs .nav-link {

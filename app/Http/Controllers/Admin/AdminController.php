@@ -1127,6 +1127,10 @@ class AdminController extends Controller
 
             // Clear all settings cache
             Setting::clearCache();
+            
+            // Clear additional caches to ensure changes are reflected
+            \Artisan::call('config:clear');
+            \Artisan::call('cache:clear');
 
             \Log::info("Settings update completed. Updated count: {$updatedCount}");
             return back()->with('success', "تم تحديث {$updatedCount} إعداد بنجاح");
@@ -1205,6 +1209,48 @@ class AdminController extends Controller
         Setting::clearCache();
         
         return back()->with('success', 'تم مسح الذاكرة المؤقتة بنجاح');
+    }
+
+    /**
+     * مسح ذاكرة الإعدادات المؤقتة
+     */
+    public function clearSettingsCache()
+    {
+        try {
+            Setting::clearCache();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'تم مسح الذاكرة المؤقتة بنجاح'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'حدث خطأ أثناء مسح الذاكرة المؤقتة: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Debug settings - show current settings values
+     */
+    public function debugSettings()
+    {
+        $settings = [
+            'site' => Setting::getGroup('site'),
+            'appearance' => Setting::getGroup('appearance'),
+            'social' => Setting::getGroup('social'),
+        ];
+
+        return response()->json([
+            'settings' => $settings,
+            'cached_values' => [
+                'site_name' => setting('site_name'),
+                'site_logo' => setting('site_logo'),
+                'site_phone' => setting('site_phone'),
+                'site_email' => setting('site_email'),
+            ]
+        ]);
     }
 
     /**

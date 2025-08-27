@@ -296,8 +296,9 @@ Route::middleware('auth')->group(function () {
         // الإعدادات
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
         Route::put('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
+        Route::post('/settings/clear-cache', [AdminController::class, 'clearSettingsCache'])->name('settings.clear-cache');
+        Route::get('/settings/debug', [AdminController::class, 'debugSettings'])->name('settings.debug');
     Route::get('/social-links', [AdminController::class, 'socialLinks'])->name('social-links');
-        Route::post('/settings/clear-cache', [AdminController::class, 'clearCache'])->name('settings.clear-cache');
         Route::post('/settings/backup-database', [AdminController::class, 'backupDatabase'])->name('settings.backup-database');
         Route::post('/settings/optimize-database', [AdminController::class, 'optimizeDatabase'])->name('settings.optimize-database');
         Route::post('/settings/maintenance-mode', [AdminController::class, 'maintenanceMode'])->name('settings.maintenance-mode');

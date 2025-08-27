@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Artisan;
 
 class Setting extends Model
 {
@@ -49,8 +50,10 @@ class Setting extends Model
             ]
         );
 
-        // Clear cache for this setting
+        // Clear cache for this setting and related caches
         Cache::forget("setting.{$key}");
+        Cache::forget("settings.group.{$group}");
+        Cache::forget('settings.public');
         
         return $setting;
     }
@@ -84,7 +87,23 @@ class Setting extends Model
      */
     public static function clearCache()
     {
-        Cache::flush();
+        // Clear individual setting caches
+        $settings = static::all();
+        foreach ($settings as $setting) {
+            Cache::forget("setting.{$setting->key}");
+        }
+        
+        // Clear group caches
+        $groups = ['site', 'appearance', 'courses', 'payment', 'email', 'social', 'seo', 'system', 'notifications', 'general'];
+        foreach ($groups as $group) {
+            Cache::forget("settings.group.{$group}");
+        }
+        
+        // Clear public settings cache
+        Cache::forget('settings.public');
+        
+        // Also clear view cache to ensure changes are reflected immediately
+        Artisan::call('view:clear');
     }
 
     /**
