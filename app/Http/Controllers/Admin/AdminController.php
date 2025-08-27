@@ -148,7 +148,7 @@ class AdminController extends Controller
         $monthly_sales = Payment::where('status', 'completed')
             ->whereYear('created_at', now()->year)
             ->select(
-                DB::raw('strftime("%m", created_at) as month'),
+                DB::raw('MONTH(created_at) as month'),
                 DB::raw('SUM(total_amount) as total'),
                 DB::raw('COUNT(*) as count')
             )
@@ -159,7 +159,7 @@ class AdminController extends Controller
         // إحصائيات التسجيل الشهرية
         $monthly_enrollments = Enrollment::whereYear('created_at', now()->year)
             ->select(
-                DB::raw('strftime("%m", created_at) as month'),
+                DB::raw('MONTH(created_at) as month'),
                 DB::raw('COUNT(*) as count')
             )
             ->groupBy('month')
@@ -169,7 +169,7 @@ class AdminController extends Controller
         // إحصائيات المستخدمين الجدد
         $monthly_users = User::whereYear('created_at', now()->year)
             ->select(
-                DB::raw('strftime("%m", created_at) as month'),
+                DB::raw('MONTH(created_at) as month'),
                 DB::raw('COUNT(*) as count')
             )
             ->groupBy('month')
