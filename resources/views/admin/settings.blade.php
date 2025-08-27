@@ -60,9 +60,10 @@
                         </li>
                     </ul>
 
-                    <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data" id="settingsForm">
                         @csrf
                         @method('PUT')
+
                         
                         <div class="tab-content mt-4" id="settingsTabsContent">
                             <!-- General Settings Tab -->

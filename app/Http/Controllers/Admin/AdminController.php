@@ -1049,6 +1049,9 @@ class AdminController extends Controller
             'notifications' => Setting::getGroup('notifications'),
         ];
 
+        // Log the loaded settings for debugging
+        \Log::info('Loaded settings:', $settings);
+
         return view('admin.settings', compact('settings'));
     }
 
@@ -1062,35 +1065,70 @@ class AdminController extends Controller
                 'settings' => 'required|array',
             ]);
 
+            // Log the incoming data for debugging
+            \Log::info('Settings update request data:', $request->all());
+            \Log::info('Settings array:', $request->input('settings', []));
+            \Log::info('Settings count:', ['count' => count($request->input('settings', []))]);
+
             $updatedCount = 0;
             foreach ($request->settings as $key => $value) {
-                $setting = Setting::where('key', $key)->first();
-                if ($setting) {
-                    // Handle file uploads
-                    if ($setting->type === 'file' && $request->hasFile("settings.{$key}")) {
-                        $file = $request->file("settings.{$key}");
-                        $path = $file->store('settings', 'public');
-                        
-                        // Delete old file if exists
-                        if ($setting->value && Storage::disk('public')->exists($setting->value)) {
-                            Storage::disk('public')->delete($setting->value);
-                        }
-                        
-                        Setting::set($key, $path, $setting->type, $setting->group, $setting->label, $setting->description, $setting->is_public);
-                    } else {
-                        Setting::set($key, $value, $setting->type, $setting->group, $setting->label, $setting->description, $setting->is_public);
-                    }
-                    $updatedCount++;
-                }
+                \Log::info("Processing setting: {$key} = {$value}");
+                
+                // Try to update the setting directly using updateOrCreate
+                $setting = Setting::updateOrCreate(
+                    ['key' => $key],
+                    [
+                        'value' => $value,
+                        'type' => 'string',
+                        'group' => $this->determineSettingGroup($key),
+                        'label' => $key,
+                        'description' => 'Auto-updated setting',
+                        'is_public' => false
+                    ]
+                );
+                
+                $updatedCount++;
+                \Log::info("Updated/Created setting: {$key} with value: {$value}");
+            \Log::info("Setting object:", ['setting' => $setting->toArray()]);
+            \Log::info("Database updated successfully for key: {$key}");
             }
 
             // Clear all settings cache
             Setting::clearCache();
 
+            \Log::info("Settings update completed. Updated count: {$updatedCount}");
             return back()->with('success', "تم تحديث {$updatedCount} إعداد بنجاح");
         } catch (\Exception $e) {
             \Log::error('Settings update error: ' . $e->getMessage());
             return back()->with('error', 'حدث خطأ أثناء تحديث الإعدادات: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * تحديد مجموعة الإعداد بناءً على اسم المفتاح
+     */
+    private function determineSettingGroup($key)
+    {
+        if (str_starts_with($key, 'site_')) {
+            return 'site';
+        } elseif (str_starts_with($key, 'appearance_') || str_contains($key, 'logo') || str_contains($key, 'color')) {
+            return 'appearance';
+        } elseif (str_starts_with($key, 'course_') || str_contains($key, 'lesson') || str_contains($key, 'quiz')) {
+            return 'courses';
+        } elseif (str_starts_with($key, 'payment_') || str_contains($key, 'stripe') || str_contains($key, 'paypal') || str_contains($key, 'currency')) {
+            return 'payment';
+        } elseif (str_starts_with($key, 'email_') || str_starts_with($key, 'mail_')) {
+            return 'email';
+        } elseif (str_starts_with($key, 'social_') || str_contains($key, '_url')) {
+            return 'social';
+        } elseif (str_starts_with($key, 'seo_') || str_contains($key, 'google_') || str_contains($key, 'meta_')) {
+            return 'seo';
+        } elseif (str_starts_with($key, 'system_') || str_contains($key, 'maintenance') || str_contains($key, 'session')) {
+            return 'system';
+        } elseif (str_starts_with($key, 'notification_')) {
+            return 'notifications';
+        } else {
+            return 'general';
         }
     }
 
