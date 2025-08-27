@@ -81,11 +81,7 @@
                 <a href="{{ route('home') }}" class="logo">
                     <div class="logo-container">
                         @if(setting('site_logo'))
-                            <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}" class="logo-image" style="border: 2px solid red;">
-                            <!-- Debug: Logo URL: {{ setting('site_logo') }} -->
-                        @else
-                            <!-- Debug: No logo setting found -->
-                            <div style="color: red; font-size: 10px;">No logo setting</div>
+                            <img src="{{ setting('site_logo') }}" alt="{{ setting('site_name', 'أكاديمية السهم الأخضر') }}" class="logo-image">
                         @endif
                         <div class="logo-text">
                             <span class="logo-title">{{ setting('site_name', 'أكاديمية السهم الأخضر') }}</span>
